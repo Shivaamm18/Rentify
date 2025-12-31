@@ -7,7 +7,7 @@ import {
   HiLocationMarker, HiCurrencyRupee, HiHome, HiCheckCircle, HiXCircle,
   HiInformationCircle, HiPhone, HiMail, HiUser, HiArrowLeft,
   HiEye, HiCalendar, HiShieldCheck, HiChevronRight, HiChevronLeft, HiShare, HiHeart, HiStar,
-  HiAdjustments
+  HiCog
 } from 'react-icons/hi';
 
 const PropertyDetail = () => {
@@ -227,7 +227,7 @@ const PropertyDetail = () => {
                 {[
                   { label: 'Bedrooms', val: `${bhk} BHK`, icon: <HiHome className="text-primary-500" /> },
                   { label: 'Furnishing', val: furnished, icon: <HiCheckCircle className="text-primary-500" /> },
-                  { label: 'Total Area', val: `${area?.size || 'N/A'} ${area?.unit || ''}`, icon: <HiAdjustments className="text-primary-500" /> },
+                    { label: 'Total Area', val: `${area?.size || 'N/A'} ${area?.unit || ''}`, icon: <HiCog className="text-primary-500" /> },
                   { label: 'Floor Level', val: floor !== null ? `${floor} of ${totalFloors}` : 'N/A', icon: <HiShieldCheck className="text-primary-500" /> }
                 ].map((spec, i) => (
                   <div key={i} className="bg-slate-50 p-5 rounded-3xl border border-slate-100 hover:bg-white hover:shadow-soft transition-all">
