@@ -3,7 +3,7 @@ import { useSearchParams } from 'react-router-dom';
 import { propertyAPI } from '../services/api';
 import PropertyCard from '../components/PropertyCard';
 import { motion, AnimatePresence } from 'framer-motion';
-import { HiFilter, HiX, HiSearch, HiChevronLeft, HiChevronRight } from 'react-icons/hi';
+import { HiFilter, HiX, HiSearch, HiChevronLeft, HiChevronRight, HiAdjustments, HiViewGrid, HiMap } from 'react-icons/hi';
 
 const PropertyList = () => {
   const [properties, setProperties] = useState([]);
@@ -46,7 +46,7 @@ const PropertyList = () => {
     } catch (error) {
       console.error('Error fetching properties:', error);
     } finally {
-      setLoading(false);
+      setTimeout(() => setLoading(false), 500); // Small delay for smoother feel
     }
   };
 
@@ -54,7 +54,6 @@ const PropertyList = () => {
     const newFilters = { ...filters, [name]: value, page: 1 };
     setFilters(newFilters);
     
-    // Update URL params
     const params = new URLSearchParams();
     Object.entries(newFilters).forEach(([key, val]) => {
       if (val) params.set(key, val);
@@ -68,149 +67,175 @@ const PropertyList = () => {
   };
 
   const propertyTypes = [
-    'apartment', 'house', 'pg', 'flat', 'villa', 'independent'
+    { label: 'Apartments', value: 'apartment' },
+    { label: 'Houses', value: 'house' },
+    { label: 'PG / Co-living', value: 'pg' },
+    { label: 'Villas', value: 'villa' },
+    { label: 'Flats', value: 'flat' }
   ];
 
   return (
     <div className="bg-slate-50 min-h-screen">
-      {/* Header */}
-      <div className="bg-white border-b border-slate-200 py-8 lg:py-12">
+      {/* Search Header */}
+      <div className="bg-white border-b border-slate-100 py-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-            <div>
-              <h1 className="text-3xl font-bold text-slate-900 mb-2">Find Your New Home</h1>
-              <p className="text-slate-600">Browse through our collection of verified properties</p>
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-8">
+            <div className="max-w-xl">
+              <h1 className="text-4xl font-black text-slate-900 mb-4 tracking-tight">
+                Explore <span className="text-primary-600">Verified</span> Homes
+              </h1>
+              <p className="text-slate-500 font-medium">
+                We've found {pagination.total} unique properties matching your preferences. Every listing is manually verified for your peace of mind.
+              </p>
             </div>
-            <button
-              onClick={() => setShowFilters(!showFilters)}
-              className="lg:hidden flex items-center justify-center space-x-2 bg-slate-100 hover:bg-slate-200 text-slate-700 px-4 py-2 rounded-xl transition-colors font-medium"
-            >
-              {showFilters ? <HiX className="w-5 h-5" /> : <HiFilter className="w-5 h-5" />}
-              <span>{showFilters ? 'Hide Filters' : 'Show Filters'}</span>
-            </button>
+            
+            <div className="flex items-center gap-3">
+              <div className="flex bg-slate-100 p-1.5 rounded-2xl border border-slate-200">
+                <button className="p-2.5 bg-white rounded-xl shadow-sm text-primary-600">
+                  <HiViewGrid className="w-5 h-5" />
+                </button>
+                <button className="p-2.5 text-slate-400 hover:text-slate-600 transition-colors">
+                  <HiMap className="w-5 h-5" />
+                </button>
+              </div>
+              <button
+                onClick={() => setShowFilters(!showFilters)}
+                className={`flex items-center gap-2 px-6 py-3.5 rounded-2xl font-bold transition-all shadow-lg ${
+                  showFilters 
+                    ? 'bg-slate-900 text-white shadow-slate-900/20' 
+                    : 'bg-white text-slate-700 border border-slate-200 hover:bg-slate-50 shadow-slate-200/50'
+                }`}
+              >
+                <HiAdjustments className="w-5 h-5" />
+                <span>Filters</span>
+              </button>
+            </div>
           </div>
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 lg:py-12">
-        <div className="flex flex-col lg:flex-row gap-8">
-          {/* Filters Sidebar */}
-          <aside className={`lg:w-64 flex-shrink-0 ${showFilters ? 'block' : 'hidden lg:block'}`}>
-            <div className="sticky top-24 bg-white p-6 rounded-2xl border border-slate-200 shadow-sm space-y-8">
-              <div>
-                <h3 className="text-sm font-bold text-slate-900 uppercase tracking-wider mb-4">Location</h3>
-                <div className="space-y-4">
-                  <div>
-                    <label className="block text-xs font-semibold text-slate-500 mb-1">City</label>
-                    <input
-                      type="text"
-                      className="w-full px-4 py-2 bg-slate-50 border border-slate-100 rounded-lg focus:ring-2 focus:ring-primary-500 focus:bg-white transition-all text-sm"
-                      placeholder="e.g. Mumbai"
-                      value={filters.city}
-                      onChange={(e) => handleFilterChange('city', e.target.value)}
-                    />
-                  </div>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div className="flex flex-col lg:flex-row gap-12">
+          {/* Enhanced Sidebar Filters */}
+          <aside className={`lg:w-80 flex-shrink-0 space-y-8 ${showFilters ? 'block' : 'hidden lg:block'}`}>
+            <div className="bg-white p-8 rounded-[2.5rem] border border-slate-100 shadow-premium space-y-10">
+              <section>
+                <h3 className="text-xs font-black text-slate-400 uppercase tracking-[0.2em] mb-6">Location</h3>
+                <div className="relative group">
+                  <HiSearch className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within:text-primary-500 transition-colors" />
+                  <input
+                    type="text"
+                    className="w-full pl-11 pr-4 py-4 bg-slate-50 border-none rounded-2xl focus:ring-2 focus:ring-primary-500 transition-all text-sm font-bold text-slate-900"
+                    placeholder="Which city?"
+                    value={filters.city}
+                    onChange={(e) => handleFilterChange('city', e.target.value)}
+                  />
                 </div>
-              </div>
+              </section>
 
-              <div>
-                <h3 className="text-sm font-bold text-slate-900 uppercase tracking-wider mb-4">Price Range</h3>
-                <div className="space-y-4">
-                  <div>
-                    <label className="block text-xs font-semibold text-slate-500 mb-1">Min Rent</label>
-                    <input
-                      type="number"
-                      className="w-full px-4 py-2 bg-slate-50 border border-slate-100 rounded-lg focus:ring-2 focus:ring-primary-500 focus:bg-white transition-all text-sm"
-                      placeholder="₹0"
-                      value={filters.minRent}
-                      onChange={(e) => handleFilterChange('minRent', e.target.value)}
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-xs font-semibold text-slate-500 mb-1">Max Rent</label>
-                    <input
-                      type="number"
-                      className="w-full px-4 py-2 bg-slate-50 border border-slate-100 rounded-lg focus:ring-2 focus:ring-primary-500 focus:bg-white transition-all text-sm"
-                      placeholder="₹Any"
-                      value={filters.maxRent}
-                      onChange={(e) => handleFilterChange('maxRent', e.target.value)}
-                    />
-                  </div>
-                </div>
-              </div>
-
-              <div>
-                <h3 className="text-sm font-bold text-slate-900 uppercase tracking-wider mb-4">Property Type</h3>
-                <div className="space-y-2">
-                  <select
-                    className="w-full px-4 py-2 bg-slate-50 border border-slate-100 rounded-lg focus:ring-2 focus:ring-primary-500 focus:bg-white transition-all text-sm capitalize"
-                    value={filters.propertyType}
-                    onChange={(e) => handleFilterChange('propertyType', e.target.value)}
-                  >
-                    <option value="">All Types</option>
-                    {propertyTypes.map(type => (
-                      <option key={type} value={type}>{type}</option>
-                    ))}
-                  </select>
-                </div>
-              </div>
-
-              <div>
-                <h3 className="text-sm font-bold text-slate-900 uppercase tracking-wider mb-4">Configuration</h3>
-                <select
-                  className="w-full px-4 py-2 bg-slate-50 border border-slate-100 rounded-lg focus:ring-2 focus:ring-primary-500 focus:bg-white transition-all text-sm"
-                  value={filters.bhk}
-                  onChange={(e) => handleFilterChange('bhk', e.target.value)}
-                >
-                  <option value="">Any BHK</option>
-                  {[1, 2, 3, 4, 5].map(n => (
-                    <option key={n} value={n}>{n} BHK</option>
+              <section>
+                <h3 className="text-xs font-black text-slate-400 uppercase tracking-[0.2em] mb-6">Property Type</h3>
+                <div className="grid grid-cols-1 gap-2">
+                  {propertyTypes.map(type => (
+                    <button
+                      key={type.value}
+                      onClick={() => handleFilterChange('propertyType', filters.propertyType === type.value ? '' : type.value)}
+                      className={`flex items-center justify-between px-5 py-4 rounded-2xl transition-all text-sm font-bold ${
+                        filters.propertyType === type.value
+                          ? 'bg-primary-600 text-white shadow-lg shadow-primary-500/30'
+                          : 'bg-slate-50 text-slate-600 hover:bg-slate-100'
+                      }`}
+                    >
+                      {type.label}
+                      {filters.propertyType === type.value && <HiX className="w-4 h-4" />}
+                    </button>
                   ))}
-                </select>
-              </div>
+                </div>
+              </section>
+
+              <section>
+                <h3 className="text-xs font-black text-slate-400 uppercase tracking-[0.2em] mb-6">Configuration</h3>
+                <div className="grid grid-cols-3 gap-2">
+                  {[1, 2, 3, 4, 5].map(n => (
+                    <button
+                      key={n}
+                      onClick={() => handleFilterChange('bhk', filters.bhk === n.toString() ? '' : n.toString())}
+                      className={`py-3 rounded-2xl transition-all text-sm font-black ${
+                        filters.bhk === n.toString()
+                          ? 'bg-primary-600 text-white shadow-lg shadow-primary-500/30'
+                          : 'bg-slate-50 text-slate-600 hover:bg-slate-100'
+                      }`}
+                    >
+                      {n}BHK
+                    </button>
+                  ))}
+                </div>
+              </section>
+
+              <section>
+                <h3 className="text-xs font-black text-slate-400 uppercase tracking-[0.2em] mb-6">Budget (Monthly)</h3>
+                <div className="space-y-4">
+                  <div className="grid grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <label className="text-[10px] font-black text-slate-500 uppercase">Min</label>
+                      <input
+                        type="number"
+                        className="w-full px-4 py-3 bg-slate-50 border-none rounded-xl focus:ring-2 focus:ring-primary-500 text-sm font-bold"
+                        placeholder="₹0"
+                        value={filters.minRent}
+                        onChange={(e) => handleFilterChange('minRent', e.target.value)}
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-[10px] font-black text-slate-500 uppercase">Max</label>
+                      <input
+                        type="number"
+                        className="w-full px-4 py-3 bg-slate-50 border-none rounded-xl focus:ring-2 focus:ring-primary-500 text-sm font-bold"
+                        placeholder="₹Any"
+                        value={filters.maxRent}
+                        onChange={(e) => handleFilterChange('maxRent', e.target.value)}
+                      />
+                    </div>
+                  </div>
+                </div>
+              </section>
 
               <button
                 onClick={() => setFilters({ city: '', state: '', minRent: '', maxRent: '', propertyType: '', bhk: '', page: 1 })}
-                className="w-full py-2 text-sm font-semibold text-slate-500 hover:text-primary-600 transition-colors"
+                className="w-full py-4 text-sm font-black text-red-500 hover:bg-red-50 rounded-2xl transition-all"
               >
                 Reset All Filters
               </button>
             </div>
           </aside>
 
-          {/* Property Grid */}
+          {/* Premium Property Grid */}
           <main className="flex-1">
-            <div className="flex items-center justify-between mb-8">
-              <h2 className="text-slate-900 font-bold">
-                {loading ? 'Searching...' : `${pagination.total} Results Found`}
-              </h2>
-              <div className="flex items-center space-x-2 text-sm text-slate-500">
-                <span>Sort by:</span>
-                <select className="bg-transparent font-semibold text-slate-900 focus:outline-none cursor-pointer">
-                  <option>Newest First</option>
-                  <option>Price: Low to High</option>
-                  <option>Price: High to Low</option>
-                </select>
-              </div>
-            </div>
-
             {loading ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                {[1, 2, 4, 5, 6].map(i => (
-                  <div key={i} className="animate-pulse bg-white rounded-2xl h-[400px] border border-slate-100"></div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+                {[1, 2, 3, 4].map(i => (
+                  <div key={i} className="bg-white rounded-[2rem] h-[500px] border border-slate-100 p-7 animate-pulse">
+                    <div className="aspect-[4/3] bg-slate-100 rounded-3xl mb-6"></div>
+                    <div className="h-6 bg-slate-100 rounded-full w-2/3 mb-4"></div>
+                    <div className="h-4 bg-slate-100 rounded-full w-1/2 mb-8"></div>
+                    <div className="grid grid-cols-2 gap-4">
+                      <div className="h-10 bg-slate-100 rounded-2xl"></div>
+                      <div className="h-10 bg-slate-100 rounded-2xl"></div>
+                    </div>
+                  </div>
                 ))}
               </div>
             ) : properties.length > 0 ? (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
                 <AnimatePresence mode="popLayout">
                   {properties.map((property) => (
                     <motion.div
                       key={property._id}
                       layout
-                      initial={{ opacity: 0, scale: 0.9 }}
+                      initial={{ opacity: 0, scale: 0.95 }}
                       animate={{ opacity: 1, scale: 1 }}
-                      exit={{ opacity: 0, scale: 0.9 }}
-                      transition={{ duration: 0.2 }}
+                      exit={{ opacity: 0, scale: 0.95 }}
+                      transition={{ type: 'spring', damping: 25, stiffness: 200 }}
                     >
                       <PropertyCard property={property} />
                     </motion.div>
@@ -218,30 +243,34 @@ const PropertyList = () => {
                 </AnimatePresence>
               </div>
             ) : (
-              <div className="bg-white rounded-3xl p-12 text-center border border-slate-200">
-                <div className="bg-slate-50 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6">
-                  <HiSearch className="w-10 h-10 text-slate-300" />
+              <motion.div 
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="bg-white rounded-[3rem] p-20 text-center border border-slate-100 shadow-premium"
+              >
+                <div className="bg-primary-50 w-32 h-32 rounded-full flex items-center justify-center mx-auto mb-10 shadow-inner">
+                  <HiSearch className="w-16 h-16 text-primary-200" />
                 </div>
-                <h3 className="text-2xl font-bold text-slate-900 mb-2">No Properties Found</h3>
-                <p className="text-slate-600 mb-8 max-w-sm mx-auto">
-                  We couldn't find any properties matching your current filters. Try adjusting your search criteria.
+                <h3 className="text-3xl font-black text-slate-900 mb-4">No Matches Found</h3>
+                <p className="text-slate-500 font-medium mb-12 max-w-sm mx-auto leading-relaxed text-lg">
+                  We couldn't find any properties matching your filters. Try being less specific or resetting all filters.
                 </p>
                 <button
                   onClick={() => setFilters({ city: '', state: '', minRent: '', maxRent: '', propertyType: '', bhk: '', page: 1 })}
-                  className="bg-primary-600 text-white px-8 py-3 rounded-xl font-bold hover:bg-primary-700 transition-all shadow-lg shadow-primary-200"
+                  className="btn-primary"
                 >
                   Clear All Filters
                 </button>
-              </div>
+              </motion.div>
             )}
 
             {/* Pagination */}
-            {pagination.pages > 1 && (
-              <div className="mt-12 flex items-center justify-center space-x-2">
+            {!loading && pagination.pages > 1 && (
+              <div className="mt-20 flex items-center justify-center space-x-3">
                 <button
                   onClick={() => handlePageChange(pagination.page - 1)}
                   disabled={pagination.page === 1}
-                  className="p-2 rounded-lg bg-white border border-slate-200 text-slate-600 disabled:opacity-50 hover:bg-slate-50 transition-all"
+                  className="p-4 rounded-2xl bg-white border border-slate-200 text-slate-400 disabled:opacity-30 hover:bg-slate-50 transition-all shadow-sm"
                 >
                   <HiChevronLeft className="w-6 h-6" />
                 </button>
@@ -250,9 +279,9 @@ const PropertyList = () => {
                   <button
                     key={n}
                     onClick={() => handlePageChange(n)}
-                    className={`w-10 h-10 rounded-lg font-bold transition-all ${
+                    className={`w-14 h-14 rounded-2xl font-black transition-all ${
                       pagination.page === n
-                        ? 'bg-primary-600 text-white shadow-lg shadow-primary-200'
+                        ? 'bg-primary-600 text-white shadow-xl shadow-primary-500/40 translate-y-[-4px]'
                         : 'bg-white border border-slate-200 text-slate-600 hover:bg-slate-50'
                     }`}
                   >
@@ -263,7 +292,7 @@ const PropertyList = () => {
                 <button
                   onClick={() => handlePageChange(pagination.page + 1)}
                   disabled={pagination.page === pagination.pages}
-                  className="p-2 rounded-lg bg-white border border-slate-200 text-slate-600 disabled:opacity-50 hover:bg-slate-50 transition-all"
+                  className="p-4 rounded-2xl bg-white border border-slate-200 text-slate-400 disabled:opacity-30 hover:bg-slate-50 transition-all shadow-sm"
                 >
                   <HiChevronRight className="w-6 h-6" />
                 </button>

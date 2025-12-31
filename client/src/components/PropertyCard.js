@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { HiLocationMarker, HiCurrencyRupee, HiHome, HiCheckCircle } from 'react-icons/hi';
+import { HiLocationMarker, HiCurrencyRupee, HiHome, HiCheckCircle, HiHeart, HiArrowRight } from 'react-icons/hi';
 import { motion } from 'framer-motion';
 
 const PropertyCard = ({ property }) => {
@@ -17,84 +17,89 @@ const PropertyCard = ({ property }) => {
     available
   } = property;
 
-  // Get the first image or a default placeholder
   const imageUrl = images && images.length > 0 
     ? images[0].url 
     : 'https://images.unsplash.com/photo-1568605114967-8130f3a36994?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80';
 
   return (
     <motion.div
-      whileHover={{ y: -8 }}
-      transition={{ duration: 0.3 }}
-      className="bg-white rounded-2xl overflow-hidden shadow-sm hover:shadow-xl border border-slate-100 transition-all group"
+      whileHover={{ y: -12 }}
+      transition={{ type: 'spring', stiffness: 300 }}
+      className="bg-white rounded-[2rem] overflow-hidden shadow-soft hover:shadow-premium border border-slate-100 transition-all group relative"
     >
+      {/* Favorite Button */}
+      <button className="absolute top-4 right-4 z-10 w-10 h-10 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white hover:bg-white hover:text-red-500 transition-all border border-white/30">
+        <HiHeart className="w-6 h-6" />
+      </button>
+
       <Link to={`/properties/${_id}`} className="block">
         <div className="relative aspect-[4/3] overflow-hidden">
           <img 
             src={imageUrl} 
             alt={title} 
-            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
           />
-          <div className="absolute top-4 left-4 flex flex-col space-y-2">
-            <span className="bg-white/90 backdrop-blur-sm text-primary-600 px-3 py-1 rounded-full text-xs font-bold shadow-sm uppercase tracking-wider">
+          
+          {/* Status Badges */}
+          <div className="absolute top-4 left-4 flex flex-col gap-2">
+            <span className="glass px-3 py-1.5 rounded-xl text-[10px] font-black uppercase tracking-[0.1em] text-slate-900 shadow-sm border-none">
               {propertyType}
             </span>
             {available && (
-              <span className="bg-green-500/90 backdrop-blur-sm text-white px-3 py-1 rounded-full text-xs font-bold shadow-sm flex items-center space-x-1">
-                <HiCheckCircle className="w-3 h-3" />
-                <span>Available</span>
+              <span className="bg-emerald-500/90 backdrop-blur-sm text-white px-3 py-1.5 rounded-xl text-[10px] font-black uppercase tracking-[0.1em] shadow-sm flex items-center gap-1.5">
+                <div className="w-1.5 h-1.5 rounded-full bg-white animate-pulse"></div>
+                Available
               </span>
             )}
           </div>
-          {!available && (
-            <div className="absolute inset-0 bg-slate-900/40 backdrop-blur-[2px] flex items-center justify-center">
-              <span className="bg-white text-slate-900 px-4 py-2 rounded-lg font-bold shadow-lg">
-                Unavailable
-              </span>
-            </div>
-          )}
-          <div className="absolute bottom-4 right-4">
-            <div className="bg-primary-600 text-white px-4 py-2 rounded-xl font-bold shadow-lg flex items-center space-x-1">
-              <HiCurrencyRupee className="w-5 h-5" />
-              <span className="text-lg">{rent.amount.toLocaleString('en-IN')}</span>
-              <span className="text-xs font-normal opacity-80">/mo</span>
+
+          {/* Price Tag Overlay */}
+          <div className="absolute bottom-4 left-4">
+            <div className="bg-slate-900/80 backdrop-blur-md text-white px-4 py-2 rounded-2xl flex items-center gap-1 shadow-2xl border border-white/10">
+              <HiCurrencyRupee className="w-5 h-5 text-primary-400" />
+              <span className="text-xl font-black tracking-tight">{rent?.amount?.toLocaleString('en-IN')}</span>
+              <span className="text-xs opacity-60 font-medium lowercase">/mo</span>
             </div>
           </div>
         </div>
         
-        <div className="p-6">
-          <div className="flex justify-between items-start mb-2">
-            <h3 className="text-xl font-bold text-slate-900 line-clamp-1 group-hover:text-primary-600 transition-colors">
+        <div className="p-7">
+          <div className="mb-4">
+            <h3 className="text-xl font-extrabold text-slate-900 line-clamp-1 mb-1 group-hover:text-primary-600 transition-colors">
               {title}
             </h3>
-          </div>
-          
-          <div className="flex items-center text-slate-500 text-sm mb-4">
-            <HiLocationMarker className="w-4 h-4 mr-1 text-slate-400" />
-            <span className="line-clamp-1">{address.city}, {address.state}</span>
-          </div>
-          
-          <div className="flex items-center space-x-4 mb-4">
-            {bhk > 0 && (
-              <div className="flex items-center text-slate-600 bg-slate-50 px-3 py-1.5 rounded-lg border border-slate-100">
-                <HiHome className="w-4 h-4 mr-1.5 text-primary-500" />
-                <span className="text-sm font-semibold">{bhk} BHK</span>
-              </div>
-            )}
-            <div className="flex items-center text-slate-600 bg-slate-50 px-3 py-1.5 rounded-lg border border-slate-100">
-              <span className="text-sm font-semibold capitalize">{furnished}</span>
+            <div className="flex items-center text-slate-500 text-sm font-medium">
+              <HiLocationMarker className="w-4 h-4 mr-1 text-primary-500" />
+              <span className="line-clamp-1">{address?.city}, {address?.state}</span>
             </div>
           </div>
           
-          <p className="text-slate-600 text-sm line-clamp-2 leading-relaxed mb-4">
-            {description}
-          </p>
+          <div className="grid grid-cols-2 gap-3 mb-6">
+            <div className="flex items-center justify-center gap-2 py-2 bg-slate-50 rounded-2xl border border-slate-100 group-hover:border-primary-100 group-hover:bg-primary-50 transition-colors">
+              <HiHome className="w-4 h-4 text-primary-600" />
+              <span className="text-xs font-bold text-slate-700">{bhk} BHK</span>
+            </div>
+            <div className="flex items-center justify-center gap-2 py-2 bg-slate-50 rounded-2xl border border-slate-100 group-hover:border-primary-100 group-hover:bg-primary-50 transition-colors">
+              <span className="text-xs font-bold text-slate-700 capitalize">{furnished}</span>
+            </div>
+          </div>
           
-          <div className="pt-4 border-t border-slate-100 flex items-center justify-between">
-            <span className="text-primary-600 font-bold text-sm group-hover:underline">
-              View Details
-            </span>
-            <div className="h-2 w-2 rounded-full bg-slate-200 group-hover:bg-primary-400 transition-colors"></div>
+          <div className="flex items-center justify-between pt-5 border-t border-slate-100">
+            <div className="flex -space-x-2">
+              {[1, 2, 3].map(i => (
+                <div key={i} className="w-8 h-8 rounded-full border-2 border-white bg-slate-200 overflow-hidden">
+                  <img src={`https://i.pravatar.cc/100?u=${i + _id}`} alt="user" />
+                </div>
+              ))}
+              <div className="w-8 h-8 rounded-full border-2 border-white bg-primary-100 flex items-center justify-center text-[10px] font-bold text-primary-600">
+                +12
+              </div>
+            </div>
+            
+            <div className="flex items-center gap-1.5 text-primary-600 font-bold text-sm">
+              <span>View Details</span>
+              <HiArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+            </div>
           </div>
         </div>
       </Link>

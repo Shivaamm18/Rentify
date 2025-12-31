@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { motion } from 'framer-motion';
-import { HiUser, HiMail, HiLockClosed, HiPhone, HiUserGroup, HiArrowRight, HiHome } from 'react-icons/hi';
+import { HiUser, HiMail, HiLockClosed, HiPhone, HiUserGroup, HiArrowRight, HiHome, HiCheckCircle, HiStar } from 'react-icons/hi';
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -19,230 +19,227 @@ const Register = () => {
 
   const { name, email, password, confirmPassword, role, phone } = formData;
 
-  const onChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
+  const onChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
 
   const onSubmit = async (e) => {
     e.preventDefault();
-
     if (password !== confirmPassword) {
       alert('Passwords do not match');
       return;
     }
-
     setLoading(true);
-
     const result = await register(name, email, password, role, phone);
-    
     if (result.success) {
       navigate('/');
     } else {
       alert(result.message || 'Registration failed');
     }
-    
     setLoading(false);
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 flex flex-col justify-center py-12 sm:px-6 lg:px-8">
-      <motion.div 
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        className="sm:mx-auto sm:w-full sm:max-w-md"
-      >
-        <Link to="/" className="text-center block">
-          <span className="text-3xl font-extrabold text-primary-600 tracking-tight">Rentify</span>
-        </Link>
-        <h2 className="mt-6 text-center text-3xl font-extrabold text-slate-900">
-          Create an account
-        </h2>
-        <p className="mt-2 text-center text-sm text-slate-600">
-          Or{' '}
-          <Link to="/login" className="font-medium text-primary-600 hover:text-primary-500">
-            sign in to your existing account
+    <div className="min-h-screen flex bg-white">
+      {/* Left Side: Branding & Trust */}
+      <div className="hidden lg:flex lg:w-1/2 relative bg-slate-900 overflow-hidden items-center justify-center p-20 text-white">
+        <div className="absolute inset-0 z-0">
+          <img 
+            src="https://images.unsplash.com/photo-1560518883-ce09059eeffa?ixlib=rb-4.0.3&auto=format&fit=crop&w=1500&q=80" 
+            alt="Modern Living"
+            className="w-full h-full object-cover opacity-20"
+          />
+        </div>
+        
+        <div className="relative z-10 max-w-lg">
+          <Link to="/" className="inline-flex items-center space-x-3 mb-12 group">
+            <div className="w-12 h-12 bg-primary-600 rounded-2xl flex items-center justify-center group-hover:rotate-12 transition-transform shadow-lg shadow-primary-500/30">
+              <HiHome className="text-white w-7 h-7" />
+            </div>
+            <span className="text-3xl font-black tracking-tight">Rentify.</span>
           </Link>
-        </p>
-      </motion.div>
-
-      <motion.div 
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5, delay: 0.1 }}
-        className="mt-8 sm:mx-auto sm:w-full sm:max-w-xl"
-      >
-        <div className="bg-white py-8 px-4 shadow-xl shadow-slate-200/50 sm:rounded-3xl sm:px-10 border border-slate-100">
-          <form className="grid grid-cols-1 md:grid-cols-2 gap-6" onSubmit={onSubmit}>
-            {/* Full Name */}
-            <div className="col-span-1 md:col-span-2">
-              <label htmlFor="name" className="block text-sm font-semibold text-slate-700">
-                Full Name
-              </label>
-              <div className="mt-1 relative rounded-md shadow-sm">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <HiUser className="h-5 w-5 text-slate-400" />
+          
+          <h1 className="text-5xl font-black mb-10 leading-tight">Start your journey to a <span className="text-primary-400 italic">dream home</span> today.</h1>
+          
+          <div className="space-y-6">
+            {[
+              { title: "Direct Connect", desc: "No middleman. Talk directly to owners." },
+              { title: "Smart Matching", desc: "AI-powered suggestions based on your lifestyle." },
+              { title: "Zero Stress", desc: "Digital verification and secure payments." }
+            ].map((item, i) => (
+              <div key={i} className="flex items-start space-x-4 p-6 bg-white/5 rounded-[2rem] border border-white/10 backdrop-blur-sm">
+                <HiCheckCircle className="text-primary-400 w-8 h-8 flex-shrink-0 mt-1" />
+                <div>
+                  <h4 className="font-black text-xl mb-1">{item.title}</h4>
+                  <p className="text-slate-400 font-medium">{item.desc}</p>
                 </div>
-                <input
-                  id="name"
-                  name="name"
-                  type="text"
-                  required
-                  value={name}
-                  onChange={onChange}
-                  className="block w-full pl-10 pr-3 py-3 bg-slate-50 border border-transparent rounded-xl focus:ring-2 focus:ring-primary-500 focus:bg-white focus:border-transparent transition-all text-slate-900 sm:text-sm"
-                  placeholder="John Doe"
-                />
               </div>
-            </div>
+            ))}
+          </div>
 
-            {/* Email */}
-            <div className="col-span-1">
-              <label htmlFor="email" className="block text-sm font-semibold text-slate-700">
-                Email address
-              </label>
-              <div className="mt-1 relative rounded-md shadow-sm">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <HiMail className="h-5 w-5 text-slate-400" />
-                </div>
-                <input
-                  id="email"
-                  name="email"
-                  type="email"
-                  required
-                  value={email}
-                  onChange={onChange}
-                  className="block w-full pl-10 pr-3 py-3 bg-slate-50 border border-transparent rounded-xl focus:ring-2 focus:ring-primary-500 focus:bg-white focus:border-transparent transition-all text-slate-900 sm:text-sm"
-                  placeholder="john@example.com"
-                />
+          <div className="mt-12 flex items-center space-x-6">
+            <div className="flex -space-x-4">
+              {[1, 2, 3, 4].map(i => (
+                <img key={i} src={`https://i.pravatar.cc/100?u=${i}`} className="w-12 h-12 rounded-full border-4 border-slate-900 shadow-xl" alt="user" />
+              ))}
+            </div>
+            <div>
+              <div className="flex text-yellow-400 mb-1">
+                {[...Array(5)].map((_, i) => <HiStar key={i} className="w-4 h-4" />)}
               </div>
+              <p className="text-sm font-bold text-slate-300 tracking-wide">Joined by 50,000+ users</p>
             </div>
-
-            {/* Phone */}
-            <div className="col-span-1">
-              <label htmlFor="phone" className="block text-sm font-semibold text-slate-700">
-                Phone Number
-              </label>
-              <div className="mt-1 relative rounded-md shadow-sm">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <HiPhone className="h-5 w-5 text-slate-400" />
-                </div>
-                <input
-                  id="phone"
-                  name="phone"
-                  type="tel"
-                  value={phone}
-                  onChange={onChange}
-                  className="block w-full pl-10 pr-3 py-3 bg-slate-50 border border-transparent rounded-xl focus:ring-2 focus:ring-primary-500 focus:bg-white focus:border-transparent transition-all text-slate-900 sm:text-sm"
-                  placeholder="+91 98765 43210"
-                />
-              </div>
-            </div>
-
-            {/* Role Selection */}
-            <div className="col-span-1 md:col-span-2">
-              <label className="block text-sm font-semibold text-slate-700 mb-3">
-                I want to
-              </label>
-              <div className="grid grid-cols-2 gap-4">
-                <button
-                  type="button"
-                  onClick={() => setFormData({ ...formData, role: 'tenant' })}
-                  className={`flex items-center justify-center px-4 py-3 rounded-xl border-2 transition-all ${
-                    role === 'tenant' 
-                      ? 'border-primary-600 bg-primary-50 text-primary-700' 
-                      : 'border-slate-100 bg-slate-50 text-slate-500 hover:border-slate-200'
-                  }`}
-                >
-                  <HiUserGroup className="w-5 h-5 mr-2" />
-                  <span className="font-bold">Rent a Home</span>
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setFormData({ ...formData, role: 'owner' })}
-                  className={`flex items-center justify-center px-4 py-3 rounded-xl border-2 transition-all ${
-                    role === 'owner' 
-                      ? 'border-primary-600 bg-primary-50 text-primary-700' 
-                      : 'border-slate-100 bg-slate-50 text-slate-500 hover:border-slate-200'
-                  }`}
-                >
-                  <HiHome className="w-5 h-5 mr-2" />
-                  <span className="font-bold">List my Property</span>
-                </button>
-              </div>
-            </div>
-
-            {/* Password */}
-            <div className="col-span-1">
-              <label htmlFor="password" className="block text-sm font-semibold text-slate-700">
-                Password
-              </label>
-              <div className="mt-1 relative rounded-md shadow-sm">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <HiLockClosed className="h-5 w-5 text-slate-400" />
-                </div>
-                <input
-                  id="password"
-                  name="password"
-                  type="password"
-                  required
-                  minLength="6"
-                  value={password}
-                  onChange={onChange}
-                  className="block w-full pl-10 pr-3 py-3 bg-slate-50 border border-transparent rounded-xl focus:ring-2 focus:ring-primary-500 focus:bg-white focus:border-transparent transition-all text-slate-900 sm:text-sm"
-                  placeholder="••••••••"
-                />
-              </div>
-            </div>
-
-            {/* Confirm Password */}
-            <div className="col-span-1">
-              <label htmlFor="confirmPassword" className="block text-sm font-semibold text-slate-700">
-                Confirm Password
-              </label>
-              <div className="mt-1 relative rounded-md shadow-sm">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <HiLockClosed className="h-5 w-5 text-slate-400" />
-                </div>
-                <input
-                  id="confirmPassword"
-                  name="confirmPassword"
-                  type="password"
-                  required
-                  minLength="6"
-                  value={confirmPassword}
-                  onChange={onChange}
-                  className="block w-full pl-10 pr-3 py-3 bg-slate-50 border border-transparent rounded-xl focus:ring-2 focus:ring-primary-500 focus:bg-white focus:border-transparent transition-all text-slate-900 sm:text-sm"
-                  placeholder="••••••••"
-                />
-              </div>
-            </div>
-
-            <div className="col-span-1 md:col-span-2 pt-4">
-              <button
-                type="submit"
-                disabled={loading}
-                className="w-full flex justify-center items-center py-4 px-4 border border-transparent rounded-xl shadow-lg shadow-primary-200 text-sm font-bold text-white bg-primary-600 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                {loading ? (
-                  <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></div>
-                ) : (
-                  <HiArrowRight className="w-5 h-5 mr-2" />
-                )}
-                <span>{loading ? 'Creating account...' : 'Create free account'}</span>
-              </button>
-            </div>
-          </form>
-
-          <div className="mt-8 text-center">
-            <p className="text-xs text-slate-500">
-              By creating an account, you agree to our{' '}
-              <a href="#" className="font-semibold text-primary-600 hover:text-primary-500 underline">Terms of Service</a> and{' '}
-              <a href="#" className="font-semibold text-primary-600 hover:text-primary-500 underline">Privacy Policy</a>.
-            </p>
           </div>
         </div>
-      </motion.div>
+      </div>
+
+      {/* Right Side: Multi-step-like Form */}
+      <div className="w-full lg:w-1/2 flex items-center justify-center p-8 sm:p-12 lg:p-24 bg-slate-50">
+        <motion.div 
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          className="w-full max-w-xl"
+        >
+          <div className="mb-12">
+            <h2 className="text-4xl font-black text-slate-900 mb-4 tracking-tight">Join Rentify</h2>
+            <p className="text-slate-500 font-bold">
+              Already have an account?{' '}
+              <Link to="/login" className="text-primary-600 hover:text-primary-700 underline decoration-2 underline-offset-4">
+                Sign in
+              </Link>
+            </p>
+          </div>
+
+          <form onSubmit={onSubmit} className="space-y-8">
+            {/* Account Type Selection */}
+            <div className="p-2 bg-slate-200/50 rounded-2xl flex">
+              <button
+                type="button"
+                onClick={() => setFormData({ ...formData, role: 'tenant' })}
+                className={`flex-1 flex items-center justify-center py-3 rounded-xl transition-all font-black text-sm space-x-2 ${
+                  role === 'tenant' ? 'bg-white text-primary-600 shadow-sm' : 'text-slate-500 hover:text-slate-700'
+                }`}
+              >
+                <HiUserGroup className="w-5 h-5" />
+                <span>I'm a Tenant</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => setFormData({ ...formData, role: 'owner' })}
+                className={`flex-1 flex items-center justify-center py-3 rounded-xl transition-all font-black text-sm space-x-2 ${
+                  role === 'owner' ? 'bg-white text-primary-600 shadow-sm' : 'text-slate-500 hover:text-slate-700'
+                }`}
+              >
+                <HiHome className="w-5 h-5" />
+                <span>I'm an Owner</span>
+              </button>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="col-span-1 md:col-span-2">
+                <label className="block text-xs font-black text-slate-400 uppercase tracking-[0.2em] mb-2">Full Name</label>
+                <div className="relative group">
+                  <HiUser className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within:text-primary-500 transition-colors text-xl" />
+                  <input
+                    type="text"
+                    name="name"
+                    required
+                    value={name}
+                    onChange={onChange}
+                    className="input-field pl-12 h-14 font-bold"
+                    placeholder="Enter your name"
+                  />
+                </div>
+              </div>
+
+              <div className="col-span-1">
+                <label className="block text-xs font-black text-slate-400 uppercase tracking-[0.2em] mb-2">Email Address</label>
+                <div className="relative group">
+                  <HiMail className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within:text-primary-500 transition-colors text-xl" />
+                  <input
+                    type="email"
+                    name="email"
+                    required
+                    value={email}
+                    onChange={onChange}
+                    className="input-field pl-12 h-14 font-bold text-sm"
+                    placeholder="name@mail.com"
+                  />
+                </div>
+              </div>
+
+              <div className="col-span-1">
+                <label className="block text-xs font-black text-slate-400 uppercase tracking-[0.2em] mb-2">Phone Number</label>
+                <div className="relative group">
+                  <HiPhone className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within:text-primary-500 transition-colors text-xl" />
+                  <input
+                    type="tel"
+                    name="phone"
+                    required
+                    value={phone}
+                    onChange={onChange}
+                    className="input-field pl-12 h-14 font-bold text-sm"
+                    placeholder="+91 98765 43210"
+                  />
+                </div>
+              </div>
+
+              <div className="col-span-1">
+                <label className="block text-xs font-black text-slate-400 uppercase tracking-[0.2em] mb-2">Password</label>
+                <div className="relative group">
+                  <HiLockClosed className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within:text-primary-500 transition-colors text-xl" />
+                  <input
+                    type="password"
+                    name="password"
+                    required
+                    minLength="6"
+                    value={password}
+                    onChange={onChange}
+                    className="input-field pl-12 h-14 font-bold text-sm"
+                    placeholder="••••••••"
+                  />
+                </div>
+              </div>
+
+              <div className="col-span-1">
+                <label className="block text-xs font-black text-slate-400 uppercase tracking-[0.2em] mb-2">Confirm Password</label>
+                <div className="relative group">
+                  <HiLockClosed className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within:text-primary-500 transition-colors text-xl" />
+                  <input
+                    type="password"
+                    name="confirmPassword"
+                    required
+                    minLength="6"
+                    value={confirmPassword}
+                    onChange={onChange}
+                    className="input-field pl-12 h-14 font-bold text-sm"
+                    placeholder="••••••••"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full btn-primary h-16 flex items-center justify-center space-x-3 text-lg mt-4 shadow-xl"
+            >
+              {loading ? (
+                <div className="w-6 h-6 border-3 border-white/30 border-t-white rounded-full animate-spin"></div>
+              ) : (
+                <>
+                  <span>Create My Account</span>
+                  <HiArrowRight className="w-5 h-5" />
+                </>
+              )}
+            </button>
+          </form>
+
+          <p className="mt-8 text-center text-xs font-bold text-slate-400 leading-relaxed px-10">
+            By clicking "Create My Account", you agree to our{' '}
+            <a href="#" className="text-slate-600 hover:text-primary-600 underline">Terms of Service</a> and{' '}
+            <a href="#" className="text-slate-600 hover:text-primary-600 underline">Privacy Policy</a>.
+          </p>
+        </motion.div>
+      </div>
     </div>
   );
 };

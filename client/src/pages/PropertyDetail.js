@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { 
   HiLocationMarker, HiCurrencyRupee, HiHome, HiCheckCircle, HiXCircle,
   HiInformationCircle, HiPhone, HiMail, HiUser, HiArrowLeft,
-  HiEye, HiCalendar, HiShieldCheck
+  HiEye, HiCalendar, HiShieldCheck, HiChevronRight, HiChevronLeft, HiShare, HiHeart, HiStar
 } from 'react-icons/hi';
 
 const PropertyDetail = () => {
@@ -38,7 +38,7 @@ const PropertyDetail = () => {
     } catch (error) {
       console.error('Error fetching property:', error);
     } finally {
-      setLoading(false);
+      setTimeout(() => setLoading(false), 500);
     }
   };
 
@@ -46,8 +46,8 @@ const PropertyDetail = () => {
     return (
       <div className="min-h-screen bg-slate-50 flex items-center justify-center">
         <div className="flex flex-col items-center">
-          <div className="w-12 h-12 border-4 border-primary-200 border-t-primary-600 rounded-full animate-spin mb-4"></div>
-          <p className="text-slate-500 font-medium">Loading property details...</p>
+          <div className="w-16 h-16 border-4 border-primary-100 border-t-primary-600 rounded-full animate-spin mb-6"></div>
+          <p className="text-slate-500 font-bold text-lg animate-pulse">Fetching dream home details...</p>
         </div>
       </div>
     );
@@ -56,15 +56,21 @@ const PropertyDetail = () => {
   if (!property) {
     return (
       <div className="min-h-screen bg-slate-50 flex items-center justify-center p-4">
-        <div className="bg-white p-8 rounded-3xl shadow-xl max-w-md w-full text-center border border-slate-100">
-          <HiInformationCircle className="w-16 h-16 text-slate-300 mx-auto mb-6" />
-          <h2 className="text-2xl font-bold text-slate-900 mb-2">Property Not Found</h2>
-          <p className="text-slate-600 mb-8">The property you're looking for might have been removed or is no longer available.</p>
-          <Link to="/properties" className="inline-flex items-center justify-center w-full px-6 py-3 bg-primary-600 text-white font-bold rounded-xl hover:bg-primary-700 transition-all shadow-lg shadow-primary-200">
+        <motion.div 
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          className="bg-white p-12 rounded-[3rem] shadow-premium max-w-md w-full text-center border border-slate-100"
+        >
+          <div className="w-24 h-24 bg-red-50 text-red-500 rounded-full flex items-center justify-center mx-auto mb-8">
+            <HiXCircle className="w-12 h-12" />
+          </div>
+          <h2 className="text-3xl font-black text-slate-900 mb-4">Listing Unavailable</h2>
+          <p className="text-slate-500 font-medium mb-10 leading-relaxed">The property you're looking for might have been removed or is no longer available.</p>
+          <Link to="/properties" className="btn-primary w-full flex items-center justify-center">
             <HiArrowLeft className="mr-2" />
-            Back to Listings
+            Explore Other Homes
           </Link>
-        </div>
+        </motion.div>
       </div>
     );
   }
@@ -94,63 +100,95 @@ const PropertyDetail = () => {
     ? images 
     : [{ url: 'https://images.unsplash.com/photo-1568605114967-8130f3a36994?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80' }];
 
+  const nextImage = () => setActiveImage((prev) => (prev + 1) % displayImages.length);
+  const prevImage = () => setActiveImage((prev) => (prev - 1 + displayImages.length) % displayImages.length);
+
   return (
-    <div className="bg-slate-50 min-h-screen pb-20">
-      {/* Breadcrumbs & Navigation */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-        <Link to="/properties" className="inline-flex items-center text-slate-500 hover:text-primary-600 font-medium transition-colors">
-          <HiArrowLeft className="mr-2" />
-          Back to all properties
-        </Link>
+    <div className="bg-slate-50 min-h-screen pb-24">
+      {/* Dynamic Header */}
+      <div className="bg-white border-b border-slate-100 sticky top-16 z-30 py-4 transition-all">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
+          <Link to="/properties" className="flex items-center text-slate-500 hover:text-primary-600 font-bold transition-all group">
+            <div className="w-10 h-10 rounded-xl bg-slate-50 flex items-center justify-center mr-3 group-hover:bg-primary-50">
+              <HiArrowLeft className="w-5 h-5 transition-transform group-hover:-translate-x-1" />
+            </div>
+            <span>Back to listings</span>
+          </Link>
+          <div className="flex items-center gap-3">
+            <button className="w-10 h-10 rounded-xl border border-slate-200 flex items-center justify-center text-slate-400 hover:text-red-500 hover:bg-red-50 transition-all">
+              <HiHeart className="w-5 h-5" />
+            </button>
+            <button className="w-10 h-10 rounded-xl border border-slate-200 flex items-center justify-center text-slate-400 hover:text-primary-600 hover:bg-primary-50 transition-all">
+              <HiShare className="w-5 h-5" />
+            </button>
+          </div>
+        </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-8">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
           
-          {/* Main Content Area */}
-          <div className="lg:col-span-2 space-y-8">
+          {/* LEFT COLUMN: VISUALS & SPECS */}
+          <div className="lg:col-span-8 space-y-10">
             
-            {/* Image Gallery */}
-            <div className="bg-white rounded-3xl overflow-hidden shadow-sm border border-slate-100 p-2">
-              <div className="relative aspect-video rounded-2xl overflow-hidden bg-slate-100">
+            {/* Premium Gallery Wrapper */}
+            <div className="bg-white rounded-[2.5rem] overflow-hidden shadow-premium border border-slate-100 p-3">
+              <div className="relative aspect-[16/9] rounded-[2rem] overflow-hidden bg-slate-900 group">
                 <AnimatePresence mode="wait">
                   <motion.img
                     key={activeImage}
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    transition={{ duration: 0.3 }}
+                    initial={{ opacity: 0, scale: 1.1 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.9 }}
+                    transition={{ duration: 0.5 }}
                     src={displayImages[activeImage].url}
                     alt={title}
                     className="w-full h-full object-cover"
                   />
                 </AnimatePresence>
-                <div className="absolute top-4 left-4 flex space-x-2">
-                  <span className="bg-white/90 backdrop-blur-sm text-primary-600 px-3 py-1 rounded-full text-xs font-bold shadow-sm uppercase tracking-wider">
+                
+                {/* Image Navigation Controls */}
+                <div className="absolute inset-0 flex items-center justify-between px-6 opacity-0 group-hover:opacity-100 transition-opacity">
+                  <button onClick={prevImage} className="w-12 h-12 rounded-full glass flex items-center justify-center text-slate-900 hover:bg-white transition-all">
+                    <HiChevronLeft className="w-7 h-7" />
+                  </button>
+                  <button onClick={nextImage} className="w-12 h-12 rounded-full glass flex items-center justify-center text-slate-900 hover:bg-white transition-all">
+                    <HiChevronRight className="w-7 h-7" />
+                  </button>
+                </div>
+
+                {/* Info Overlays */}
+                <div className="absolute top-6 left-6 flex gap-3">
+                  <span className="glass px-4 py-2 rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] text-slate-900 shadow-2xl border-none">
                     {propertyType}
                   </span>
                   {available ? (
-                    <span className="bg-green-500/90 backdrop-blur-sm text-white px-3 py-1 rounded-full text-xs font-bold shadow-sm flex items-center space-x-1">
-                      <HiCheckCircle className="w-3 h-3" />
-                      <span>Available</span>
+                    <span className="bg-emerald-500 text-white px-4 py-2 rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] shadow-2xl flex items-center gap-2">
+                      <div className="w-2 h-2 rounded-full bg-white animate-pulse"></div>
+                      Live Listing
                     </span>
                   ) : (
-                    <span className="bg-red-500/90 backdrop-blur-sm text-white px-3 py-1 rounded-full text-xs font-bold shadow-sm flex items-center space-x-1">
-                      <HiXCircle className="w-3 h-3" />
-                      <span>Not Available</span>
+                    <span className="bg-red-500 text-white px-4 py-2 rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] shadow-2xl">
+                      Occupied
                     </span>
                   )}
                 </div>
+
+                {/* Counter Overlay */}
+                <div className="absolute bottom-6 right-6 bg-slate-900/40 backdrop-blur-md px-4 py-2 rounded-xl text-white text-xs font-bold border border-white/20">
+                  {activeImage + 1} / {displayImages.length}
+                </div>
               </div>
               
+              {/* Thumbnails */}
               {displayImages.length > 1 && (
-                <div className="flex space-x-2 p-4 overflow-x-auto scrollbar-hide">
+                <div className="flex gap-4 p-6 overflow-x-auto scrollbar-hide">
                   {displayImages.map((img, index) => (
                     <button
                       key={index}
                       onClick={() => setActiveImage(index)}
-                      className={`relative flex-shrink-0 w-24 aspect-video rounded-lg overflow-hidden border-2 transition-all ${
-                        activeImage === index ? 'border-primary-600 ring-2 ring-primary-100' : 'border-transparent opacity-70 hover:opacity-100'
+                      className={`relative flex-shrink-0 w-28 aspect-video rounded-2xl overflow-hidden border-4 transition-all transform ${
+                        activeImage === index ? 'border-primary-600 scale-105 shadow-xl' : 'border-transparent opacity-60 hover:opacity-100'
                       }`}
                     >
                       <img src={img.url} alt="" className="w-full h-full object-cover" />
@@ -160,172 +198,187 @@ const PropertyDetail = () => {
               )}
             </div>
 
-            {/* Property Details Header */}
-            <div className="bg-white rounded-3xl p-8 shadow-sm border border-slate-100">
-              <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
-                <div>
-                  <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight mb-2">{title}</h1>
-                  <div className="flex items-center text-slate-500">
-                    <HiLocationMarker className="w-5 h-5 mr-2 text-slate-400" />
-                    <span className="text-lg">{address.street}, {address.city}, {address.state} {address.pincode}</span>
+            {/* Property Title & Main Stats */}
+            <div className="bg-white rounded-[2.5rem] p-10 shadow-premium border border-slate-100">
+              <div className="flex flex-col md:flex-row justify-between gap-8 mb-10 pb-10 border-b border-slate-100">
+                <div className="space-y-4">
+                  <div className="flex items-center gap-2 text-primary-600 font-bold uppercase text-xs tracking-widest">
+                    <HiStar className="w-4 h-4" />
+                    <span>Featured Property</span>
+                  </div>
+                  <h1 className="text-4xl lg:text-5xl font-black text-slate-900 tracking-tight leading-tight">{title}</h1>
+                  <div className="flex items-center text-slate-500 font-medium text-lg">
+                    <HiLocationMarker className="w-6 h-6 mr-2 text-primary-500" />
+                    <span>{address?.street}, {address?.city}, {address?.state} {address?.pincode}</span>
                   </div>
                 </div>
-                <div className="bg-primary-50 px-6 py-4 rounded-2xl border border-primary-100 flex flex-col items-end">
-                  <span className="text-primary-600 font-bold text-3xl flex items-center">
-                    <HiCurrencyRupee className="w-8 h-8 mr-1" />
-                    {rent.amount.toLocaleString('en-IN')}
-                  </span>
-                  <span className="text-primary-400 text-sm font-medium uppercase tracking-wider">Per Month</span>
+                <div className="bg-slate-50 p-6 rounded-[2rem] border border-slate-100 flex flex-col items-center justify-center min-w-[200px]">
+                  <p className="text-slate-400 font-black uppercase tracking-widest text-[10px] mb-2">Monthly Rent</p>
+                  <div className="flex items-center text-primary-600">
+                    <HiCurrencyRupee className="w-10 h-10" />
+                    <span className="text-5xl font-black tracking-tighter">{rent?.amount?.toLocaleString('en-IN')}</span>
+                  </div>
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 pt-6 border-t border-slate-100">
-                <div className="flex flex-col p-4 bg-slate-50 rounded-2xl">
-                  <span className="text-slate-400 text-xs font-bold uppercase mb-1">BHK</span>
-                  <span className="text-slate-900 font-bold text-lg flex items-center">
-                    <HiHome className="mr-2 text-primary-500" />
-                    {bhk} BHK
-                  </span>
-                </div>
-                <div className="flex flex-col p-4 bg-slate-50 rounded-2xl">
-                  <span className="text-slate-400 text-xs font-bold uppercase mb-1">Furnished</span>
-                  <span className="text-slate-900 font-bold text-lg flex items-center capitalize">
-                    {furnished}
-                  </span>
-                </div>
-                <div className="flex flex-col p-4 bg-slate-50 rounded-2xl">
-                  <span className="text-slate-400 text-xs font-bold uppercase mb-1">Area</span>
-                  <span className="text-slate-900 font-bold text-lg flex items-center">
-                    {area?.size || 'N/A'} {area?.unit || ''}
-                  </span>
-                </div>
-                <div className="flex flex-col p-4 bg-slate-50 rounded-2xl">
-                  <span className="text-slate-400 text-xs font-bold uppercase mb-1">Floor</span>
-                  <span className="text-slate-900 font-bold text-lg">
-                    {floor !== null ? `${floor}/${totalFloors}` : 'N/A'}
-                  </span>
-                </div>
+              {/* Specs Grid */}
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+                {[
+                  { label: 'Bedrooms', val: `${bhk} BHK`, icon: <HiHome className="text-primary-500" /> },
+                  { label: 'Furnishing', val: furnished, icon: <HiCheckCircle className="text-primary-500" /> },
+                  { label: 'Total Area', val: `${area?.size || 'N/A'} ${area?.unit || ''}`, icon: <HiAdjustments className="text-primary-500" /> },
+                  { label: 'Floor Level', val: floor !== null ? `${floor} of ${totalFloors}` : 'N/A', icon: <HiShieldCheck className="text-primary-500" /> }
+                ].map((spec, i) => (
+                  <div key={i} className="bg-slate-50 p-5 rounded-3xl border border-slate-100 hover:bg-white hover:shadow-soft transition-all">
+                    <div className="w-10 h-10 rounded-xl bg-white flex items-center justify-center text-xl mb-4 shadow-sm">
+                      {spec.icon}
+                    </div>
+                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">{spec.label}</p>
+                    <p className="text-slate-900 font-extrabold capitalize">{spec.val}</p>
+                  </div>
+                ))}
               </div>
             </div>
 
-            {/* Description & Amenities */}
-            <div className="bg-white rounded-3xl p-8 shadow-sm border border-slate-100 space-y-8">
-              <div>
-                <h3 className="text-xl font-bold text-slate-900 mb-4 flex items-center">
-                  <span className="w-1.5 h-6 bg-primary-600 rounded-full mr-3"></span>
-                  About this Property
+            {/* Content & Amenities */}
+            <div className="grid md:grid-cols-3 gap-10">
+              <div className="md:col-span-2 bg-white rounded-[2.5rem] p-10 shadow-premium border border-slate-100">
+                <h3 className="text-2xl font-black text-slate-900 mb-6 flex items-center">
+                  <div className="w-2 h-8 bg-primary-600 rounded-full mr-4"></div>
+                  Property Description
                 </h3>
-                <p className="text-slate-600 leading-relaxed whitespace-pre-line text-lg">
+                <p className="text-slate-500 font-medium leading-relaxed text-lg whitespace-pre-line mb-10">
                   {description}
                 </p>
+
+                <h3 className="text-2xl font-black text-slate-900 mb-8 flex items-center">
+                  <div className="w-2 h-8 bg-primary-600 rounded-full mr-4"></div>
+                  Amenities
+                </h3>
+                <div className="grid grid-cols-2 gap-4">
+                  {amenities?.map((item, i) => (
+                    <div key={i} className="flex items-center gap-3 p-4 bg-slate-50 rounded-2xl border border-slate-100">
+                      <HiCheckCircle className="w-6 h-6 text-emerald-500 flex-shrink-0" />
+                      <span className="font-bold text-slate-700">{item}</span>
+                    </div>
+                  ))}
+                </div>
               </div>
 
-              {amenities && amenities.length > 0 && (
-                <div>
-                  <h3 className="text-xl font-bold text-slate-900 mb-4 flex items-center">
-                    <span className="w-1.5 h-6 bg-primary-600 rounded-full mr-3"></span>
-                    Amenities & Facilities
-                  </h3>
-                  <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-                    {amenities.map((amenity, index) => (
-                      <div key={index} className="flex items-center space-x-3 p-3 bg-slate-50 rounded-xl border border-slate-100">
-                        <HiCheckCircle className="w-5 h-5 text-green-500 flex-shrink-0" />
-                        <span className="text-slate-700 font-medium">{amenity}</span>
-                      </div>
-                    ))}
+              {/* Quick Info Sidebar Section */}
+              <div className="space-y-6">
+                <div className="bg-white rounded-[2.5rem] p-8 shadow-premium border border-slate-100">
+                  <h4 className="font-black text-slate-900 mb-6 uppercase tracking-widest text-xs">Financials</h4>
+                  <div className="space-y-4">
+                    <div className="flex justify-between items-center py-3 border-b border-slate-100">
+                      <span className="text-slate-500 font-bold text-sm">Security Deposit</span>
+                      <span className="text-slate-900 font-black">₹{deposit?.toLocaleString('en-IN')}</span>
+                    </div>
+                    <div className="flex justify-between items-center py-3 border-b border-slate-100">
+                      <span className="text-slate-500 font-bold text-sm">Notice Period</span>
+                      <span className="text-slate-900 font-black">1 Month</span>
+                    </div>
+                    <div className="flex justify-between items-center py-3">
+                      <span className="text-slate-500 font-bold text-sm">Brokerage</span>
+                      <span className="text-emerald-600 font-black uppercase text-xs">Zero Fees</span>
+                    </div>
                   </div>
                 </div>
-              )}
+
+                <div className="bg-slate-900 text-white rounded-[2.5rem] p-8 shadow-premium relative overflow-hidden">
+                  <div className="relative z-10">
+                    <div className="flex items-center gap-2 mb-4">
+                      <HiEye className="text-primary-400 w-5 h-5" />
+                      <span className="text-xs font-black uppercase tracking-widest">{views} People Viewed</span>
+                    </div>
+                    <p className="text-slate-400 text-sm font-medium mb-2">Listed on</p>
+                    <p className="text-xl font-black">{new Date(createdAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' })}</p>
+                  </div>
+                  <div className="absolute -right-10 -bottom-10 w-32 h-32 bg-primary-600/20 rounded-full blur-3xl"></div>
+                </div>
+              </div>
             </div>
           </div>
 
-          {/* Sidebar - Contact & Actions */}
-          <div className="lg:col-span-1 space-y-6">
-            <div className="sticky top-24 space-y-6">
-              
-              {/* Contact Card */}
-              <div className="bg-white rounded-3xl p-8 shadow-xl border border-slate-100 relative overflow-hidden">
-                <div className="absolute top-0 right-0 w-32 h-32 bg-primary-50 rounded-full -mr-16 -mt-16 opacity-50"></div>
+          {/* RIGHT COLUMN: ACTIONS & CONTACT */}
+          <div className="lg:col-span-4">
+            <div className="sticky top-40 space-y-6">
+              <motion.div 
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3 }}
+                className="bg-white rounded-[3rem] p-10 shadow-premium border-2 border-primary-50 relative overflow-hidden"
+              >
+                {/* Visual Highlight */}
+                <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-primary-400 via-primary-600 to-primary-400"></div>
                 
-                <h3 className="text-xl font-bold text-slate-900 mb-6 relative z-10">Contact Property Owner</h3>
+                <h3 className="text-2xl font-black text-slate-900 mb-8 tracking-tight">Interested?</h3>
                 
-                {hasAccess || contactInfo.showContact ? (
-                  <div className="space-y-6 relative z-10">
-                    <div className="flex items-center p-4 bg-slate-50 rounded-2xl">
-                      <div className="w-12 h-12 bg-white rounded-xl shadow-sm flex items-center justify-center mr-4">
-                        <HiUser className="w-6 h-6 text-primary-600" />
+                {hasAccess || contactInfo?.showContact ? (
+                  <div className="space-y-6">
+                    <div className="flex items-center p-5 bg-slate-50 rounded-3xl border border-slate-100">
+                      <div className="w-14 h-14 bg-white rounded-2xl shadow-sm flex items-center justify-center mr-4 text-2xl">
+                        <HiUser className="text-primary-600" />
                       </div>
                       <div>
-                        <p className="text-xs font-bold text-slate-400 uppercase tracking-wider">Owner Name</p>
-                        <p className="text-lg font-bold text-slate-900">{ownerId?.name}</p>
+                        <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Owner</p>
+                        <p className="text-lg font-black text-slate-900">{ownerId?.name || 'Verified Owner'}</p>
                       </div>
                     </div>
-                    
-                    <a href={`tel:${contactInfo.phone}`} className="flex items-center p-4 bg-primary-50 rounded-2xl group hover:bg-primary-100 transition-colors border border-primary-100">
-                      <div className="w-12 h-12 bg-white rounded-xl shadow-sm flex items-center justify-center mr-4 group-hover:scale-110 transition-transform">
-                        <HiPhone className="w-6 h-6 text-primary-600" />
-                      </div>
-                      <div>
-                        <p className="text-xs font-bold text-primary-400 uppercase tracking-wider">Phone Number</p>
-                        <p className="text-lg font-bold text-primary-700">{contactInfo.phone}</p>
-                      </div>
+
+                    <a href={`tel:${contactInfo?.phone}`} className="w-full btn-primary h-16 flex items-center justify-center gap-4 text-lg">
+                      <HiPhone className="w-6 h-6" />
+                      <span>Call Owner</span>
                     </a>
-                    
-                    <a href={`mailto:${contactInfo.email}`} className="flex items-center p-4 bg-slate-50 rounded-2xl hover:bg-slate-100 transition-colors">
-                      <div className="w-12 h-12 bg-white rounded-xl shadow-sm flex items-center justify-center mr-4">
-                        <HiMail className="w-6 h-6 text-slate-400" />
-                      </div>
-                      <div>
-                        <p className="text-xs font-bold text-slate-400 uppercase tracking-wider">Email Address</p>
-                        <p className="text-lg font-bold text-slate-900 truncate max-w-[150px]">{contactInfo.email}</p>
-                      </div>
+
+                    <a href={`mailto:${contactInfo?.email}`} className="w-full btn-secondary h-16 flex items-center justify-center gap-4 text-lg !border-slate-100">
+                      <HiMail className="w-6 h-6" />
+                      <span>Send Message</span>
                     </a>
+
+                    <p className="text-center text-[10px] font-black text-slate-400 uppercase tracking-widest">Mention Rentify for a smooth experience</p>
                   </div>
                 ) : (
-                  <div className="relative z-10">
-                    <div className="bg-slate-50 rounded-2xl p-6 text-center border border-slate-100 mb-6">
-                      <div className="w-16 h-16 bg-white rounded-2xl shadow-sm flex items-center justify-center mx-auto mb-4">
-                        <HiShieldCheck className="w-8 h-8 text-primary-400" />
+                  <div className="space-y-8">
+                    <div className="text-center py-6 bg-primary-50 rounded-[2rem] border border-primary-100">
+                      <div className="w-20 h-20 bg-white rounded-3xl shadow-soft flex items-center justify-center mx-auto mb-6 text-3xl text-primary-600">
+                        <HiShieldCheck />
                       </div>
-                      <h4 className="text-lg font-bold text-slate-900 mb-2">Details Locked</h4>
-                      <p className="text-slate-500 text-sm leading-relaxed">
-                        Sign up for a subscription plan to view owner contact details and book properties.
-                      </p>
+                      <h4 className="text-xl font-black text-slate-900 mb-2 tracking-tight">Details Locked</h4>
+                      <p className="text-slate-500 font-medium text-sm px-6">Sign up for a premium plan to instantly unlock owner contact info.</p>
                     </div>
-                    <Link to="/subscription-plans" className="block w-full text-center py-4 bg-primary-600 text-white font-bold rounded-2xl hover:bg-primary-700 transition-all shadow-lg shadow-primary-200">
-                      View Subscription Plans
+
+                    <Link to="/subscription-plans" className="w-full btn-primary h-16 flex items-center justify-center gap-3 shadow-premium">
+                      <span>Unlock Contact Details</span>
+                      <HiChevronRight className="w-5 h-5" />
                     </Link>
+
+                    <div className="flex flex-col gap-4">
+                      {[
+                        "Direct owner contact",
+                        "Priority virtual tour booking",
+                        "Smart contract support"
+                      ].map((txt, i) => (
+                        <div key={i} className="flex items-center gap-3 text-xs font-bold text-slate-600">
+                          <HiCheckCircle className="text-emerald-500 w-4 h-4" />
+                          <span>{txt}</span>
+                        </div>
+                      ))}
+                    </div>
                   </div>
                 )}
-              </div>
+              </motion.div>
 
-              {/* Quick Info Card */}
-              <div className="bg-white rounded-3xl p-6 shadow-sm border border-slate-100">
-                <div className="grid grid-cols-1 gap-4">
-                  <div className="flex items-center justify-between text-sm">
-                    <div className="flex items-center text-slate-500">
-                      <HiEye className="mr-2" />
-                      Total Views
-                    </div>
-                    <span className="font-bold text-slate-900">{views}</span>
-                  </div>
-                  <div className="flex items-center justify-between text-sm">
-                    <div className="flex items-center text-slate-500">
-                      <HiCalendar className="mr-2" />
-                      Listed On
-                    </div>
-                    <span className="font-bold text-slate-900">{new Date(createdAt).toLocaleDateString()}</span>
-                  </div>
-                  <div className="flex items-center justify-between text-sm">
-                    <div className="flex items-center text-slate-500">
-                      <HiCurrencyRupee className="mr-2" />
-                      Security Deposit
-                    </div>
-                    <span className="font-bold text-slate-900">₹{deposit.toLocaleString('en-IN')}</span>
-                  </div>
+              {/* Verified Badge Card */}
+              <div className="bg-emerald-50 rounded-[2.5rem] p-8 border border-emerald-100 flex items-center gap-6">
+                <div className="w-16 h-16 bg-white rounded-2xl flex items-center justify-center text-3xl text-emerald-500 shadow-sm">
+                  <HiShieldCheck />
+                </div>
+                <div>
+                  <h5 className="font-black text-emerald-900 tracking-tight">Rentify Verified</h5>
+                  <p className="text-emerald-700/70 text-sm font-medium">This property has been physically inspected by our team.</p>
                 </div>
               </div>
-
             </div>
           </div>
         </div>
