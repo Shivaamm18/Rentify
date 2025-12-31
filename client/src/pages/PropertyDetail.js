@@ -6,7 +6,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { 
   HiLocationMarker, HiCurrencyRupee, HiHome, HiCheckCircle, HiXCircle,
   HiInformationCircle, HiPhone, HiMail, HiUser, HiArrowLeft,
-  HiEye, HiCalendar, HiShieldCheck, HiChevronRight, HiChevronLeft, HiShare, HiHeart, HiStar
+  HiEye, HiCalendar, HiShieldCheck, HiChevronRight, HiChevronLeft, HiShare, HiHeart, HiStar,
+  HiAdjustments
 } from 'react-icons/hi';
 
 const PropertyDetail = () => {
