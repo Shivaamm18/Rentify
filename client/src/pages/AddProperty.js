@@ -1,8 +1,12 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { propertyAPI } from '../services/api';
 import { useAuth } from '../contexts/AuthContext';
-import './AddProperty.css';
+import { motion } from 'framer-motion';
+import { 
+  HiHome, HiCurrencyRupee, HiLocationMarker, HiCheckCircle, 
+  HiChevronLeft, HiPlus, HiTag, HiInformationCircle 
+} from 'react-icons/hi';
 
 const AddProperty = () => {
   const [formData, setFormData] = useState({
@@ -136,276 +140,346 @@ const AddProperty = () => {
     'Swimming Pool', 'Garden', 'Power Backup'
   ];
 
+  const propertyTypes = [
+    'apartment', 'house', 'pg', 'flat', 'villa', 'independent'
+  ];
+
   return (
-    <div className="add-property-page">
-      <div className="container">
-        <div className="form-header">
-          <h2>Add New Property</h2>
-          <p>Fill in the details for your property listing</p>
-        </div>
+    <div className="bg-slate-50 min-h-screen pb-20">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <Link to="/my-properties" className="inline-flex items-center text-slate-500 hover:text-primary-600 font-medium transition-colors mb-8">
+          <HiChevronLeft className="mr-2 w-5 h-5" />
+          Back to My Properties
+        </Link>
 
-        <form onSubmit={onSubmit} className="property-form">
-          <div className="form-row">
-            <div className="form-group">
-              <label htmlFor="title">Property Title *</label>
-              <input
-                type="text"
-                id="title"
-                name="title"
-                value={title}
-                onChange={onChange}
-                className="form-control"
-                placeholder="Enter property title"
-                required
-              />
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="bg-white rounded-3xl shadow-xl border border-slate-100 overflow-hidden"
+        >
+          <div className="bg-primary-600 px-8 py-10 text-white relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-64 h-64 bg-primary-500 rounded-full -mr-32 -mt-32 opacity-50 blur-3xl"></div>
+            <div className="relative z-10">
+              <h1 className="text-3xl font-bold mb-2">List Your Property</h1>
+              <p className="text-primary-100">Provide accurate details to attract potential tenants</p>
             </div>
           </div>
 
-          <div className="form-row">
-            <div className="form-group">
-              <label htmlFor="description">Description *</label>
-              <textarea
-                id="description"
-                name="description"
-                value={description}
-                onChange={onChange}
-                className="form-control"
-                placeholder="Describe your property"
-                rows="5"
-                required
-              />
-            </div>
-          </div>
+          <form onSubmit={onSubmit} className="p-8 space-y-12">
+            {/* Basic Information */}
+            <section>
+              <div className="flex items-center space-x-3 mb-6">
+                <div className="bg-primary-50 p-2 rounded-lg text-primary-600">
+                  <HiInformationCircle className="w-6 h-6" />
+                </div>
+                <h3 className="text-xl font-bold text-slate-900">Basic Information</h3>
+              </div>
+              
+              <div className="space-y-6">
+                <div>
+                  <label htmlFor="title" className="block text-sm font-semibold text-slate-700 mb-1">
+                    Property Title *
+                  </label>
+                  <input
+                    type="text"
+                    id="title"
+                    name="title"
+                    required
+                    value={title}
+                    onChange={onChange}
+                    className="w-full px-4 py-3 bg-slate-50 border border-slate-100 rounded-xl focus:ring-2 focus:ring-primary-500 focus:bg-white transition-all text-slate-900"
+                    placeholder="e.g. Spacious 2 BHK Apartment in Powai"
+                  />
+                </div>
 
-          <div className="form-row">
-            <div className="form-group">
-              <label htmlFor="rent">Monthly Rent (₹) *</label>
-              <input
-                type="number"
-                id="rent"
-                value={rent.amount}
-                onChange={(e) => handleRentChange('amount', e.target.value)}
-                className="form-control"
-                placeholder="Enter monthly rent"
-                min="0"
-                required
-              />
-            </div>
+                <div>
+                  <label htmlFor="description" className="block text-sm font-semibold text-slate-700 mb-1">
+                    Description *
+                  </label>
+                  <textarea
+                    id="description"
+                    name="description"
+                    required
+                    rows="4"
+                    value={description}
+                    onChange={onChange}
+                    className="w-full px-4 py-3 bg-slate-50 border border-slate-100 rounded-xl focus:ring-2 focus:ring-primary-500 focus:bg-white transition-all text-slate-900"
+                    placeholder="Describe your property features, neighborhood, etc."
+                  />
+                </div>
 
-            <div className="form-group">
-              <label htmlFor="deposit">Security Deposit (₹)</label>
-              <input
-                type="number"
-                id="deposit"
-                name="deposit"
-                value={deposit}
-                onChange={onChange}
-                className="form-control"
-                placeholder="Enter security deposit"
-                min="0"
-              />
-            </div>
-          </div>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                  <div>
+                    <label htmlFor="propertyType" className="block text-sm font-semibold text-slate-700 mb-1">
+                      Property Type *
+                    </label>
+                    <select
+                      id="propertyType"
+                      name="propertyType"
+                      required
+                      value={propertyType}
+                      onChange={onChange}
+                      className="w-full px-4 py-3 bg-slate-50 border border-slate-100 rounded-xl focus:ring-2 focus:ring-primary-500 focus:bg-white transition-all text-slate-900 capitalize"
+                    >
+                      {propertyTypes.map(type => (
+                        <option key={type} value={type}>{type}</option>
+                      ))}
+                    </select>
+                  </div>
 
-          <div className="form-row">
-            <div className="form-group">
-              <label htmlFor="propertyType">Property Type *</label>
-              <select
-                id="propertyType"
-                name="propertyType"
-                value={propertyType}
-                onChange={onChange}
-                className="form-control"
-                required
-              >
-                <option value="apartment">Apartment</option>
-                <option value="house">House</option>
-                <option value="pg">PG (Paying Guest)</option>
-                <option value="flat">Flat</option>
-                <option value="villa">Villa</option>
-                <option value="independent">Independent House</option>
-              </select>
-            </div>
+                  <div>
+                    <label htmlFor="bhk" className="block text-sm font-semibold text-slate-700 mb-1">
+                      Configuration (BHK)
+                    </label>
+                    <select
+                      id="bhk"
+                      name="bhk"
+                      value={bhk}
+                      onChange={onChange}
+                      className="w-full px-4 py-3 bg-slate-50 border border-slate-100 rounded-xl focus:ring-2 focus:ring-primary-500 focus:bg-white transition-all text-slate-900"
+                    >
+                      <option value="">Select</option>
+                      {[1, 2, 3, 4, 5].map(n => (
+                        <option key={n} value={n}>{n} BHK</option>
+                      ))}
+                    </select>
+                  </div>
 
-            <div className="form-group">
-              <label htmlFor="bhk">BHK</label>
-              <select
-                id="bhk"
-                name="bhk"
-                value={bhk}
-                onChange={onChange}
-                className="form-control"
-              >
-                <option value="">Select BHK</option>
-                <option value="0">Studio</option>
-                <option value="1">1 BHK</option>
-                <option value="2">2 BHK</option>
-                <option value="3">3 BHK</option>
-                <option value="4">4 BHK</option>
-                <option value="5">5+ BHK</option>
-              </select>
-            </div>
+                  <div>
+                    <label htmlFor="furnished" className="block text-sm font-semibold text-slate-700 mb-1">
+                      Furnishing
+                    </label>
+                    <select
+                      id="furnished"
+                      name="furnished"
+                      value={furnished}
+                      onChange={onChange}
+                      className="w-full px-4 py-3 bg-slate-50 border border-slate-100 rounded-xl focus:ring-2 focus:ring-primary-500 focus:bg-white transition-all text-slate-900 capitalize"
+                    >
+                      <option value="unfurnished">Unfurnished</option>
+                      <option value="semi-furnished">Semi-furnished</option>
+                      <option value="furnished">Fully Furnished</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </section>
 
-            <div className="form-group">
-              <label htmlFor="furnished">Furnished Status</label>
-              <select
-                id="furnished"
-                name="furnished"
-                value={furnished}
-                onChange={onChange}
-                className="form-control"
-              >
-                <option value="unfurnished">Unfurnished</option>
-                <option value="semi-furnished">Semi-Furnished</option>
-                <option value="furnished">Furnished</option>
-              </select>
-            </div>
-          </div>
+            {/* Pricing & Area */}
+            <section>
+              <div className="flex items-center space-x-3 mb-6">
+                <div className="bg-primary-50 p-2 rounded-lg text-primary-600">
+                  <HiCurrencyRupee className="w-6 h-6" />
+                </div>
+                <h3 className="text-xl font-bold text-slate-900">Pricing & Area</h3>
+              </div>
 
-          <div className="form-row">
-            <div className="form-group">
-              <label htmlFor="area">Area (sqft)</label>
-              <input
-                type="number"
-                id="area"
-                value={area.size}
-                onChange={(e) => handleAreaChange('size', e.target.value)}
-                className="form-control"
-                placeholder="Enter area in sqft"
-                min="0"
-              />
-            </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <label htmlFor="rent" className="block text-sm font-semibold text-slate-700 mb-1">
+                    Monthly Rent (₹) *
+                  </label>
+                  <div className="relative">
+                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                      <HiCurrencyRupee className="text-slate-400 w-5 h-5" />
+                    </div>
+                    <input
+                      type="number"
+                      id="rent"
+                      required
+                      min="0"
+                      value={rent.amount}
+                      onChange={(e) => handleRentChange('amount', e.target.value)}
+                      className="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-100 rounded-xl focus:ring-2 focus:ring-primary-500 focus:bg-white transition-all text-slate-900"
+                      placeholder="e.g. 25000"
+                    />
+                  </div>
+                </div>
 
-            <div className="form-group">
-              <label htmlFor="floor">Floor</label>
-              <input
-                type="number"
-                id="floor"
-                name="floor"
-                value={floor}
-                onChange={onChange}
-                className="form-control"
-                placeholder="Enter floor number"
-                min="0"
-              />
-            </div>
+                <div>
+                  <label htmlFor="deposit" className="block text-sm font-semibold text-slate-700 mb-1">
+                    Security Deposit (₹)
+                  </label>
+                  <div className="relative">
+                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                      <HiCurrencyRupee className="text-slate-400 w-5 h-5" />
+                    </div>
+                    <input
+                      type="number"
+                      id="deposit"
+                      min="0"
+                      value={deposit}
+                      onChange={onChange}
+                      className="w-full pl-10 pr-4 py-3 bg-slate-50 border border-slate-100 rounded-xl focus:ring-2 focus:ring-primary-500 focus:bg-white transition-all text-slate-900"
+                      placeholder="e.g. 50000"
+                    />
+                  </div>
+                </div>
 
-            <div className="form-group">
-              <label htmlFor="totalFloors">Total Floors</label>
-              <input
-                type="number"
-                id="totalFloors"
-                name="totalFloors"
-                value={totalFloors}
-                onChange={onChange}
-                className="form-control"
-                placeholder="Enter total floors"
-                min="0"
-              />
-            </div>
-          </div>
+                <div>
+                  <label htmlFor="area" className="block text-sm font-semibold text-slate-700 mb-1">
+                    Super Built-up Area (sqft)
+                  </label>
+                  <input
+                    type="number"
+                    id="area"
+                    min="0"
+                    value={area.size}
+                    onChange={(e) => handleAreaChange('size', e.target.value)}
+                    className="w-full px-4 py-3 bg-slate-50 border border-slate-100 rounded-xl focus:ring-2 focus:ring-primary-500 focus:bg-white transition-all text-slate-900"
+                    placeholder="e.g. 1100"
+                  />
+                </div>
 
-          <div className="form-row">
-            <div className="form-group">
-              <label htmlFor="street">Street Address *</label>
-              <input
-                type="text"
-                id="street"
-                value={address.street}
-                onChange={(e) => handleAddressChange('street', e.target.value)}
-                className="form-control"
-                placeholder="Enter street address"
-                required
-              />
-            </div>
-          </div>
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label htmlFor="floor" className="block text-sm font-semibold text-slate-700 mb-1">
+                      Floor
+                    </label>
+                    <input
+                      type="number"
+                      id="floor"
+                      name="floor"
+                      value={floor}
+                      onChange={onChange}
+                      className="w-full px-4 py-3 bg-slate-50 border border-slate-100 rounded-xl focus:ring-2 focus:ring-primary-500 focus:bg-white transition-all text-slate-900"
+                      placeholder="e.g. 5"
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="totalFloors" className="block text-sm font-semibold text-slate-700 mb-1">
+                      Total Floors
+                    </label>
+                    <input
+                      type="number"
+                      id="totalFloors"
+                      name="totalFloors"
+                      value={totalFloors}
+                      onChange={onChange}
+                      className="w-full px-4 py-3 bg-slate-50 border border-slate-100 rounded-xl focus:ring-2 focus:ring-primary-500 focus:bg-white transition-all text-slate-900"
+                      placeholder="e.g. 20"
+                    />
+                  </div>
+                </div>
+              </div>
+            </section>
 
-          <div className="form-row">
-            <div className="form-group">
-              <label htmlFor="city">City *</label>
-              <input
-                type="text"
-                id="city"
-                value={address.city}
-                onChange={(e) => handleAddressChange('city', e.target.value)}
-                className="form-control"
-                placeholder="Enter city"
-                required
-              />
-            </div>
+            {/* Location */}
+            <section>
+              <div className="flex items-center space-x-3 mb-6">
+                <div className="bg-primary-50 p-2 rounded-lg text-primary-600">
+                  <HiLocationMarker className="w-6 h-6" />
+                </div>
+                <h3 className="text-xl font-bold text-slate-900">Location Details</h3>
+              </div>
 
-            <div className="form-group">
-              <label htmlFor="state">State *</label>
-              <input
-                type="text"
-                id="state"
-                value={address.state}
-                onChange={(e) => handleAddressChange('state', e.target.value)}
-                className="form-control"
-                placeholder="Enter state"
-                required
-              />
-            </div>
+              <div className="space-y-6">
+                <div>
+                  <label htmlFor="street" className="block text-sm font-semibold text-slate-700 mb-1">
+                    Street Address *
+                  </label>
+                  <input
+                    type="text"
+                    id="street"
+                    required
+                    value={address.street}
+                    onChange={(e) => handleAddressChange('street', e.target.value)}
+                    className="w-full px-4 py-3 bg-slate-50 border border-slate-100 rounded-xl focus:ring-2 focus:ring-primary-500 focus:bg-white transition-all text-slate-900"
+                    placeholder="House No, Building Name, Locality"
+                  />
+                </div>
 
-            <div className="form-group">
-              <label htmlFor="pincode">Pincode *</label>
-              <input
-                type="text"
-                id="pincode"
-                value={address.pincode}
-                onChange={(e) => handleAddressChange('pincode', e.target.value)}
-                className="form-control"
-                placeholder="Enter pincode"
-                required
-              />
-            </div>
-          </div>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                  <div>
+                    <label htmlFor="city" className="block text-sm font-semibold text-slate-700 mb-1">
+                      City *
+                    </label>
+                    <input
+                      type="text"
+                      id="city"
+                      required
+                      value={address.city}
+                      onChange={(e) => handleAddressChange('city', e.target.value)}
+                      className="w-full px-4 py-3 bg-slate-50 border border-slate-100 rounded-xl focus:ring-2 focus:ring-primary-500 focus:bg-white transition-all text-slate-900"
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="state" className="block text-sm font-semibold text-slate-700 mb-1">
+                      State *
+                    </label>
+                    <input
+                      type="text"
+                      id="state"
+                      required
+                      value={address.state}
+                      onChange={(e) => handleAddressChange('state', e.target.value)}
+                      className="w-full px-4 py-3 bg-slate-50 border border-slate-100 rounded-xl focus:ring-2 focus:ring-primary-500 focus:bg-white transition-all text-slate-900"
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor="pincode" className="block text-sm font-semibold text-slate-700 mb-1">
+                      Pincode *
+                    </label>
+                    <input
+                      type="text"
+                      id="pincode"
+                      required
+                      value={address.pincode}
+                      onChange={(e) => handleAddressChange('pincode', e.target.value)}
+                      className="w-full px-4 py-3 bg-slate-50 border border-slate-100 rounded-xl focus:ring-2 focus:ring-primary-500 focus:bg-white transition-all text-slate-900"
+                    />
+                  </div>
+                </div>
+              </div>
+            </section>
 
-          <div className="form-row">
-            <div className="form-group">
-              <label htmlFor="availabilityDate">Availability Date</label>
-              <input
-                type="date"
-                id="availabilityDate"
-                name="availabilityDate"
-                value={availabilityDate}
-                onChange={onChange}
-                className="form-control"
-              />
-            </div>
-          </div>
+            {/* Amenities */}
+            <section>
+              <div className="flex items-center space-x-3 mb-6">
+                <div className="bg-primary-50 p-2 rounded-lg text-primary-600">
+                  <HiPlus className="w-6 h-6" />
+                </div>
+                <h3 className="text-xl font-bold text-slate-900">Amenities</h3>
+              </div>
 
-          <div className="form-row">
-            <div className="form-group">
-              <label>Amenities</label>
-              <div className="amenities-grid">
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
                 {amenityOptions.map((amenity, index) => (
-                  <div key={index} className="form-check">
+                  <label key={index} className="flex items-center space-x-3 p-4 bg-slate-50 rounded-xl border border-slate-100 cursor-pointer hover:bg-slate-100 transition-colors">
                     <input
                       type="checkbox"
-                      id={`amenity-${index}`}
                       value={amenity}
                       onChange={handleAmenityChange}
-                      className="form-check-input"
+                      className="w-5 h-5 text-primary-600 border-slate-300 rounded focus:ring-primary-500 transition-all"
                     />
-                    <label htmlFor={`amenity-${index}`} className="form-check-label">
-                      {amenity}
-                    </label>
-                  </div>
+                    <span className="text-sm font-medium text-slate-700">{amenity}</span>
+                  </label>
                 ))}
               </div>
-            </div>
-          </div>
+            </section>
 
-          <div className="form-actions">
-            <button type="submit" className="btn btn-primary" disabled={loading}>
-              {loading ? 'Creating Property...' : 'Create Property'}
-            </button>
-            <button type="button" className="btn btn-secondary" onClick={() => navigate('/my-properties')}>
-              Cancel
-            </button>
-          </div>
-        </form>
+            <div className="pt-8 border-t border-slate-100 flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
+              <button
+                type="submit"
+                disabled={loading}
+                className="flex-1 py-4 bg-primary-600 text-white font-bold rounded-2xl hover:bg-primary-700 transition-all shadow-lg shadow-primary-200 disabled:opacity-50 flex items-center justify-center"
+              >
+                {loading ? (
+                  <div className="w-6 h-6 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></div>
+                ) : (
+                  <HiCheckCircle className="w-6 h-6 mr-2" />
+                )}
+                <span>{loading ? 'Creating Listing...' : 'Submit Property Listing'}</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => navigate('/my-properties')}
+                className="flex-1 py-4 bg-slate-100 text-slate-700 font-bold rounded-2xl hover:bg-slate-200 transition-all"
+              >
+                Cancel
+              </button>
+            </div>
+          </form>
+        </motion.div>
       </div>
     </div>
   );
