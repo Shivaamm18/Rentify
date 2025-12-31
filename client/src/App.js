@@ -12,7 +12,8 @@ import AddProperty from './pages/AddProperty';
 import MyProperties from './pages/MyProperties';
 import SubscriptionPlans from './pages/SubscriptionPlans';
 import Profile from './pages/Profile';
-import AdminPage from './pages/AdminPage.js';
+import AdminPage from './pages/AdminPage';
+import PrivateRoute from './components/PrivateRoute';
 
 function App() {
   return (
