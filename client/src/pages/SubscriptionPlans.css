@@ -1,0 +1,110 @@
+.subscription-plans-page {
+  padding: 2rem 0;
+}
+
+.page-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.page-header h1 {
+  color: #333;
+  margin-bottom: 0.5rem;
+}
+
+.plans-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
+
+.plan-card {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  padding: 2rem;
+  text-align: center;
+  transition: transform 0.3s ease;
+}
+
+.plan-card:hover {
+  transform: translateY(-5px);
+}
+
+.plan-header h2 {
+  color: #333;
+  margin: 0 0 1rem 0;
+}
+
+.plan-price {
+  margin: 1.5rem 0;
+}
+
+.price {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: #007bff;
+}
+
+.duration {
+  font-size: 1rem;
+  color: #666;
+  display: block;
+  margin-top: 0.25rem;
+}
+
+.plan-features h3 {
+  color: #333;
+  margin: 1.5rem 0 1rem 0;
+}
+
+.plan-features ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.plan-features li {
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #eee;
+}
+
+.plan-features li:last-child {
+  border-bottom: none;
+}
+
+.plan-actions {
+  margin-top: 2rem;
+}
+
+.subscription-info {
+  text-align: center;
+}
+
+.subscription-info h3 {
+  color: #333;
+  margin-bottom: 2rem;
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+}
+
+.info-item h4 {
+  color: #333;
+  margin-bottom: 0.5rem;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .plans-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .info-grid {
+    grid-template-columns: 1fr;
+  }
+}
