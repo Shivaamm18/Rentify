@@ -4,7 +4,7 @@ import { propertyAPI, subscriptionAPI } from '../services/api';
 import { useAuth } from '../contexts/AuthContext';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
-  HiLocationMarker, HiCurrencyRupee, HiHome, HiCheckCircle, 
+  HiLocationMarker, HiCurrencyRupee, HiHome, HiCheckCircle, HiX,
   HiInformationCircle, HiPhone, HiMail, HiUser, HiArrowLeft,
   HiEye, HiCalendar, HiShieldCheck
 } from 'react-icons/hi';

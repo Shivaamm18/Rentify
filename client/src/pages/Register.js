@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { motion } from 'framer-motion';
-import { HiUser, HiMail, HiLockClosed, HiPhone, HiUserGroup, HiArrowRight } from 'react-icons/hi';
+import { HiUser, HiMail, HiLockClosed, HiPhone, HiUserGroup, HiArrowRight, HiHome } from 'react-icons/hi';
 
 const Register = () => {
   const [formData, setFormData] = useState({
