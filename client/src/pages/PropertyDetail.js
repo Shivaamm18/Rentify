@@ -4,7 +4,7 @@ import { propertyAPI, subscriptionAPI } from '../services/api';
 import { useAuth } from '../contexts/AuthContext';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
-  HiLocationMarker, HiCurrencyRupee, HiHome, HiCheckCircle, HiX,
+  HiLocationMarker, HiCurrencyRupee, HiHome, HiCheckCircle, HiXCircle,
   HiInformationCircle, HiPhone, HiMail, HiUser, HiArrowLeft,
   HiEye, HiCalendar, HiShieldCheck
 } from 'react-icons/hi';
@@ -136,7 +136,7 @@ const PropertyDetail = () => {
                     </span>
                   ) : (
                     <span className="bg-red-500/90 backdrop-blur-sm text-white px-3 py-1 rounded-full text-xs font-bold shadow-sm flex items-center space-x-1">
-                      <HiX className="w-3 h-3" />
+                      <HiXCircle className="w-3 h-3" />
                       <span>Not Available</span>
                     </span>
                   )}

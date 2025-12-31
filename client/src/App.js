@@ -19,37 +19,42 @@ function App() {
   return (
     <AuthProvider>
       <Router>
-        <div className="App">
+        <div className="min-h-screen flex flex-col bg-slate-50">
           <Navbar />
-          <main className="main-content">
+          <main className="flex-grow">
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
               <Route path="/properties" element={<PropertyList />} />
               <Route path="/properties/:id" element={<PropertyDetail />} />
+              
               <Route path="/add-property" element={
                 <PrivateRoute>
                   <AddProperty />
                 </PrivateRoute>
               } />
+              
               <Route path="/my-properties" element={
                 <PrivateRoute>
                   <MyProperties />
                 </PrivateRoute>
               } />
+              
               <Route path="/subscription-plans" element={<SubscriptionPlans />} />
-                <Route path="/profile" element={
-                  <PrivateRoute>
-                    <Profile />
-                  </PrivateRoute>
-                } />
-                <Route path="/admin" element={
-                  <PrivateRoute>
-                    <AdminPage />
-                  </PrivateRoute>
-                } />
-              </Routes>
+              
+              <Route path="/profile" element={
+                <PrivateRoute>
+                  <Profile />
+                </PrivateRoute>
+              } />
+              
+              <Route path="/admin" element={
+                <PrivateRoute>
+                  <AdminPage />
+                </PrivateRoute>
+              } />
+            </Routes>
           </main>
           <Footer />
         </div>
