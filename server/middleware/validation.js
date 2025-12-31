@@ -19,13 +19,13 @@ const validateRegisterInput = (req, res, next) => {
     });
   }
 
-  // Validate password
-  if (!password || !isStrongPassword(password)) {
-    return res.status(400).json({
-      success: false,
-      message: 'Password must be at least 6 characters long and include uppercase, lowercase, and number'
-    });
-  }
+    // Validate password
+    if (!password || !isStrongPassword(password)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Password must be at least 6 characters long'
+      });
+    }
 
   // Validate phone if provided
   if (phone && !isValidPhone(phone)) {

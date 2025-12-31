@@ -12,6 +12,7 @@ import AddProperty from './pages/AddProperty';
 import MyProperties from './pages/MyProperties';
 import SubscriptionPlans from './pages/SubscriptionPlans';
 import Profile from './pages/Profile';
+import AdminDashboard from './pages/AdminDashboard';
 import PrivateRoute from './components/PrivateRoute';
 import './App.css';
 
@@ -39,12 +40,17 @@ function App() {
                 </PrivateRoute>
               } />
               <Route path="/subscription-plans" element={<SubscriptionPlans />} />
-              <Route path="/profile" element={
-                <PrivateRoute>
-                  <Profile />
-                </PrivateRoute>
-              } />
-            </Routes>
+                <Route path="/profile" element={
+                  <PrivateRoute>
+                    <Profile />
+                  </PrivateRoute>
+                } />
+                <Route path="/admin" element={
+                  <PrivateRoute>
+                    <AdminDashboard />
+                  </PrivateRoute>
+                } />
+              </Routes>
           </main>
           <Footer />
         </div>

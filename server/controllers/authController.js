@@ -28,7 +28,7 @@ const register = async (req, res) => {
     if (!isStrongPassword(password)) {
       return res.status(400).json({
         success: false,
-        message: 'Password must be at least 6 characters long and include uppercase, lowercase, and number'
+        message: 'Password must be at least 6 characters long'
       });
     }
 

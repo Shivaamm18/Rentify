@@ -6,9 +6,8 @@ const isValidEmail = (email) => {
 
 // Validate password strength
 const isStrongPassword = (password) => {
-  // At least 6 characters, with at least one uppercase, one lowercase, and one number
-  const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d@$!%*?&]{6,}$/;
-  return passwordRegex.test(password);
+  // At least 6 characters
+  return password && password.length >= 6;
 };
 
 // Validate phone number (Indian format)

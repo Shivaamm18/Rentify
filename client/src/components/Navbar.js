@@ -40,11 +40,16 @@ const Navbar = () => {
           
           {isAuthenticated ? (
             <>
-              {user?.role === 'owner' && (
-                <Link to="/add-property" className="navbar-link" onClick={() => setIsMenuOpen(false)}>
-                  Add Property
-                </Link>
-              )}
+                {user?.role === 'owner' && (
+                  <Link to="/add-property" className="navbar-link" onClick={() => setIsMenuOpen(false)}>
+                    Add Property
+                  </Link>
+                )}
+                {user?.role === 'admin' && (
+                  <Link to="/admin" className="navbar-link" onClick={() => setIsMenuOpen(false)}>
+                    Admin Panel
+                  </Link>
+                )}
               <Link to="/my-properties" className="navbar-link" onClick={() => setIsMenuOpen(false)}>
                 My Properties
               </Link>

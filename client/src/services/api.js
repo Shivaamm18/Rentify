@@ -82,4 +82,11 @@ export const subscriptionAPI = {
     api.get(`/subscriptions/check-access/${propertyId}`)
 };
 
+// Admin API calls
+export const adminAPI = {
+  getUsers: () => api.get('/admin/users'),
+  updateUserRole: (id, role) => api.put(`/admin/users/${id}/role`, { role }),
+  getStats: () => api.get('/admin/stats')
+};
+
 export default api;
