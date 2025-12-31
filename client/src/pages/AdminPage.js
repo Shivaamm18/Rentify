@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { adminAPI } from '../services/api';
-import './AdminDashboard.css';
+import './AdminPage.css';
 
-const AdminDashboard = () => {
+const AdminPage = () => {
   const [users, setUsers] = useState([]);
   const [stats, setStats] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -45,7 +45,7 @@ const AdminDashboard = () => {
   if (error) return <div className="container mt-5 text-danger">{error}</div>;
 
   return (
-    <div className="admin-dashboard container mt-4">
+    <div className="admin-page container mt-4">
       <h2 className="mb-4">Admin Dashboard</h2>
       
       {stats && (
@@ -128,4 +128,4 @@ const AdminDashboard = () => {
   );
 };
 
-export default AdminDashboard;
+export default AdminPage;

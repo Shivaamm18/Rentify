@@ -12,9 +12,7 @@ import AddProperty from './pages/AddProperty';
 import MyProperties from './pages/MyProperties';
 import SubscriptionPlans from './pages/SubscriptionPlans';
 import Profile from './pages/Profile';
-import AdminDashboard from './pages/AdminDashboard';
-import PrivateRoute from './components/PrivateRoute';
-import './App.css';
+import AdminPage from './pages/AdminPage.js';
 
 function App() {
   return (
@@ -47,7 +45,7 @@ function App() {
                 } />
                 <Route path="/admin" element={
                   <PrivateRoute>
-                    <AdminDashboard />
+                    <AdminPage />
                   </PrivateRoute>
                 } />
               </Routes>

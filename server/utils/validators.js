@@ -10,11 +10,11 @@ const isStrongPassword = (password) => {
   return password && password.length >= 6;
 };
 
-// Validate phone number (Indian format)
+// Validate phone number (more flexible)
 const isValidPhone = (phone) => {
-  // Indian phone number: 10 digits, optionally with country code
+  // Allow 10 digits, with optional +91, spaces, dashes
   const phoneRegex = /^(\+91[-\s]?)?[0-9]{10}$/;
-  return phoneRegex.test(phone);
+  return phoneRegex.test(phone.replace(/[-\s]/g, ''));
 };
 
 // Validate Indian pincode
