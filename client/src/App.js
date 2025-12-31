@@ -14,6 +14,7 @@ import SubscriptionPlans from './pages/SubscriptionPlans';
 import Profile from './pages/Profile';
 import AdminPage from './pages/AdminPage';
 import PrivateRoute from './components/PrivateRoute';
+import './App.css';
 
 function App() {
   return (
