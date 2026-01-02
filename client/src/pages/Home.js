@@ -132,18 +132,7 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Trust Badges */}
-      <section className="py-12 bg-white border-y border-slate-100">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="flex flex-wrap justify-center items-center gap-8 md:gap-16 opacity-50 grayscale transition-all hover:grayscale-0">
-            <span className="text-2xl font-black text-slate-400">ZILLOW</span>
-            <span className="text-2xl font-black text-slate-400">AIRBNB</span>
-            <span className="text-2xl font-black text-slate-400">MAGICBRICKS</span>
-            <span className="text-2xl font-black text-slate-400">HOUSING</span>
-            <span className="text-2xl font-black text-slate-400">NOBROKER</span>
-          </div>
-        </div>
-      </section>
+
 
       {/* Categories */}
       <section className="py-24 bg-white">
