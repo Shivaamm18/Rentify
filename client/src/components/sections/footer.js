@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { Facebook, Twitter, Instagram, Youtube, Linkedin } from 'lucide-react';
 
 const Footer = () => {
@@ -6,12 +7,12 @@ const Footer = () => {
     {
       title: "Find Property",
       links: [
-        { name: "Rent", href: "#" },
-        { name: "Buy", href: "#" },
-        { name: "Commercial", href: "#" },
-        { name: "PG / Hostels", href: "#" },
-        { name: "Flatmates", href: "#" },
-        { name: "New Projects", href: "#" },
+        { name: "Rent", href: "/properties" },
+        { name: "Buy", href: "/properties" },
+        { name: "Commercial", href: "/properties" },
+        { name: "PG / Hostels", href: "/properties" },
+        { name: "Flatmates", href: "/properties" },
+        { name: "New Projects", href: "/properties" },
       ]
     },
     {
@@ -50,24 +51,24 @@ const Footer = () => {
   ];
 
   return (
-    <footer className="w-full bg-[#F2F2F2] border-t border-[#D4D4D4] pt-12 pb-6">
+    <footer className="w-full bg-page-bg border-t border-page-border pt-12 pb-6 mt-auto">
       <div className="container mx-auto max-w-[1200px] px-4">
         {/* Main Footer Links Grid */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-12">
           {footerLinks.map((section, idx) => (
             <div key={idx}>
-              <h3 className="text-[#464646] font-medium text-base mb-4">
+              <h3 className="text-text-main font-medium text-base mb-4">
                 {section.title}
               </h3>
               <ul className="space-y-2">
                 {section.links.map((link, linkIdx) => (
                   <li key={linkIdx}>
-                    <a 
-                      href={link.href} 
-                      className="text-[#666666] hover:text-[#FD3752] text-sm transition-colors duration-200"
+                    <Link 
+                      to={link.href} 
+                      className="text-text-muted hover:text-primary text-sm transition-colors duration-200"
                     >
                       {link.name}
-                    </a>
+                    </Link>
                   </li>
                 ))}
               </ul>
@@ -76,10 +77,10 @@ const Footer = () => {
         </div>
 
         {/* Apps and Social Media Row */}
-        <div className="flex flex-col md:flex-row items-center justify-between py-8 border-t border-[#D4D4D4] gap-6">
+        <div className="flex flex-col md:flex-row items-center justify-between py-8 border-t border-page-border gap-6">
           {/* App Downloads */}
           <div className="flex flex-col sm:flex-row items-center gap-4">
-            <span className="text-sm font-medium text-[#464646]">Download Our App</span>
+            <span className="text-sm font-medium text-text-main">Download Our App</span>
             <div className="flex gap-3">
               <a 
                 href="#" 
@@ -110,37 +111,37 @@ const Footer = () => {
 
           {/* Social Links */}
           <div className="flex items-center gap-6">
-            <a href="#" className="text-[#666666] hover:text-[#FD3752] transition-colors">
+            <a href="#" className="text-text-muted hover:text-primary transition-colors">
               <Facebook size={20} />
             </a>
-            <a href="#" className="text-[#666666] hover:text-[#FD3752] transition-colors">
+            <a href="#" className="text-text-muted hover:text-primary transition-colors">
               <Twitter size={20} />
             </a>
-            <a href="#" className="text-[#666666] hover:text-[#FD3752] transition-colors">
+            <a href="#" className="text-text-muted hover:text-primary transition-colors">
               <Instagram size={20} />
             </a>
-            <a href="#" className="text-[#666666] hover:text-[#FD3752] transition-colors">
+            <a href="#" className="text-text-muted hover:text-primary transition-colors">
               <Youtube size={20} />
             </a>
-            <a href="#" className="text-[#666666] hover:text-[#FD3752] transition-colors">
+            <a href="#" className="text-text-muted hover:text-primary transition-colors">
               <Linkedin size={20} />
             </a>
           </div>
         </div>
 
         {/* Bottom Bar */}
-        <div className="pt-6 border-t border-[#D4D4D4] flex flex-col md:flex-row justify-between items-center gap-4 text-center md:text-left">
-          <p className="text-[#666666] text-xs">
+        <div className="pt-6 border-t border-page-border flex flex-col md:flex-row justify-between items-center gap-4 text-center md:text-left">
+          <p className="text-text-muted text-xs">
             © {new Date().getFullYear()} Rentify Technologies Solutions Pvt. Ltd.
           </p>
-          <div className="flex flex-wrap justify-center gap-4 text-xs text-[#666666]">
-            <a href="#" className="hover:text-[#FD3752]">Terms & Conditions</a>
+          <div className="flex flex-wrap justify-center gap-4 text-xs text-text-muted">
+            <Link to="/terms" className="hover:text-primary">Terms & Conditions</Link>
             <span className="hidden sm:inline">|</span>
-            <a href="#" className="hover:text-[#FD3752]">Privacy Policy</a>
+            <Link to="/privacy" className="hover:text-primary">Privacy Policy</Link>
             <span className="hidden sm:inline">|</span>
-            <a href="#" className="hover:text-[#FD3752]">Cookie Policy</a>
+            <Link to="/cookies" className="hover:text-primary">Cookie Policy</Link>
             <span className="hidden sm:inline">|</span>
-            <a href="#" className="hover:text-[#FD3752]">Trust & Safety</a>
+            <Link to="/safety" className="hover:text-primary">Trust & Safety</Link>
           </div>
         </div>
       </div>

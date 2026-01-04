@@ -1,11 +1,12 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const CtaBanner = () => {
   return (
-    <section className="bg-[#F2F2F2] py-8 md:py-12">
+    <section className="bg-page-bg py-8 md:py-12">
       <div className="container mx-auto px-4">
         <div 
-          className="relative overflow-hidden bg-[#2C2C2C] rounded-[4px] px-6 py-10 md:px-12 md:py-14 flex flex-col md:flex-row items-center justify-between gap-8 md:gap-4"
+          className="relative overflow-hidden bg-[#2C2C2C] rounded-nb px-6 py-10 md:px-12 md:py-14 flex flex-col md:flex-row items-center justify-between gap-8 md:gap-4"
           style={{
             backgroundImage: `url('https://static.nobroker.in/static/img/home/post-prop-bg-mobile.png')`,
             backgroundRepeat: 'no-repeat',
@@ -25,15 +26,15 @@ const CtaBanner = () => {
 
           {/* Action Button */}
           <div className="z-10 flex-shrink-0">
-            <a
-              href="#"
-              className="inline-block bg-[#FD3752] hover:bg-[#E62E46] text-white text-[15px] md:text-[16px] font-semibold px-8 py-3 rounded-[4px] transition-colors duration-200 uppercase tracking-wide shadow-sm"
+            <Link
+              to="/add-property"
+              className="inline-block bg-primary hover:bg-primary-hover text-white text-[15px] md:text-[16px] font-semibold px-8 py-3 rounded-nb transition-colors duration-200 uppercase tracking-wide shadow-sm"
               style={{
                 boxShadow: '0 2px 4px rgba(0,0,0,0.2)'
               }}
             >
               Post Your Property FREE
-            </a>
+            </Link>
           </div>
 
           {/* Decorative Overlay for better contrast/depth */}
@@ -41,17 +42,17 @@ const CtaBanner = () => {
         </div>
         
         {/* Optional secondary disclaimer text */}
-        <div className="mt-4 flex flex-wrap justify-center gap-x-8 gap-y-2 text-[12px] text-[#666666]">
+        <div className="mt-4 flex flex-wrap justify-center gap-x-8 gap-y-2 text-[12px] text-text-muted">
           <div className="flex items-center gap-1.5">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#009587]"></span>
+            <span className="w-1.5 h-1.5 rounded-full bg-secondary"></span>
             Get Verified Tenants / Buyers
           </div>
           <div className="flex items-center gap-1.5">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#009587]"></span>
+            <span className="w-1.5 h-1.5 rounded-full bg-secondary"></span>
             Save thousands in Brokerage
           </div>
           <div className="flex items-center gap-1.5">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#009587]"></span>
+            <span className="w-1.5 h-1.5 rounded-full bg-secondary"></span>
             100% Direct Owners Only
           </div>
         </div>
