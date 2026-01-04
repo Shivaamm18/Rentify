@@ -1,78 +1,101 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { 
+  FileText, 
+  Truck, 
+  Paintbrush, 
+  ShieldCheck, 
+  Receipt, 
+  UserCheck,
+  CreditCard,
+  Home
+} from 'lucide-react';
 
 const services = [
   {
-    id: 'property-management',
-    label: 'Property Management',
-    iconSrc: 'https://static.nobroker.in/static/img/resale/resale_home_v2.png',
-    href: '/properties',
-  },
-  {
-    id: 'legal-services',
-    label: 'Legal Services',
-    iconSrc: 'https://static.nobroker.in/static/img/rent/rent_home_v2.png',
+    id: 'pay-rent',
+    label: 'Pay Rent',
+    icon: <CreditCard className="w-8 h-8 text-primary" />,
     href: '#',
-  },
-  {
-    id: 'cleaning-services',
-    label: 'Cleaning & Painting',
-    iconSrc: 'https://static.nobroker.in/static/img/commercial/commercial_home_v2.png',
-    href: '#',
+    color: 'bg-red-50'
   },
   {
     id: 'rent-agreement',
     label: 'Rent Agreement',
-    iconSrc: 'https://static.nobroker.in/static/img/rent/rent_home_v2.png',
+    icon: <FileText className="w-8 h-8 text-secondary" />,
     href: '#',
+    color: 'bg-teal-50'
+  },
+  {
+    id: 'packers-movers',
+    label: 'Packers & Movers',
+    icon: <Truck className="w-8 h-8 text-blue-500" />,
+    href: '#',
+    color: 'bg-blue-50'
+  },
+  {
+    id: 'cleaning-painting',
+    label: 'Painting & Cleaning',
+    icon: <Paintbrush className="w-8 h-8 text-orange-500" />,
+    href: '#',
+    color: 'bg-orange-50'
+  },
+  {
+    id: 'legal-services',
+    label: 'Legal Services',
+    icon: <ShieldCheck className="w-8 h-8 text-indigo-500" />,
+    href: '#',
+    color: 'bg-indigo-50'
   },
   {
     id: 'rent-receipts',
     label: 'Rent Receipts',
-    iconSrc: 'https://static.nobroker.in/static/img/resale/resale_home_v2.png',
+    icon: <Receipt className="w-8 h-8 text-green-500" />,
     href: '#',
+    color: 'bg-green-50'
   },
   {
     id: 'tenant-verification',
     label: 'Tenant Verification',
-    iconSrc: 'https://static.nobroker.in/static/img/commercial/commercial_home_v2.png',
+    icon: <UserCheck className="w-8 h-8 text-purple-500" />,
     href: '#',
+    color: 'bg-purple-50'
+  },
+  {
+    id: 'property-management',
+    label: 'Property Management',
+    icon: <Home className="w-8 h-8 text-amber-500" />,
+    href: '/properties',
+    color: 'bg-amber-50'
   }
 ];
 
 const ServiceCategories = () => {
   return (
-    <section className="w-full bg-page-bg py-10 md:py-12">
+    <section className="w-full bg-page-bg py-12 md:py-16">
       <div className="container mx-auto px-4 max-w-[1200px]">
         <div className="flex flex-col items-center">
-          <h2 className="text-[18px] md:text-[20px] font-medium text-text-main mb-8 text-center uppercase tracking-tight">
+          <h2 className="text-[20px] md:text-[24px] font-bold text-text-main mb-2 text-center uppercase tracking-wider">
             Our Core Offerings
           </h2>
+          <p className="text-text-muted text-sm md:text-base mb-10 text-center">
+            One-stop solution for all your real estate needs
+          </p>
           
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6 w-full">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-8 gap-4 md:gap-6 w-full">
             {services.map((service) => (
               <Link
                 key={service.id}
                 to={service.href}
-                className="group flex flex-col items-center justify-start p-4 transition-all duration-200"
+                className="group flex flex-col items-center justify-start transition-all duration-300"
               >
-                <div className="relative mb-3 flex items-center justify-center">
-                  {/* Circular Icon Container */}
-                  <div className="w-[64px] h-[64px] md:w-[72px] md:h-[72px] rounded-full bg-white flex items-center justify-center shadow-soft transition-shadow duration-300 group-hover:shadow-heavy ring-1 ring-black/5">
-                    <div className="relative w-[36px] h-[36px] md:w-[40px] md:h-[40px]">
-                      <img
-                        src={service.iconSrc}
-                        alt={service.label}
-                        className="w-full h-full object-contain"
-                      />
-                    </div>
-                  </div>
-                  
-                  {/* Subtle hover indicator dot */}
-                  <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1.5 h-1.5 rounded-full bg-primary opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
+                <div className={`relative mb-4 w-[70px] h-[70px] md:w-[80px] md:h-[80px] rounded-2xl ${service.color} flex items-center justify-center shadow-sm border border-page-border/30 group-hover:shadow-md group-hover:-translate-y-1 transition-all duration-300`}>
+                  {service.icon}
+                  {/* Hover indicator */}
+                  <div className="absolute inset-0 rounded-2xl bg-black/0 group-hover:bg-black/5 transition-colors duration-300" />
                 </div>
                 
-                <span className="text-[14px] font-medium text-text-main text-center leading-tight group-hover:text-primary transition-colors duration-200 max-w-[100px]">
+                <span className="text-[13px] md:text-[14px] font-semibold text-text-main text-center leading-tight group-hover:text-primary transition-colors duration-200">
                   {service.label}
                 </span>
               </Link>
@@ -81,17 +104,17 @@ const ServiceCategories = () => {
         </div>
 
         {/* Feature Highlights beneath grid */}
-        <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-4 border-t border-page-border pt-10">
+        <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8 bg-white p-6 rounded-2xl border border-page-border/50 shadow-soft">
           {[
             { title: 'Zero Brokerage', desc: 'Direct owner contact only' },
             { title: 'Verified Listings', desc: 'Manual property verification' },
             { title: 'Safe & Secure', desc: 'Secure payment & documentation' }
           ].map((feature, idx) => (
-            <div key={idx} className="flex items-center space-x-3 px-4 py-2 border-r last:border-r-0 border-page-border/50">
-              <div className="w-2 h-2 rounded-full bg-secondary shrink-0" />
+            <div key={idx} className="flex items-center space-x-4 px-4 py-2 md:border-r last:border-r-0 border-page-border/50">
+              <div className="w-3 h-3 rounded-full bg-secondary shrink-0" />
               <div>
-                <p className="text-[14px] font-semibold text-text-main leading-none mb-1">{feature.title}</p>
-                <p className="text-[12px] text-text-muted leading-none">{feature.desc}</p>
+                <p className="text-[15px] font-bold text-text-main mb-1">{feature.title}</p>
+                <p className="text-[13px] text-text-muted leading-relaxed">{feature.desc}</p>
               </div>
             </div>
           ))}
