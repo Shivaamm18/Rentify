@@ -132,23 +132,101 @@ const Navbar = () => {
 
       {/* Mobile Menu */}
       {isMenuOpen && (
-        <div className="absolute top-[64px] left-0 w-full bg-white border-b border-page-border shadow-heavy z-50 md:hidden">
-          <div className="flex flex-col p-4 gap-4">
-            <Link to="/add-property" className="text-primary font-bold py-2 border-b border-page-bg" onClick={() => setIsMenuOpen(false)}>
-              Post Your Property FREE
-            </Link>
-            {!isAuthenticated ? (
-              <>
-                <Link to="/login" className="text-text-main py-2 border-b border-page-bg" onClick={() => setIsMenuOpen(false)}>Login</Link>
-                <Link to="/register" className="text-text-main py-2 border-b border-page-bg" onClick={() => setIsMenuOpen(false)}>Sign Up</Link>
-              </>
-            ) : (
-              <>
-                <Link to="/profile" className="text-text-main py-2 border-b border-page-bg" onClick={() => setIsMenuOpen(false)}>My Profile</Link>
-                <Link to="/my-properties" className="text-text-main py-2 border-b border-page-bg" onClick={() => setIsMenuOpen(false)}>My Properties</Link>
-                <button onClick={handleLogout} className="text-text-main text-left py-2">Logout</button>
-              </>
+        <div className="fixed inset-0 top-[64px] bg-white z-[99] md:hidden animate-in slide-in-from-top duration-300">
+          <div className="flex flex-col h-full bg-white overflow-y-auto">
+            {/* User Profile Summary (if logged in) */}
+            {isAuthenticated && (
+              <div className="p-6 bg-page-bg/30 border-b border-page-border flex items-center gap-4">
+                <div className="w-12 h-12 rounded-full bg-primary flex items-center justify-center text-white font-bold text-lg">
+                  {user?.name?.charAt(0) || 'U'}
+                </div>
+                <div>
+                  <p className="text-text-main font-bold">{user?.name}</p>
+                  <p className="text-text-muted text-xs">{user?.email}</p>
+                </div>
+              </div>
             )}
+
+            <div className="flex flex-col p-4 gap-1">
+              <Link 
+                to="/add-property" 
+                className="flex items-center justify-between p-4 rounded-nb bg-primary/5 border border-primary/10 text-primary font-bold mb-2"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                <span>Post Your Property FREE</span>
+                <span className="bg-primary text-white text-[10px] px-2 py-0.5 rounded-full">New</span>
+              </Link>
+
+              {!isAuthenticated ? (
+                <>
+                  <Link 
+                    to="/login" 
+                    className="flex items-center gap-3 p-4 text-text-main font-medium border-b border-page-bg hover:bg-page-bg transition-colors"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    <User size={20} className="text-text-muted" />
+                    Login
+                  </Link>
+                  <Link 
+                    to="/register" 
+                    className="flex items-center gap-3 p-4 text-text-main font-medium border-b border-page-bg hover:bg-page-bg transition-colors"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    <User size={20} className="text-text-muted" />
+                    Sign Up
+                  </Link>
+                </>
+              ) : (
+                <>
+                  <Link 
+                    to="/profile" 
+                    className="flex items-center gap-3 p-4 text-text-main font-medium border-b border-page-bg hover:bg-page-bg transition-colors"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    <User size={20} className="text-text-muted" />
+                    My Profile
+                  </Link>
+                  <Link 
+                    to="/my-properties" 
+                    className="flex items-center gap-3 p-4 text-text-main font-medium border-b border-page-bg hover:bg-page-bg transition-colors"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    <div className="w-5 h-5 flex items-center justify-center">
+                      <span className="w-4 h-4 border-2 border-text-muted rounded-sm"></span>
+                    </div>
+                    My Properties
+                  </Link>
+                  {user?.role === 'admin' && (
+                    <Link 
+                      to="/admin" 
+                      className="flex items-center gap-3 p-4 text-text-main font-medium border-b border-page-bg hover:bg-page-bg transition-colors"
+                      onClick={() => setIsMenuOpen(false)}
+                    >
+                      <span className="text-text-muted">⚙️</span>
+                      Admin Dashboard
+                    </Link>
+                  )}
+                  <button 
+                    onClick={() => {
+                      handleLogout();
+                      setIsMenuOpen(false);
+                    }} 
+                    className="flex items-center gap-3 p-4 text-primary font-medium text-left hover:bg-page-bg transition-colors mt-4"
+                  >
+                    <LogOut size={20} />
+                    Logout
+                  </button>
+                </>
+              )}
+            </div>
+
+            {/* Footer-like section in mobile menu */}
+            <div className="mt-auto p-6 bg-page-bg text-center">
+              <p className="text-text-muted text-xs">Direct Owner Properties. No Brokerage.</p>
+              <div className="flex justify-center gap-4 mt-4">
+                <span className="text-primary font-bold text-sm italic">RENTIFY</span>
+              </div>
+            </div>
           </div>
         </div>
       )}

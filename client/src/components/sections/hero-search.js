@@ -103,149 +103,158 @@ const HeroSearch = () => {
             ))}
           </div>
 
-          {/* Search Box Card */}
-          <div className="bg-white rounded-nb shadow-search p-4 w-full border-t border-page-border">
-            <div className="flex flex-col md:flex-row items-center gap-0 border border-page-border rounded-nb overflow-hidden">
-              
-              {/* City Selector */}
-              <div 
-                className="relative flex items-center px-4 py-3 bg-page-bg/50 border-r border-page-border min-w-[160px] cursor-pointer group"
-                onClick={() => setIsCityDropdownOpen(!isCityDropdownOpen)}
-              >
-                <div className="flex flex-col items-start overflow-hidden">
-                  <span className="text-[10px] text-text-muted uppercase font-bold">City</span>
-                  <span className="text-[14px] text-text-main font-semibold truncate max-w-[100px]">{selectedCity}</span>
-                </div>
-                <ChevronDown className={`ml-auto w-4 h-4 text-text-muted group-hover:text-text-main transition-transform ${isCityDropdownOpen ? 'rotate-180' : ''}`} />
+            {/* Search Box Card */}
+            <div className="bg-white rounded-nb shadow-search p-2 md:p-4 w-full border-t border-page-border">
+              <div className="flex flex-col md:flex-row items-stretch md:items-center gap-0 border border-page-border rounded-nb overflow-hidden">
                 
-                  {isCityDropdownOpen && (
-                    <div className="absolute top-full left-0 w-64 bg-white shadow-heavy rounded-b-nb border border-page-border z-50 mt-[1px] flex flex-col">
-                      <div className="p-2 border-b border-page-border sticky top-0 bg-white z-10">
-                        <input
-                          type="text"
-                          placeholder="Search city..."
-                          value={citySearch}
-                          onChange={(e) => setCitySearch(e.target.value)}
-                          onClick={(e) => e.stopPropagation()}
-                          className="w-full px-3 py-2 bg-page-bg border border-page-border rounded-nb text-[13px] outline-none focus:border-primary"
-                        />
-                      </div>
-                        <div className="max-h-[350px] overflow-y-auto">
-                          <div 
-                            className="flex items-center gap-2 p-3 border-b border-page-border hover:bg-page-bg text-primary font-medium cursor-pointer transition-colors"
-                            onClick={handleDetectLocation}
-                          >
-                            <Navigation className={`w-4 h-4 ${isDetectingLocation ? 'animate-pulse' : ''}`} />
-                            <div className="flex flex-col items-start">
-                              <span className="text-[13px]">{isDetectingLocation ? 'Detecting...' : 'Detect My Location'}</span>
-                              {detectedLocationData && (
-                                <span className="text-[10px] text-text-muted">Current: {detectedLocationData.suburb || detectedLocationData.city}</span>
-                              )}
-                            </div>
+                {/* City Selector */}
+                <div 
+                  className="relative flex items-center px-4 py-3 bg-page-bg/50 border-b md:border-b-0 md:border-r border-page-border min-w-full md:min-w-[160px] cursor-pointer group"
+                  onClick={() => setIsCityDropdownOpen(!isCityDropdownOpen)}
+                >
+                  <div className="flex flex-col items-start overflow-hidden">
+                    <span className="text-[10px] text-text-muted uppercase font-bold">City</span>
+                    <span className="text-[14px] text-text-main font-semibold truncate max-w-[150px] md:max-w-[100px]">{selectedCity}</span>
+                  </div>
+                  <ChevronDown className={`ml-auto w-4 h-4 text-text-muted group-hover:text-text-main transition-transform ${isCityDropdownOpen ? 'rotate-180' : ''}`} />
+                  
+                    {isCityDropdownOpen && (
+                      <>
+                        {/* Mobile Overlay Backdrop */}
+                        <div className="fixed inset-0 bg-black/40 z-[100] md:hidden" onClick={(e) => { e.stopPropagation(); setIsCityDropdownOpen(false); }}></div>
+                        
+                        <div className="absolute top-full left-0 w-full md:w-64 bg-white shadow-heavy rounded-b-nb border border-page-border z-[101] md:z-50 mt-0 md:mt-[1px] flex flex-col fixed md:absolute inset-x-0 bottom-0 md:bottom-auto md:top-full h-[70vh] md:h-auto rounded-t-xl md:rounded-t-none">
+                          <div className="p-4 border-b border-page-border sticky top-0 bg-white z-10 flex items-center justify-between">
+                            <input
+                              type="text"
+                              placeholder="Search city..."
+                              value={citySearch}
+                              onChange={(e) => setCitySearch(e.target.value)}
+                              onClick={(e) => e.stopPropagation()}
+                              className="w-full px-3 py-2 bg-page-bg border border-page-border rounded-nb text-[14px] outline-none focus:border-primary"
+                            />
+                            <button className="ml-2 md:hidden p-1" onClick={(e) => { e.stopPropagation(); setIsCityDropdownOpen(false); }}>
+                              <X size={20} className="text-text-muted" />
+                            </button>
                           </div>
-
-                          {/* Suggested Localities according to location */}
-                          {nearbySuggestions.length > 0 && selectedCity === (detectedLocationData?.city || 'Bangalore') && (
-                            <div className="bg-page-bg/30 pb-2">
-                              <div className="px-3 py-2 text-[11px] font-bold text-text-muted uppercase flex items-center gap-1">
-                                <Sparkles className="w-3 h-3 text-secondary" />
-                                Suggested Localities Near You
+                          <div className="overflow-y-auto flex-1 pb-8 md:pb-0 md:max-h-[350px]">
+                            <div 
+                              className="flex items-center gap-2 p-4 border-b border-page-border hover:bg-page-bg text-primary font-medium cursor-pointer transition-colors"
+                              onClick={handleDetectLocation}
+                            >
+                              <Navigation className={`w-5 h-5 md:w-4 md:h-4 ${isDetectingLocation ? 'animate-pulse' : ''}`} />
+                              <div className="flex flex-col items-start">
+                                <span className="text-[14px] md:text-[13px]">{isDetectingLocation ? 'Detecting...' : 'Detect My Location'}</span>
+                                {detectedLocationData && (
+                                  <span className="text-[11px] md:text-[10px] text-text-muted">Current: {detectedLocationData.suburb || detectedLocationData.city}</span>
+                                )}
                               </div>
-                              <div className="flex flex-wrap gap-2 px-3">
-                                {nearbySuggestions.map((suggestion) => (
+                            </div>
+  
+                            {/* Suggested Localities according to location */}
+                            {nearbySuggestions.length > 0 && selectedCity === (detectedLocationData?.city || 'Bangalore') && (
+                              <div className="bg-page-bg/30 pb-3">
+                                <div className="px-4 py-2 text-[11px] font-bold text-text-muted uppercase flex items-center gap-1">
+                                  <Sparkles className="w-3 h-3 text-secondary" />
+                                  Suggested Localities Near You
+                                </div>
+                                <div className="flex flex-wrap gap-2 px-4">
+                                  {nearbySuggestions.map((suggestion) => (
+                                    <div
+                                      key={suggestion}
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        addLocation(suggestion);
+                                        setIsCityDropdownOpen(false);
+                                      }}
+                                      className="px-4 py-1.5 md:px-3 md:py-1 bg-white border border-page-border rounded-full text-[13px] md:text-[12px] text-text-main hover:border-secondary hover:text-secondary cursor-pointer transition-all shadow-sm active:scale-95"
+                                    >
+                                      {suggestion}
+                                    </div>
+                                  ))}
+                                </div>
+                              </div>
+                            )}
+  
+                            <div className="px-4 py-2 text-[11px] font-bold text-text-muted uppercase border-t border-page-bg mt-1">
+                              Popular Cities
+                            </div>
+                            <div className="grid grid-cols-1 divide-y divide-page-bg">
+                              {filteredCities.length > 0 ? (
+                                filteredCities.map((city) => (
                                   <div
-                                    key={suggestion}
+                                    key={city}
+                                    className="p-4 md:p-3 hover:bg-page-bg text-[15px] md:text-[14px] text-text-main text-left cursor-pointer active:bg-page-bg"
                                     onClick={(e) => {
                                       e.stopPropagation();
-                                      addLocation(suggestion);
+                                      setSelectedCity(city);
                                       setIsCityDropdownOpen(false);
+                                      setCitySearch('');
                                     }}
-                                    className="px-3 py-1 bg-white border border-page-border rounded-full text-[12px] text-text-main hover:border-secondary hover:text-secondary cursor-pointer transition-all shadow-sm"
                                   >
-                                    {suggestion}
+                                    {city}
                                   </div>
-                                ))}
-                              </div>
+                                ))
+                              ) : (
+                                <div className="p-4 text-[13px] text-text-muted text-center">No cities found</div>
+                              )}
                             </div>
-                          )}
-
-                          <div className="px-3 py-2 text-[11px] font-bold text-text-muted uppercase border-t border-page-bg mt-1">
-                            Popular Cities
-                          </div>
-                          {filteredCities.length > 0 ? (
-
-                          filteredCities.map((city) => (
-                            <div
-                              key={city}
-                              className="p-3 hover:bg-page-bg text-[14px] text-text-main text-left border-b border-page-bg last:border-0 cursor-pointer"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                setSelectedCity(city);
-                                setIsCityDropdownOpen(false);
-                                setCitySearch('');
-                              }}
-                            >
-                              {city}
-                            </div>
-                          ))
-                        ) : (
-                          <div className="p-3 text-[13px] text-text-muted text-center">No cities found</div>
-                        )}
+                        </div>
                       </div>
+                    </>
+                    )}
+  
+                </div>
+  
+                {/* Location Input Area */}
+                <div className="flex-1 flex flex-wrap items-center px-3 py-2 min-h-[60px] md:min-h-[54px] bg-white relative">
+                  {locations.map((loc) => (
+                    <div
+                      key={loc}
+                      className="flex items-center bg-[#E5F5F3] text-secondary px-2.5 py-1.5 md:px-2 md:py-1 rounded-nb mr-2 my-1 text-[13px] font-medium border border-secondary/20 shadow-sm"
+                    >
+                      {loc}
+                      <X
+                        className="ml-2 w-4 h-4 md:w-3 md:h-3 cursor-pointer hover:text-secondary-hover"
+                        onClick={(e) => { e.stopPropagation(); removeLocation(loc); }}
+                      />
                     </div>
-                  )}
-
+                  ))}
+                  <input
+                    type="text"
+                    placeholder="Search localities or landmarks..."
+                    className="flex-1 outline-none text-[15px] md:text-[14px] text-text-main placeholder-text-muted/60 min-w-[200px] py-2"
+                  />
+                </div>
+  
+                {/* Search Button */}
+                <button 
+                  onClick={handleSearch}
+                  className="bg-primary hover:bg-primary-hover text-white px-8 h-[60px] md:h-auto flex items-center justify-center gap-2 font-semibold text-[16px] transition-colors duration-200 whitespace-nowrap w-full md:w-auto md:min-w-[140px]"
+                >
+                  <Search className="w-5 h-5" />
+                  Search
+                </button>
               </div>
-
-              {/* Location Input Area */}
-              <div className="flex-1 flex flex-wrap items-center px-3 py-2 min-h-[54px] bg-white relative">
-                {locations.map((loc) => (
-                  <div
-                    key={loc}
-                    className="flex items-center bg-[#E5F5F3] text-secondary px-2 py-1 rounded-nb mr-2 my-1 text-[13px] font-medium border border-secondary/20"
-                  >
-                    {loc}
-                    <X
-                      className="ml-1 w-3 h-3 cursor-pointer hover:text-secondary-hover"
-                      onClick={() => removeLocation(loc)}
-                    />
-                  </div>
-                ))}
-                <input
-                  type="text"
-                  placeholder="Search upto 3 localities or landmarks"
-                  className="flex-1 outline-none text-[14px] text-text-main placeholder-text-muted/60 min-w-[200px]"
-                />
+              
+              {/* Filter Pills / Quick Settings */}
+              <div className="flex flex-wrap items-center justify-center gap-3 md:gap-6 mt-4">
+                 <label className="flex items-center gap-2 cursor-pointer group px-3 py-1 bg-page-bg/50 md:bg-transparent rounded-full md:rounded-none">
+                    <input type="radio" name="property_type" defaultChecked className="accent-primary w-4 h-4" />
+                    <span className="text-[13px] text-text-muted group-hover:text-text-main">Full House</span>
+                 </label>
+                 <label className="flex items-center gap-2 cursor-pointer group px-3 py-1 bg-page-bg/50 md:bg-transparent rounded-full md:rounded-none">
+                    <input type="radio" name="property_type" className="accent-primary w-4 h-4" />
+                    <span className="text-[13px] text-text-muted group-hover:text-text-main">PG/Hostel</span>
+                 </label>
+                 <label className="flex items-center gap-2 cursor-pointer group border-t md:border-t-0 md:border-l pt-3 md:pt-0 md:pl-6 border-page-border w-full md:w-auto justify-center">
+                    <span className="text-[13px] text-text-main font-medium">BHK Type</span>
+                    <div className="flex items-center gap-2 bg-page-bg px-4 py-1.5 md:px-3 md:py-1 rounded-[16px] text-[12px] cursor-pointer hover:bg-page-border/40 transition-colors">
+                      Select BHK Type <ChevronDown size={14} />
+                    </div>
+                 </label>
               </div>
-
-              {/* Search Button */}
-              <button 
-                onClick={handleSearch}
-                className="bg-primary hover:bg-primary-hover text-white px-8 h-[54px] md:h-auto flex items-center justify-center gap-2 font-semibold text-[16px] transition-colors duration-200 whitespace-nowrap min-w-[140px]"
-              >
-                <Search className="w-5 h-5" />
-                Search
-              </button>
             </div>
-            
-            {/* Filter Pills / Quick Settings */}
-            <div className="flex flex-wrap items-center justify-center gap-6 mt-4">
-               <label className="flex items-center gap-2 cursor-pointer group">
-                  <input type="radio" name="property_type" defaultChecked className="accent-primary w-4 h-4" />
-                  <span className="text-[13px] text-text-muted group-hover:text-text-main">Full House</span>
-               </label>
-               <label className="flex items-center gap-2 cursor-pointer group">
-                  <input type="radio" name="property_type" className="accent-primary w-4 h-4" />
-                  <span className="text-[13px] text-text-muted group-hover:text-text-main">PG/Hostel</span>
-               </label>
-               <label className="flex items-center gap-2 cursor-pointer group border-l pl-6 border-page-border">
-                  <span className="text-[13px] text-text-main font-medium">BHK Type</span>
-                  <div className="flex items-center gap-2 bg-page-bg px-3 py-1 rounded-[16px] text-[12px] cursor-pointer hover:bg-page-border/40">
-                    Select BHK Type <ChevronDown size={14} />
-                  </div>
-               </label>
-            </div>
-          </div>
         </div>
 
         {/* Trust Badges */}
