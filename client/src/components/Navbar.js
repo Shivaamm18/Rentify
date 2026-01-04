@@ -1,23 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
-import { HiMenu, HiX, HiUserCircle, HiHome, HiOfficeBuilding, HiPlus, HiShieldCheck, HiLogout } from 'react-icons/hi';
-import { motion, AnimatePresence } from 'framer-motion';
+import { HiMenu, HiX, HiLogout } from 'react-icons/hi';
+import { AnimatePresence, motion } from 'framer-motion';
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isScrolled, setIsScrolled] = useState(false);
   const { user, isAuthenticated, logout } = useAuth();
   const navigate = useNavigate();
-  const location = useLocation();
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
 
   const handleLogout = () => {
     logout();
@@ -25,173 +15,113 @@ const Navbar = () => {
     setIsMenuOpen(false);
   };
 
-  const navLinks = [
-    { name: 'Home', path: '/', icon: <HiHome /> },
-    { name: 'Properties', path: '/properties', icon: <HiOfficeBuilding /> },
-  ];
-
-  if (isAuthenticated) {
-    if (user?.role === 'owner') {
-      navLinks.push({ name: 'Add Property', path: '/add-property', icon: <HiPlus /> });
-    }
-    if (user?.role === 'admin') {
-      navLinks.push({ name: 'Admin Panel', path: '/admin', icon: <HiShieldCheck /> });
-    }
-    navLinks.push({ name: 'My Listings', path: '/my-properties', icon: <HiOfficeBuilding /> });
-  }
-
-  const isActive = (path) => location.pathname === path;
-
   return (
-    <nav 
-      className={`sticky top-0 z-50 transition-all duration-300 ${
-        isScrolled ? 'glass py-2' : 'bg-white py-4'
-      }`}
-    >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-12">
-          <div className="flex items-center">
-            <Link to="/" className="flex-shrink-0 flex items-center group">
-              <div className="w-10 h-10 bg-primary-600 rounded-xl flex items-center justify-center mr-3 group-hover:rotate-12 transition-transform shadow-lg shadow-primary-500/30">
-                <HiHome className="text-white w-6 h-6" />
-              </div>
-              <span className="text-2xl font-bold text-slate-900 tracking-tight">
-                Rentify<span className="text-primary-600">.</span>
-              </span>
-            </Link>
-            
-            <div className="hidden md:ml-10 md:flex md:space-x-1">
-              {navLinks.map((link) => (
-                <Link
-                  key={link.path}
-                  to={link.path}
-                  className={`px-4 py-2 rounded-xl text-sm font-semibold transition-all ${
-                    isActive(link.path) 
-                      ? 'bg-primary-50 text-primary-600' 
-                      : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900'
-                  }`}
-                >
-                  {link.name}
-                </Link>
-              ))}
-            </div>
-          </div>
+    <nav className="sticky top-0 z-[1000] w-full bg-[#FFFFFF] border-b border-[#E2E2E2] h-[64px] flex items-center shadow-[0_1px_3px_0_rgba(0,0,0,0.1)]">
+      <div className="container mx-auto px-4 lg:px-6 flex items-center justify-between">
+        
+        {/* Left Section: Logo */}
+        <div className="flex items-center">
+          <Link to="/" className="block">
+            <span className="text-2xl font-bold text-[#464646] tracking-tight">
+              Rentify<span className="text-[#FD3752]">.</span>
+            </span>
+          </Link>
+        </div>
 
-          <div className="hidden md:flex md:items-center md:space-x-4">
+        {/* Right Section: Navigation Links & CTA */}
+        <div className="flex items-center gap-4 md:gap-8">
+          
+          {/* Desktop Navigation */}
+          <div className="hidden md:flex items-center gap-6">
+            <Link 
+              to={isAuthenticated ? (user?.role === 'owner' ? '/add-property' : '/properties') : '/register'}
+              className="group flex flex-col items-center justify-center transition-colors duration-200"
+            >
+              <div className="flex items-center gap-1.5 py-1 px-3 border border-[#FD3752] rounded-[4px] bg-white group-hover:bg-[#FD3752]/5 transition-all">
+                <span className="text-[#464646] text-[13px] font-medium uppercase tracking-wide">
+                  {user?.role === 'owner' ? 'Post Property' : 'Find Home'}
+                </span>
+                <span className="bg-[#FD3752] text-white text-[10px] px-1.5 py-0.5 rounded-[2px] font-bold">FREE</span>
+              </div>
+            </Link>
+
             {isAuthenticated ? (
-              <div className="flex items-center space-x-3">
-                <Link
-                  to="/profile"
-                  className={`flex items-center space-x-2 px-3 py-1.5 rounded-xl border border-transparent transition-all hover:bg-slate-50 ${
-                    isActive('/profile') ? 'bg-slate-50 border-slate-200' : ''
-                  }`}
+              <div className="flex items-center gap-4">
+                <Link 
+                  to="/profile" 
+                  className="text-[#464646] text-[14px] font-medium hover:text-[#FD3752] transition-colors"
                 >
-                  <div className="w-8 h-8 rounded-full bg-primary-100 flex items-center justify-center text-primary-600 font-bold uppercase">
-                    {user?.name?.[0]}
-                  </div>
-                  <span className="text-sm font-semibold text-slate-700">{user?.name}</span>
+                  {user?.name}
                 </Link>
-                <button
+                <button 
                   onClick={handleLogout}
-                  className="p-2 text-slate-400 hover:text-red-500 hover:bg-red-50 rounded-xl transition-all"
+                  className="text-[#464646] hover:text-[#FD3752] transition-colors"
                   title="Logout"
                 >
-                  <HiLogout className="w-6 h-6" />
+                  <HiLogout size={20} />
                 </button>
               </div>
             ) : (
-              <div className="flex items-center space-x-3">
-                <Link
-                  to="/login"
-                  className="px-4 py-2 text-sm font-semibold text-slate-600 hover:text-slate-900 transition-colors"
+              <>
+                <Link 
+                  to="/login" 
+                  className="text-[#464646] text-[14px] font-medium hover:text-[#FD3752] transition-colors uppercase tracking-wide"
                 >
-                  Login
+                  Log in
                 </Link>
-                <Link
-                  to="/register"
-                  className="btn-primary py-2 px-5"
+                <Link 
+                  to="/register" 
+                  className="text-[#464646] text-[14px] font-medium hover:text-[#FD3752] transition-colors uppercase tracking-wide"
                 >
-                  Sign Up
+                  Sign up
                 </Link>
-              </div>
+              </>
             )}
           </div>
 
-          <div className="flex items-center md:hidden">
-            <button
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="p-2 rounded-xl text-slate-600 hover:bg-slate-100 transition-colors"
-            >
-              {isMenuOpen ? <HiX className="w-6 h-6" /> : <HiMenu className="w-6 h-6" />}
-            </button>
+          {/* Menu Icon for Mobile */}
+          <button 
+            className="md:hidden p-2 text-[#464646]"
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+          >
+            {isMenuOpen ? <HiX size={24} /> : <HiMenu size={24} />}
+          </button>
+
+          {/* Menu (Hamburger equivalent style) */}
+          <div className="hidden md:flex items-center gap-2 group cursor-pointer" onClick={() => navigate('/properties')}>
+             <div className="flex flex-col gap-[3px]">
+              <span className="w-5 h-[2px] bg-[#464646] group-hover:bg-[#FD3752] transition-colors"></span>
+              <span className="w-5 h-[2px] bg-[#464646] group-hover:bg-[#FD3752] transition-colors"></span>
+              <span className="w-5 h-[2px] bg-[#464646] group-hover:bg-[#FD3752] transition-colors"></span>
+            </div>
+            <span className="text-[#464646] text-[14px] font-medium group-hover:text-[#FD3752] transition-colors uppercase tracking-wide">Properties</span>
           </div>
+
         </div>
       </div>
 
+      {/* Mobile Menu */}
       <AnimatePresence>
         {isMenuOpen && (
           <motion.div
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            className="absolute top-full left-0 w-full bg-white border-b border-slate-100 md:hidden shadow-xl"
+            className="absolute top-[64px] left-0 w-full bg-white border-b border-[#E2E2E2] md:hidden shadow-lg p-4 space-y-4"
           >
-            <div className="px-4 pt-2 pb-6 space-y-2">
-              {navLinks.map((link) => (
-                <Link
-                  key={link.path}
-                  to={link.path}
-                  onClick={() => setIsMenuOpen(false)}
-                  className={`flex items-center px-4 py-3 rounded-xl text-base font-semibold transition-colors ${
-                    isActive(link.path)
-                      ? 'bg-primary-50 text-primary-600'
-                      : 'text-slate-600 hover:bg-slate-50'
-                  }`}
-                >
-                  <span className="mr-3 text-xl opacity-70">{link.icon}</span>
-                  {link.name}
-                </Link>
-              ))}
-              
-              <div className="pt-4 mt-4 border-t border-slate-100">
-                {isAuthenticated ? (
-                  <div className="space-y-2">
-                    <Link
-                      to="/profile"
-                      onClick={() => setIsMenuOpen(false)}
-                      className="flex items-center px-4 py-3 rounded-xl text-base font-semibold text-slate-600 hover:bg-slate-50"
-                    >
-                      <HiUserCircle className="mr-3 text-xl opacity-70" />
-                      Profile
-                    </Link>
-                    <button
-                      onClick={handleLogout}
-                      className="flex w-full items-center px-4 py-3 rounded-xl text-base font-semibold text-red-600 hover:bg-red-50"
-                    >
-                      <HiLogout className="mr-3 text-xl opacity-70" />
-                      Logout
-                    </button>
-                  </div>
-                ) : (
-                  <div className="flex flex-col space-y-3">
-                    <Link
-                      to="/login"
-                      onClick={() => setIsMenuOpen(false)}
-                      className="flex items-center justify-center px-4 py-3 rounded-xl text-base font-semibold text-slate-600 border border-slate-200"
-                    >
-                      Login
-                    </Link>
-                    <Link
-                      to="/register"
-                      onClick={() => setIsMenuOpen(false)}
-                      className="flex items-center justify-center px-4 py-3 rounded-xl text-base font-semibold text-white bg-primary-600 shadow-lg shadow-primary-500/30"
-                    >
-                      Sign Up
-                    </Link>
-                  </div>
-                )}
-              </div>
-            </div>
+            <Link to="/properties" className="block text-[#464646] font-medium text-lg border-b pb-2" onClick={() => setIsMenuOpen(false)}>Properties</Link>
+            {isAuthenticated ? (
+              <>
+                <Link to="/profile" className="block text-[#464646] font-medium text-lg border-b pb-2" onClick={() => setIsMenuOpen(false)}>Profile</Link>
+                <Link to="/my-properties" className="block text-[#464646] font-medium text-lg border-b pb-2" onClick={() => setIsMenuOpen(false)}>My Listings</Link>
+                <button onClick={handleLogout} className="block w-full text-left text-[#FD3752] font-medium text-lg pt-2">Logout</button>
+              </>
+            ) : (
+              <>
+                <Link to="/login" className="block text-[#464646] font-medium text-lg border-b pb-2" onClick={() => setIsMenuOpen(false)}>Log in</Link>
+                <Link to="/register" className="block text-[#464646] font-medium text-lg pt-2" onClick={() => setIsMenuOpen(false)}>Sign up</Link>
+              </>
+            )}
           </motion.div>
         )}
       </AnimatePresence>

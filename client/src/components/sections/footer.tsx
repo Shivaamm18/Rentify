@@ -1,18 +1,17 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { FaFacebook, FaTwitter, FaInstagram, FaYoutube, FaLinkedin } from 'react-icons/fa';
+import { Facebook, Twitter, Instagram, Youtube, Linkedin } from 'lucide-react';
 
 const Footer = () => {
   const footerLinks = [
     {
       title: "Find Property",
       links: [
-        { name: "Rent", href: "/properties" },
-        { name: "Buy", href: "/properties" },
-        { name: "Commercial", href: "/properties" },
-        { name: "PG / Hostels", href: "/properties" },
-        { name: "Flatmates", href: "/properties" },
-        { name: "New Projects", href: "/properties" },
+        { name: "Rent", href: "#" },
+        { name: "Buy", href: "#" },
+        { name: "Commercial", href: "#" },
+        { name: "PG / Hostels", href: "#" },
+        { name: "Flatmates", href: "#" },
+        { name: "New Projects", href: "#" },
       ]
     },
     {
@@ -63,12 +62,12 @@ const Footer = () => {
               <ul className="space-y-2">
                 {section.links.map((link, linkIdx) => (
                   <li key={linkIdx}>
-                    <Link 
-                      to={link.href} 
+                    <a 
+                      href={link.href} 
                       className="text-[#666666] hover:text-[#FD3752] text-sm transition-colors duration-200"
                     >
                       {link.name}
-                    </Link>
+                    </a>
                   </li>
                 ))}
               </ul>
@@ -112,19 +111,19 @@ const Footer = () => {
           {/* Social Links */}
           <div className="flex items-center gap-6">
             <a href="#" className="text-[#666666] hover:text-[#FD3752] transition-colors">
-              <FaFacebook size={20} />
+              <Facebook size={20} />
             </a>
             <a href="#" className="text-[#666666] hover:text-[#FD3752] transition-colors">
-              <FaTwitter size={20} />
+              <Twitter size={20} />
             </a>
             <a href="#" className="text-[#666666] hover:text-[#FD3752] transition-colors">
-              <FaInstagram size={20} />
+              <Instagram size={20} />
             </a>
             <a href="#" className="text-[#666666] hover:text-[#FD3752] transition-colors">
-              <FaYoutube size={20} />
+              <Youtube size={20} />
             </a>
             <a href="#" className="text-[#666666] hover:text-[#FD3752] transition-colors">
-              <FaLinkedin size={20} />
+              <Linkedin size={20} />
             </a>
           </div>
         </div>
@@ -135,13 +134,13 @@ const Footer = () => {
             © {new Date().getFullYear()} Rentify Technologies Solutions Pvt. Ltd.
           </p>
           <div className="flex flex-wrap justify-center gap-4 text-xs text-[#666666]">
-            <Link to="#" className="hover:text-[#FD3752]">Terms & Conditions</Link>
+            <a href="#" className="hover:text-[#FD3752]">Terms & Conditions</a>
             <span className="hidden sm:inline">|</span>
-            <Link to="#" className="hover:text-[#FD3752]">Privacy Policy</Link>
+            <a href="#" className="hover:text-[#FD3752]">Privacy Policy</a>
             <span className="hidden sm:inline">|</span>
-            <Link to="#" className="hover:text-[#FD3752]">Cookie Policy</Link>
+            <a href="#" className="hover:text-[#FD3752]">Cookie Policy</a>
             <span className="hidden sm:inline">|</span>
-            <Link to="#" className="hover:text-[#FD3752]">Trust & Safety</Link>
+            <a href="#" className="hover:text-[#FD3752]">Trust & Safety</a>
           </div>
         </div>
       </div>

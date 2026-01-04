@@ -1,18 +1,18 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { FaFacebook, FaTwitter, FaInstagram, FaYoutube, FaLinkedin } from 'react-icons/fa';
+import Image from 'next/image';
+import { Facebook, Twitter, Instagram, Youtube, Linkedin } from 'lucide-react';
 
 const Footer = () => {
   const footerLinks = [
     {
       title: "Find Property",
       links: [
-        { name: "Rent", href: "/properties" },
-        { name: "Buy", href: "/properties" },
-        { name: "Commercial", href: "/properties" },
-        { name: "PG / Hostels", href: "/properties" },
-        { name: "Flatmates", href: "/properties" },
-        { name: "New Projects", href: "/properties" },
+        { name: "Rent", href: "#" },
+        { name: "Buy", href: "#" },
+        { name: "Commercial", href: "#" },
+        { name: "PG / Hostels", href: "#" },
+        { name: "Flatmates", href: "#" },
+        { name: "New Projects", href: "#" },
       ]
     },
     {
@@ -63,12 +63,12 @@ const Footer = () => {
               <ul className="space-y-2">
                 {section.links.map((link, linkIdx) => (
                   <li key={linkIdx}>
-                    <Link 
-                      to={link.href} 
+                    <a 
+                      href={link.href} 
                       className="text-[#666666] hover:text-[#FD3752] text-sm transition-colors duration-200"
                     >
                       {link.name}
-                    </Link>
+                    </a>
                   </li>
                 ))}
               </ul>
@@ -83,10 +83,12 @@ const Footer = () => {
             <span className="text-sm font-medium text-[#464646]">Download Our App</span>
             <div className="flex gap-3">
               <a 
-                href="#" 
+                href="https://play.google.com/store/apps/details?id=com.nobroker.app" 
+                target="_blank" 
+                rel="noopener noreferrer"
                 className="hover:opacity-80 transition-opacity"
               >
-                <img 
+                <Image 
                   src="https://static.nobroker.in/static/img/logos/google-play.png" 
                   alt="Google Play Store" 
                   width={135} 
@@ -95,10 +97,12 @@ const Footer = () => {
                 />
               </a>
               <a 
-                href="#" 
+                href="https://apps.apple.com/in/app/nobroker-rent-buy-flats/id1200507200" 
+                target="_blank" 
+                rel="noopener noreferrer"
                 className="hover:opacity-80 transition-opacity"
               >
-                <img 
+                <Image 
                   src="https://static.nobroker.in/static/img/logos/app-store.png" 
                   alt="Apple App Store" 
                   width={135} 
@@ -112,19 +116,19 @@ const Footer = () => {
           {/* Social Links */}
           <div className="flex items-center gap-6">
             <a href="#" className="text-[#666666] hover:text-[#FD3752] transition-colors">
-              <FaFacebook size={20} />
+              <Facebook size={20} />
             </a>
             <a href="#" className="text-[#666666] hover:text-[#FD3752] transition-colors">
-              <FaTwitter size={20} />
+              <Twitter size={20} />
             </a>
             <a href="#" className="text-[#666666] hover:text-[#FD3752] transition-colors">
-              <FaInstagram size={20} />
+              <Instagram size={20} />
             </a>
             <a href="#" className="text-[#666666] hover:text-[#FD3752] transition-colors">
-              <FaYoutube size={20} />
+              <Youtube size={20} />
             </a>
             <a href="#" className="text-[#666666] hover:text-[#FD3752] transition-colors">
-              <FaLinkedin size={20} />
+              <Linkedin size={20} />
             </a>
           </div>
         </div>
@@ -132,16 +136,16 @@ const Footer = () => {
         {/* Bottom Bar */}
         <div className="pt-6 border-t border-[#D4D4D4] flex flex-col md:flex-row justify-between items-center gap-4 text-center md:text-left">
           <p className="text-[#666666] text-xs">
-            © {new Date().getFullYear()} Rentify Technologies Solutions Pvt. Ltd.
+            © {new Date().getFullYear()} NoBroker Technologies Solutions Pvt. Ltd.
           </p>
           <div className="flex flex-wrap justify-center gap-4 text-xs text-[#666666]">
-            <Link to="#" className="hover:text-[#FD3752]">Terms & Conditions</Link>
+            <a href="#" className="hover:text-[#FD3752]">Terms & Conditions</a>
             <span className="hidden sm:inline">|</span>
-            <Link to="#" className="hover:text-[#FD3752]">Privacy Policy</Link>
+            <a href="#" className="hover:text-[#FD3752]">Privacy Policy</a>
             <span className="hidden sm:inline">|</span>
-            <Link to="#" className="hover:text-[#FD3752]">Cookie Policy</Link>
+            <a href="#" className="hover:text-[#FD3752]">Cookie Policy</a>
             <span className="hidden sm:inline">|</span>
-            <Link to="#" className="hover:text-[#FD3752]">Trust & Safety</Link>
+            <a href="#" className="hover:text-[#FD3752]">Trust & Safety</a>
           </div>
         </div>
       </div>

@@ -1,0 +1,196 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme {
+  --color-background: #F2F2F2;
+  --color-foreground: #464646;
+
+  --color-card: #FFFFFF;
+  --color-card-foreground: #464646;
+
+  --color-popover: #FFFFFF;
+  --color-popover-foreground: #464646;
+
+  --color-primary: #FD3752;
+  --color-primary-foreground: #FFFFFF;
+
+  --color-secondary: #009587;
+  --color-secondary-foreground: #FFFFFF;
+
+  --color-muted: #F2F2F2;
+  --color-muted-foreground: #666666;
+
+  --color-accent: #F2F2F2;
+  --color-accent-foreground: #464646;
+
+  --color-destructive: #D32F2F;
+  --color-destructive-foreground: #FFFFFF;
+
+  --color-border: #D4D4D4;
+  --color-input: #D4D4D4;
+  --color-ring: #009587;
+
+  --color-chart-1: #FD3752;
+  --color-chart-2: #009587;
+  --color-chart-3: #464646;
+  --color-chart-4: #666666;
+  --color-chart-5: #D4D4D4;
+
+  --color-sidebar: #FFFFFF;
+  --color-sidebar-foreground: #464646;
+  --color-sidebar-primary: #FD3752;
+  --color-sidebar-primary-foreground: #FFFFFF;
+  --color-sidebar-accent: #F2F2F2;
+  --color-sidebar-accent-foreground: #464646;
+  --color-sidebar-border: #D4D4D4;
+  --color-sidebar-ring: #009587;
+
+  --radius-lg: 0.5rem;
+  --radius-md: 0.25rem;
+  --radius-sm: 0.125rem;
+
+  --font-sans: "Roboto", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Roboto", ui-sans-serif, system-ui, sans-serif;
+
+  --shadow-card: 0 1px 3px 0 rgba(0,0,0,0.1);
+  --shadow-card-hover: 0 4px 8px 0 rgba(0,0,0,0.15);
+
+  --animate-accordion-down: accordion-down 0.2s ease-out;
+  --animate-accordion-up: accordion-up 0.2s ease-out;
+
+  @keyframes accordion-down {
+    from {
+      height: 0;
+    }
+    to {
+      height: var(--radix-accordion-content-height);
+    }
+  }
+  @keyframes accordion-up {
+    from {
+      height: var(--radix-accordion-content-height);
+    }
+    to {
+      height: 0;
+    }
+  }
+}
+
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: #D4D4D4;
+  }
+
+  :root {
+    --background: #F2F2F2;
+    --foreground: #464646;
+    --card: #FFFFFF;
+    --card-foreground: #464646;
+    --popover: #FFFFFF;
+    --popover-foreground: #464646;
+    --primary: #FD3752;
+    --primary-foreground: #FFFFFF;
+    --secondary: #009587;
+    --secondary-foreground: #FFFFFF;
+    --muted: #F2F2F2;
+    --muted-foreground: #666666;
+    --accent: #F2F2F2;
+    --accent-foreground: #464646;
+    --destructive: #D32F2F;
+    --destructive-foreground: #FFFFFF;
+    --border: #D4D4D4;
+    --input: #D4D4D4;
+    --ring: #009587;
+    --radius: 0.25rem;
+    --sidebar-background: #FFFFFF;
+    --sidebar-foreground: #464646;
+    --sidebar-primary: #FD3752;
+    --sidebar-primary-foreground: #FFFFFF;
+    --sidebar-accent: #F2F2F2;
+    --sidebar-accent-foreground: #464646;
+    --sidebar-border: #D4D4D4;
+    --sidebar-ring: #009587;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  h1 {
+    font-size: 24px;
+    font-weight: 500;
+    color: #464646;
+  }
+
+  h2 {
+    font-size: 18px;
+    font-weight: 500;
+    color: #464646;
+  }
+
+  h3 {
+    font-size: 16px;
+    font-weight: 500;
+    color: #464646;
+  }
+
+  p {
+    color: #464646;
+  }
+
+  .container {
+    width: 100%;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .text-muted {
+    color: #666666;
+    font-size: 12px;
+  }
+
+  .btn-primary {
+    background-color: #FD3752;
+    color: #FFFFFF;
+    font-weight: 600;
+    padding: 10px 20px;
+    border-radius: 4px;
+    transition: background-color 0.2s;
+  }
+
+  .btn-primary:hover {
+    background-color: #E62E46;
+  }
+
+  .card-shadow {
+    box-shadow: 0 1px 3px 0 rgba(0,0,0,0.1);
+    background-color: #FFFFFF;
+    border-radius: 4px;
+  }
+
+  .card-shadow:hover {
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.15);
+  }
+}
