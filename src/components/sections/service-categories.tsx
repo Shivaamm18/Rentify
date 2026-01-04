@@ -22,12 +22,6 @@ const services: ServiceItem[] = [
     href: '#',
   },
   {
-    id: 'cleaning-services',
-    label: 'Cleaning & Painting',
-    iconSrc: 'https://static.nobroker.in/static/img/commercial/commercial_home_v2.png',
-    href: '#',
-  },
-  {
     id: 'rent-agreement',
     label: 'Rent Agreement',
     iconSrc: 'https://static.nobroker.in/static/img/rent/rent_home_v2.png',

@@ -2,8 +2,6 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { 
   FileText, 
-  Truck, 
-  Paintbrush, 
   ShieldCheck, 
   Receipt, 
   UserCheck,
@@ -25,20 +23,6 @@ const services = [
     icon: <FileText className="w-8 h-8 text-secondary" />,
     href: '#',
     color: 'bg-teal-50'
-  },
-  {
-    id: 'packers-movers',
-    label: 'Packers & Movers',
-    icon: <Truck className="w-8 h-8 text-blue-500" />,
-    href: '#',
-    color: 'bg-blue-50'
-  },
-  {
-    id: 'cleaning-painting',
-    label: 'Painting & Cleaning',
-    icon: <Paintbrush className="w-8 h-8 text-orange-500" />,
-    href: '#',
-    color: 'bg-orange-50'
   },
   {
     id: 'legal-services',
@@ -82,7 +66,7 @@ const ServiceCategories = () => {
             One-stop solution for all your real estate needs
           </p>
           
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-8 gap-4 md:gap-6 w-full">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4 md:gap-6 w-full">
             {services.map((service) => (
               <Link
                 key={service.id}
