@@ -127,13 +127,6 @@ export default function HeroSearch() {
              <p className="text-[14px] font-medium text-[#464646]">Free Listing</p>
              <p className="text-[11px] text-[#666666]">Post property in minutes</p>
           </div>
-          <div className="flex flex-col items-center gap-1 group">
-             <div className="bg-white p-2 rounded-lg shadow-sm group-hover:shadow-md transition-shadow">
-               <div className="text-[#009587] font-bold text-xl px-2">45k+</div>
-             </div>
-             <p className="text-[14px] font-medium text-[#464646]">Verified Properties</p>
-             <p className="text-[11px] text-[#666666]">Checked by our team</p>
-          </div>
         </div>
       </div>
 

@@ -58,13 +58,6 @@ const WhyRentify = () => {
             </div>
           ))}
         </div>
-
-        {/* Bottom CTA / Divider Decorative */}
-        <div className="mt-12 pt-8 border-t border-[#F2F2F2] flex justify-center">
-            <div className="bg-[#F2F2F2] px-6 py-2 rounded-full text-[12px] font-medium text-[#666666] uppercase tracking-wider">
-                Trusted by 10 million+ users
-            </div>
-        </div>
       </div>
 
       <style jsx global>{`

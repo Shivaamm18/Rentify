@@ -135,13 +135,6 @@ const HeroSearch = () => {
              <p className="text-[14px] font-medium text-text-main">Free Listing</p>
              <p className="text-[11px] text-text-muted">Post property in minutes</p>
           </div>
-          <div className="flex flex-col items-center gap-1 group">
-             <div className="bg-white p-2 rounded-lg shadow-soft group-hover:shadow-heavy transition-shadow">
-               <div className="text-secondary font-bold text-xl px-2">45k+</div>
-             </div>
-             <p className="text-[14px] font-medium text-text-main">Verified Properties</p>
-             <p className="text-[11px] text-text-muted">Checked by our team</p>
-          </div>
         </div>
       </div>
 

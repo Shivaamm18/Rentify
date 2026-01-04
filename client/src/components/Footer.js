@@ -76,39 +76,8 @@ const Footer = () => {
           ))}
         </div>
 
-        {/* Apps and Social Media Row */}
-        <div className="flex flex-col md:flex-row items-center justify-between py-8 border-t border-[#D4D4D4] gap-6">
-          {/* App Downloads */}
-          <div className="flex flex-col sm:flex-row items-center gap-4">
-            <span className="text-sm font-medium text-[#464646]">Download Our App</span>
-            <div className="flex gap-3">
-              <a 
-                href="#" 
-                className="hover:opacity-80 transition-opacity"
-              >
-                <img 
-                  src="https://static.nobroker.in/static/img/logos/google-play.png" 
-                  alt="Google Play Store" 
-                  width={135} 
-                  height={40} 
-                  className="h-10 w-auto object-contain"
-                />
-              </a>
-              <a 
-                href="#" 
-                className="hover:opacity-80 transition-opacity"
-              >
-                <img 
-                  src="https://static.nobroker.in/static/img/logos/app-store.png" 
-                  alt="Apple App Store" 
-                  width={135} 
-                  height={40} 
-                  className="h-10 w-auto object-contain"
-                />
-              </a>
-            </div>
-          </div>
-
+        {/* Social Media Row */}
+        <div className="flex flex-col md:flex-row items-center justify-end py-8 border-t border-[#D4D4D4] gap-6">
           {/* Social Links */}
           <div className="flex items-center gap-6">
             <a href="#" className="text-[#666666] hover:text-[#FD3752] transition-colors">
