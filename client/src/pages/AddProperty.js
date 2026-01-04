@@ -228,7 +228,7 @@ const AddProperty = () => {
                     value={title}
                     onChange={onChange}
                     className="w-full px-4 py-3 bg-slate-50 border border-slate-100 rounded-xl focus:ring-2 focus:ring-primary-500 focus:bg-white transition-all text-slate-900"
-                    placeholder="e.g. Spacious 2 BHK Apartment in Powai"
+                    placeholder="e.g. Spacious 2 BHK Apartment in Whitefield"
                   />
                 </div>
 

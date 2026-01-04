@@ -6,8 +6,8 @@ type TabType = 'Buy' | 'Rent' | 'Commercial';
 
 export default function HeroSearch() {
   const [activeTab, setActiveTab] = useState<TabType>('Buy');
-  const [selectedCity, setSelectedCity] = useState('Mumbai');
-  const [locations, setLocations] = useState<string[]>(['Andheri East', 'Powai']);
+    const [selectedCity, setSelectedCity] = useState('Bangalore');
+    const [locations, setLocations] = useState<string[]>(['Whitefield', 'Electronic City']);
 
   const tabs: TabType[] = ['Buy', 'Rent', 'Commercial'];
 

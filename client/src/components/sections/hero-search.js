@@ -4,8 +4,8 @@ import { Search, MapPin, X, ChevronDown } from 'lucide-react';
 
 const HeroSearch = () => {
   const [activeTab, setActiveTab] = useState('Rent');
-  const [selectedCity] = useState('Mumbai');
-  const [locations, setLocations] = useState(['Andheri East', 'Powai']);
+  const [selectedCity] = useState('Bangalore');
+  const [locations, setLocations] = useState(['Whitefield', 'Electronic City']);
   const navigate = useNavigate();
 
   const tabs = ['Buy', 'Rent', 'Commercial'];
