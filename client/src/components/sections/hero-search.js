@@ -10,7 +10,12 @@ const HeroSearch = () => {
   const [locations, setLocations] = useState(['Whitefield', 'Electronic City']);
   const [isCityDropdownOpen, setIsCityDropdownOpen] = useState(false);
   const [isDetectingLocation, setIsDetectingLocation] = useState(false);
+  const [citySearch, setCitySearch] = useState('');
   const navigate = useNavigate();
+
+  const filteredCities = INDIAN_CITIES.filter(city => 
+    city.toLowerCase().includes(citySearch.toLowerCase())
+  );
 
   const tabs = ['Buy', 'Rent', 'Commercial'];
 
@@ -94,29 +99,48 @@ const HeroSearch = () => {
                 </div>
                 <ChevronDown className={`ml-auto w-4 h-4 text-text-muted group-hover:text-text-main transition-transform ${isCityDropdownOpen ? 'rotate-180' : ''}`} />
                 
-                {isCityDropdownOpen && (
-                  <div className="absolute top-full left-0 w-64 bg-white shadow-heavy rounded-b-nb border border-page-border z-50 mt-[1px] max-h-[300px] overflow-y-auto">
-                    <div 
-                      className="flex items-center gap-2 p-3 border-b border-page-border hover:bg-page-bg text-primary font-medium"
-                      onClick={handleDetectLocation}
-                    >
-                      <Navigation className={`w-4 h-4 ${isDetectingLocation ? 'animate-pulse' : ''}`} />
-                      {isDetectingLocation ? 'Detecting...' : 'Detect My Location'}
-                    </div>
-                    {INDIAN_CITIES.map((city) => (
-                      <div
-                        key={city}
-                        className="p-3 hover:bg-page-bg text-[14px] text-text-main text-left border-b border-page-bg last:border-0"
-                        onClick={() => {
-                          setSelectedCity(city);
-                          setIsCityDropdownOpen(false);
-                        }}
-                      >
-                        {city}
+                  {isCityDropdownOpen && (
+                    <div className="absolute top-full left-0 w-64 bg-white shadow-heavy rounded-b-nb border border-page-border z-50 mt-[1px] flex flex-col">
+                      <div className="p-2 border-b border-page-border sticky top-0 bg-white z-10">
+                        <input
+                          type="text"
+                          placeholder="Search city..."
+                          value={citySearch}
+                          onChange={(e) => setCitySearch(e.target.value)}
+                          onClick={(e) => e.stopPropagation()}
+                          className="w-full px-3 py-2 bg-page-bg border border-page-border rounded-nb text-[13px] outline-none focus:border-primary"
+                        />
                       </div>
-                    ))}
-                  </div>
-                )}
+                      <div className="max-h-[250px] overflow-y-auto">
+                        <div 
+                          className="flex items-center gap-2 p-3 border-b border-page-border hover:bg-page-bg text-primary font-medium cursor-pointer"
+                          onClick={handleDetectLocation}
+                        >
+                          <Navigation className={`w-4 h-4 ${isDetectingLocation ? 'animate-pulse' : ''}`} />
+                          {isDetectingLocation ? 'Detecting...' : 'Detect My Location'}
+                        </div>
+                        {filteredCities.length > 0 ? (
+                          filteredCities.map((city) => (
+                            <div
+                              key={city}
+                              className="p-3 hover:bg-page-bg text-[14px] text-text-main text-left border-b border-page-bg last:border-0 cursor-pointer"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                setSelectedCity(city);
+                                setIsCityDropdownOpen(false);
+                                setCitySearch('');
+                              }}
+                            >
+                              {city}
+                            </div>
+                          ))
+                        ) : (
+                          <div className="p-3 text-[13px] text-text-muted text-center">No cities found</div>
+                        )}
+                      </div>
+                    </div>
+                  )}
+
               </div>
 
               {/* Location Input Area */}
