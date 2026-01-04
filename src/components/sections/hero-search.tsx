@@ -113,20 +113,20 @@ export default function HeroSearch() {
         </div>
 
         {/* Trust Badges */}
-        <div className="mt-12 flex flex-wrap justify-center gap-8 md:gap-16 border-t border-[#e2e2e2] pt-8 w-full max-w-[800px]">
+        <div className="mt-12 flex flex-wrap justify-center gap-8 md:gap-16 bg-white/90 backdrop-blur-sm rounded-[4px] p-6 shadow-lg w-full max-w-[850px]">
           <div className="flex flex-col items-center gap-1 group">
              <div className="bg-white p-2 rounded-lg shadow-sm group-hover:shadow-md transition-shadow">
                <span className="text-[#009587] font-bold text-xl px-2">₹0</span>
              </div>
-             <p className="text-[14px] font-medium text-[#464646]">No Brokerage</p>
-             <p className="text-[11px] text-[#666666]">Directly from Owner</p>
+             <p className="text-[14px] font-bold text-black">No Brokerage</p>
+             <p className="text-[11px] font-medium text-black/80">Directly from Owner</p>
           </div>
           <div className="flex flex-col items-center gap-1 group">
              <div className="bg-white p-2 rounded-lg shadow-sm group-hover:shadow-md transition-shadow">
                <MapPin className="text-[#2563EB] w-6 h-6" />
              </div>
-             <p className="text-[14px] font-medium text-[#464646]">Free Listing</p>
-             <p className="text-[11px] text-[#666666]">Post property in minutes</p>
+             <p className="text-[14px] font-bold text-black">Free Listing</p>
+             <p className="text-[11px] font-medium text-black/80">Post property in minutes</p>
           </div>
         </div>
       </div>

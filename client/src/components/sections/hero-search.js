@@ -122,20 +122,20 @@ const HeroSearch = () => {
         </div>
 
         {/* Trust Badges */}
-        <div className="mt-12 flex flex-wrap justify-center gap-8 md:gap-16 border-t border-page-border pt-8 w-full max-w-[800px]">
+        <div className="mt-12 flex flex-wrap justify-center gap-8 md:gap-16 bg-white/90 backdrop-blur-sm rounded-nb p-6 shadow-heavy w-full max-w-[850px]">
           <div className="flex flex-col items-center gap-1 group">
              <div className="bg-white p-2 rounded-lg shadow-soft group-hover:shadow-heavy transition-shadow">
                <span className="text-secondary font-bold text-xl px-2">₹0</span>
              </div>
-             <p className="text-[14px] font-medium text-text-main">No Brokerage</p>
-             <p className="text-[11px] text-text-muted">Directly from Owner</p>
+             <p className="text-[14px] font-bold text-black">No Brokerage</p>
+             <p className="text-[11px] font-medium text-black/80">Directly from Owner</p>
           </div>
           <div className="flex flex-col items-center gap-1 group">
              <div className="bg-white p-2 rounded-lg shadow-soft group-hover:shadow-heavy transition-shadow">
                <MapPin className="text-primary w-6 h-6" />
              </div>
-             <p className="text-[14px] font-medium text-text-main">Free Listing</p>
-             <p className="text-[11px] text-text-muted">Post property in minutes</p>
+             <p className="text-[14px] font-bold text-black">Free Listing</p>
+             <p className="text-[11px] font-medium text-black/80">Post property in minutes</p>
           </div>
         </div>
       </div>
