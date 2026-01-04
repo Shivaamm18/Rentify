@@ -32,13 +32,13 @@ const HeroSearch = () => {
             className="w-full h-full object-cover object-center opacity-100 pointer-events-none"
           />
           {/* Subtle Overlay to ensure text readability */}
-          <div className="absolute inset-0 bg-black/20"></div>
+          <div className="absolute inset-0 bg-black/60"></div>
         </div>
 
       <div className="container relative z-10 flex flex-col items-center text-center px-4 max-w-[1200px]">
         {/* Headline */}
-        <h1 className="text-[24px] md:text-[32px] font-medium text-text-main mb-8 leading-tight">
-          World&apos;s Largest Selection of <span className="text-primary font-bold">Zero Brokerage</span> Properties
+        <h1 className="text-[24px] md:text-[32px] font-bold text-white mb-8 leading-tight drop-shadow-lg">
+          World&apos;s Largest Selection of <span className="text-primary">Zero Brokerage</span> Properties
         </h1>
 
         {/* Search Tab Interface */}
