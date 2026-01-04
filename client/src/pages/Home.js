@@ -24,19 +24,7 @@ const Home = () => {
               <div className="w-[60px] h-[3px] bg-[#FD3752] mx-auto"></div>
             </div>
             <div className="flex flex-col gap-6 items-center">
-            <PropertyListingCard 
-              title="Modern 3 BHK Flat in Prime Location"
-              location="Gachibowli, Hyderabad, 500032"
-              price="₹ 85,000 / month"
-              area="1,850 sqft"
-              direction="West"
-              type="3 BHK"
-              bathrooms="3"
-              parking="Car & Bike"
-              description="Beautifully designed 3 BHK flat with modern amenities. Features a spacious living room, modular kitchen, and three well-ventilated bedrooms. Located close to major IT hubs."
-              ownerName="Rajesh Kumar"
-              imageUrl="https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-            />
+            {/* User Requested Property at the Top */}
             <PropertyListingCard 
               title="Spacious 2 BHK Apartment near IT Park"
               location="Whitefield, Bangalore, 560066"
@@ -48,9 +36,27 @@ const Home = () => {
               parking="Car"
               description="A perfect home for small families or working professionals. This 2 BHK apartment offers 24/7 security, power backup, and is within walking distance to IT parks and shopping centers."
               ownerName="Sneha Patil"
+              ownerImageUrl="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80"
               isVerified={true}
               imageUrl="https://images.unsplash.com/photo-1502672260266-1c1ef2d9568e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
             />
+            
+            <PropertyListingCard 
+              title="Modern 3 BHK Flat in Prime Location"
+              location="Gachibowli, Hyderabad, 500032"
+              price="₹ 85,000 / month"
+              area="1,850 sqft"
+              direction="West"
+              type="3 BHK"
+              bathrooms="3"
+              parking="Car & Bike"
+              description="Beautifully designed 3 BHK flat with modern amenities. Features a spacious living room, modular kitchen, and three well-ventilated bedrooms. Located close to major IT hubs."
+              ownerName="Rajesh Kumar"
+              ownerImageUrl="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80"
+              isVerified={true}
+              imageUrl="https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+            />
+
             <PropertyListingCard 
               title="Luxury 4 BHK Villa with Private Garden"
               location="Jubilee Hills, Hyderabad, 500033"
@@ -62,6 +68,7 @@ const Home = () => {
               parking="3 Cars"
               description="Experience elite living in this magnificent 4 BHK villa. Features a private landscaped garden, home theatre, and premium finishes throughout. Located in one of the most prestigious neighborhoods."
               ownerName="Vikram Reddy"
+              ownerImageUrl="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80"
               isVerified={true}
               imageUrl="https://images.unsplash.com/photo-1613490493576-7fde63acd811?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
             />
@@ -76,6 +83,8 @@ const Home = () => {
               parking="Bike"
               description="Well-maintained 1 BHK studio apartment, fully furnished and ready to move in. Ideal for single professionals looking for a vibrant neighborhood with plenty of cafes and coworking spaces."
               ownerName="Amit Shah"
+              ownerImageUrl="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80"
+              isVerified={true}
               imageUrl="https://images.unsplash.com/photo-1536376074432-bf121770b440?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
             />
             <PropertyListingCard 
@@ -89,6 +98,7 @@ const Home = () => {
               parking="2 Cars"
               description="Stunning penthouse offering panoramic views of the Arabian Sea. Includes a massive private terrace, designer interiors, and exclusive building amenities including a rooftop pool and gym."
               ownerName="Priya Sharma"
+              ownerImageUrl="https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80"
               isVerified={true}
               imageUrl="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
             />
@@ -103,6 +113,7 @@ const Home = () => {
               parking="Car & Bike"
               description="Brand new 2 BHK flat featuring large balconies with a park view. Modern kitchen fittings, elegant lighting, and high-quality wardrobes in all bedrooms. Excellent connectivity to Electronic City."
               ownerName="Suresh Raina"
+              isVerified={true}
               imageUrl="https://images.unsplash.com/photo-1570129477492-45c003edd2be?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
             />
             <PropertyListingCard 
@@ -116,6 +127,7 @@ const Home = () => {
               parking="2 Cars"
               description="Beautifully restored heritage property with modern amenities. This villa boasts high ceilings, vintage tiling, and a lush green backyard. Perfect for those who appreciate classic architecture."
               ownerName="Mahesh Babu"
+              ownerImageUrl="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80"
               isVerified={true}
               imageUrl="https://images.unsplash.com/photo-1564013799919-ab600027ffc6?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
             />
@@ -130,6 +142,7 @@ const Home = () => {
               parking="Car"
               description="Chic, minimalist apartment located just minutes away from the metro station. Features floor-to-ceiling windows, smart home integration, and premium building security. Perfect for urban living."
               ownerName="Anjali Gupta"
+              isVerified={true}
               imageUrl="https://images.unsplash.com/photo-1512918728675-ed5a9ecdebfd?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
             />
           </div>

@@ -10,8 +10,9 @@ const PropertyListingCard = ({
   area = "3,200 sqft",
   direction = "East",
   imageUrl = "https://images.nobroker.in/images/8a9f9d828236294d018236318e470123/8a9f9d828236294d018236318e470123_75841_56543_medium.jpg",
-  ownerName = "Ananthram",
-  isVerified = true,
+    ownerName = "Ananthram",
+    ownerImageUrl,
+    isVerified = true,
   type = "3 BHK",
   bathrooms = "3",
   parking = "Bike and Car",
@@ -112,7 +113,6 @@ const PropertyListingCard = ({
             </div>
             <p className="text-text-muted text-[13px] line-clamp-2 leading-relaxed">
               {description}
-              <span className="text-secondary font-medium hover:underline ml-1">Read More</span>
             </p>
           </div>
         </div>
@@ -121,8 +121,12 @@ const PropertyListingCard = ({
       {/* Footer Actions */}
       <div className="p-3 bg-page-bg/30 flex justify-between items-center border-t border-page-bg">
         <div className="flex items-center gap-2">
-          <div className="w-8 h-8 rounded-full bg-page-border flex items-center justify-center text-[12px] font-bold text-white uppercase">
-            {ownerName.charAt(0)}
+          <div className="w-8 h-8 rounded-full bg-page-border flex items-center justify-center text-[12px] font-bold text-white uppercase overflow-hidden">
+            {ownerImageUrl ? (
+              <img src={ownerImageUrl} alt={ownerName} className="w-full h-full object-cover" />
+            ) : (
+              ownerName.charAt(0)
+            )}
           </div>
           <div>
             <div className="text-text-main text-[12px] font-medium">{ownerName}</div>
