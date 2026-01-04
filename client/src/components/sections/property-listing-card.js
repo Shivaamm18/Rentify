@@ -12,6 +12,10 @@ const PropertyListingCard = ({
   imageUrl = "https://images.nobroker.in/images/8a9f9d828236294d018236318e470123/8a9f9d828236294d018236318e470123_75841_56543_medium.jpg",
   ownerName = "Ananthram",
   isVerified = true,
+  type = "3 BHK",
+  bathrooms = "3",
+  parking = "Bike and Car",
+  description = "Spacious home with great ventilation and natural light. Located in a prime locality with easy access to all major landmarks and facilities. Perfect for families looking for a modern lifestyle.",
 }) => {
   const navigate = useNavigate();
 
@@ -95,19 +99,19 @@ const PropertyListingCard = ({
             <div className="flex gap-8 mb-4">
               <div>
                 <div className="text-text-muted text-[11px] uppercase font-medium">Type</div>
-                <div className="text-text-main text-[13px] font-medium">3 BHK</div>
+                <div className="text-text-main text-[13px] font-medium">{type}</div>
               </div>
               <div>
                 <div className="text-text-muted text-[11px] uppercase font-medium">Bathrooms</div>
-                <div className="text-text-main text-[13px] font-medium">3</div>
+                <div className="text-text-main text-[13px] font-medium">{bathrooms}</div>
               </div>
               <div>
                 <div className="text-text-muted text-[11px] uppercase font-medium">Parking</div>
-                <div className="text-text-main text-[13px] font-medium">Bike and Car</div>
+                <div className="text-text-main text-[13px] font-medium">{parking}</div>
               </div>
             </div>
             <p className="text-text-muted text-[13px] line-clamp-2 leading-relaxed">
-              East facing 3 BHK apartment for sale. This spacious home is well ventilated and has multiple balconies. Located in a prime society with all modern amenities...
+              {description}
               <span className="text-secondary font-medium hover:underline ml-1">Read More</span>
             </p>
           </div>
