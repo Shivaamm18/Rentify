@@ -5,8 +5,11 @@ import { useAuth } from '../contexts/AuthContext';
 import { motion } from 'framer-motion';
 import { 
     HiHome, HiCurrencyRupee, HiLocationMarker, HiCheckCircle, 
-    HiChevronLeft, HiPlus, HiTag, HiInformationCircle, HiCamera, HiTrash
+    HiChevronLeft, HiPlus, HiTag, HiInformationCircle, HiCamera, HiTrash,
+    HiOutlineLocationMarker
   } from 'react-icons/hi';
+import { INDIAN_CITIES } from '../utils/cities';
+import { getCurrentCity } from '../utils/geolocation';
 
 const AddProperty = () => {
   const [formData, setFormData] = useState({
@@ -35,8 +38,21 @@ const AddProperty = () => {
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [previews, setPreviews] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [detectingLocation, setDetectingLocation] = useState(false);
   const { user } = useAuth();
   const navigate = useNavigate();
+
+  const handleDetectLocation = async () => {
+    setDetectingLocation(true);
+    try {
+      const city = await getCurrentCity();
+      handleAddressChange('city', city);
+    } catch (error) {
+      alert('Could not detect location: ' + error.message);
+    } finally {
+      setDetectingLocation(false);
+    }
+  };
 
   const {
     title,
@@ -429,20 +445,34 @@ const AddProperty = () => {
                   />
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                  <div>
-                    <label htmlFor="city" className="block text-sm font-semibold text-slate-700 mb-1">
-                      City *
-                    </label>
-                    <input
-                      type="text"
-                      id="city"
-                      required
-                      value={address.city}
-                      onChange={(e) => handleAddressChange('city', e.target.value)}
-                      className="w-full px-4 py-3 bg-slate-50 border border-slate-100 rounded-xl focus:ring-2 focus:ring-primary-500 focus:bg-white transition-all text-slate-900"
-                    />
-                  </div>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div>
+                      <label htmlFor="city" className="block text-sm font-semibold text-slate-700 mb-1 flex justify-between items-center">
+                        City *
+                        <button
+                          type="button"
+                          onClick={handleDetectLocation}
+                          disabled={detectingLocation}
+                          className="text-primary-600 hover:text-primary-700 text-xs flex items-center gap-1 font-bold"
+                        >
+                          <HiOutlineLocationMarker className={detectingLocation ? 'animate-bounce' : ''} />
+                          {detectingLocation ? 'Detecting...' : 'Detect'}
+                        </button>
+                      </label>
+                      <select
+                        id="city"
+                        required
+                        value={address.city}
+                        onChange={(e) => handleAddressChange('city', e.target.value)}
+                        className="w-full px-4 py-3 bg-slate-50 border border-slate-100 rounded-xl focus:ring-2 focus:ring-primary-500 focus:bg-white transition-all text-slate-900"
+                      >
+                        <option value="">Select City</option>
+                        {INDIAN_CITIES.map(city => (
+                          <option key={city} value={city}>{city}</option>
+                        ))}
+                      </select>
+                    </div>
+
                   <div>
                     <label htmlFor="state" className="block text-sm font-semibold text-slate-700 mb-1">
                       State *

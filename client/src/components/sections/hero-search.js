@@ -1,11 +1,15 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Search, MapPin, X, ChevronDown } from 'lucide-react';
+import { Search, MapPin, X, ChevronDown, Navigation } from 'lucide-react';
+import { INDIAN_CITIES } from '../../utils/cities';
+import { getCurrentCity } from '../../utils/geolocation';
 
 const HeroSearch = () => {
   const [activeTab, setActiveTab] = useState('Rent');
-  const [selectedCity] = useState('Bangalore');
+  const [selectedCity, setSelectedCity] = useState('Bangalore');
   const [locations, setLocations] = useState(['Whitefield', 'Electronic City']);
+  const [isCityDropdownOpen, setIsCityDropdownOpen] = useState(false);
+  const [isDetectingLocation, setIsDetectingLocation] = useState(false);
   const navigate = useNavigate();
 
   const tabs = ['Buy', 'Rent', 'Commercial'];
@@ -20,6 +24,21 @@ const HeroSearch = () => {
 
   const handlePostProperty = () => {
     navigate('/add-property');
+  };
+
+  const handleDetectLocation = async (e) => {
+    e.stopPropagation();
+    setIsDetectingLocation(true);
+    try {
+      const city = await getCurrentCity();
+      // Check if detected city is in our list, if not, we can still use it or alert
+      setSelectedCity(city);
+      setIsCityDropdownOpen(false);
+    } catch (error) {
+      alert('Could not detect location: ' + error.message);
+    } finally {
+      setIsDetectingLocation(false);
+    }
   };
 
   return (
@@ -65,9 +84,39 @@ const HeroSearch = () => {
             <div className="flex flex-col md:flex-row items-center gap-0 border border-page-border rounded-nb overflow-hidden">
               
               {/* City Selector */}
-              <div className="relative flex items-center px-4 py-3 bg-page-bg/50 border-r border-page-border min-w-[140px] cursor-pointer group">
-                <span className="text-[14px] text-text-main font-medium">{selectedCity}</span>
-                <ChevronDown className="ml-auto w-4 h-4 text-text-muted group-hover:text-text-main transition-colors" />
+              <div 
+                className="relative flex items-center px-4 py-3 bg-page-bg/50 border-r border-page-border min-w-[160px] cursor-pointer group"
+                onClick={() => setIsCityDropdownOpen(!isCityDropdownOpen)}
+              >
+                <div className="flex flex-col items-start overflow-hidden">
+                  <span className="text-[10px] text-text-muted uppercase font-bold">City</span>
+                  <span className="text-[14px] text-text-main font-semibold truncate max-w-[100px]">{selectedCity}</span>
+                </div>
+                <ChevronDown className={`ml-auto w-4 h-4 text-text-muted group-hover:text-text-main transition-transform ${isCityDropdownOpen ? 'rotate-180' : ''}`} />
+                
+                {isCityDropdownOpen && (
+                  <div className="absolute top-full left-0 w-64 bg-white shadow-heavy rounded-b-nb border border-page-border z-50 mt-[1px] max-h-[300px] overflow-y-auto">
+                    <div 
+                      className="flex items-center gap-2 p-3 border-b border-page-border hover:bg-page-bg text-primary font-medium"
+                      onClick={handleDetectLocation}
+                    >
+                      <Navigation className={`w-4 h-4 ${isDetectingLocation ? 'animate-pulse' : ''}`} />
+                      {isDetectingLocation ? 'Detecting...' : 'Detect My Location'}
+                    </div>
+                    {INDIAN_CITIES.map((city) => (
+                      <div
+                        key={city}
+                        className="p-3 hover:bg-page-bg text-[14px] text-text-main text-left border-b border-page-bg last:border-0"
+                        onClick={() => {
+                          setSelectedCity(city);
+                          setIsCityDropdownOpen(false);
+                        }}
+                      >
+                        {city}
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
 
               {/* Location Input Area */}
