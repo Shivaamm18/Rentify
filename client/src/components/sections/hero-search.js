@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Search, MapPin, X, ChevronDown, Navigation } from 'lucide-react';
+import { Search, MapPin, X, ChevronDown, Navigation, Sparkles } from 'lucide-react';
 import { INDIAN_CITIES } from '../../utils/cities';
-import { getCurrentCity } from '../../utils/geolocation';
+import { getCurrentCity, getNearbyLocalities } from '../../utils/geolocation';
 
 const HeroSearch = () => {
   const [activeTab, setActiveTab] = useState('Rent');
@@ -11,7 +11,16 @@ const HeroSearch = () => {
   const [isCityDropdownOpen, setIsCityDropdownOpen] = useState(false);
   const [isDetectingLocation, setIsDetectingLocation] = useState(false);
   const [citySearch, setCitySearch] = useState('');
+  const [nearbySuggestions, setNearbySuggestions] = useState([]);
+  const [detectedLocationData, setDetectedLocationData] = useState(null);
   const navigate = useNavigate();
+
+  // Load nearby suggestions if we already have location data or on first load for default city
+  useEffect(() => {
+    if (selectedCity === 'Bangalore' && nearbySuggestions.length === 0) {
+      setNearbySuggestions(['Whitefield', 'Koramangala', 'Indiranagar', 'HSR Layout', 'Electronic City']);
+    }
+  }, [selectedCity]);
 
   const filteredCities = INDIAN_CITIES.filter(city => 
     city.toLowerCase().includes(citySearch.toLowerCase())
@@ -23,6 +32,12 @@ const HeroSearch = () => {
     setLocations(locations.filter((l) => l !== loc));
   };
 
+  const addLocation = (loc) => {
+    if (locations.length < 3 && !locations.includes(loc)) {
+      setLocations([...locations, loc]);
+    }
+  };
+
   const handleSearch = () => {
     navigate('/properties');
   };
@@ -32,12 +47,16 @@ const HeroSearch = () => {
   };
 
   const handleDetectLocation = async (e) => {
-    e.stopPropagation();
+    if (e) e.stopPropagation();
     setIsDetectingLocation(true);
     try {
-      const city = await getCurrentCity();
-      // Check if detected city is in our list, if not, we can still use it or alert
-      setSelectedCity(city);
+      const locationData = await getCurrentCity();
+      setDetectedLocationData(locationData);
+      setSelectedCity(locationData.city);
+      
+      const localities = await getNearbyLocalities(locationData);
+      setNearbySuggestions(localities);
+      
       setIsCityDropdownOpen(false);
     } catch (error) {
       alert('Could not detect location: ' + error.message);
@@ -111,15 +130,50 @@ const HeroSearch = () => {
                           className="w-full px-3 py-2 bg-page-bg border border-page-border rounded-nb text-[13px] outline-none focus:border-primary"
                         />
                       </div>
-                      <div className="max-h-[250px] overflow-y-auto">
-                        <div 
-                          className="flex items-center gap-2 p-3 border-b border-page-border hover:bg-page-bg text-primary font-medium cursor-pointer"
-                          onClick={handleDetectLocation}
-                        >
-                          <Navigation className={`w-4 h-4 ${isDetectingLocation ? 'animate-pulse' : ''}`} />
-                          {isDetectingLocation ? 'Detecting...' : 'Detect My Location'}
-                        </div>
-                        {filteredCities.length > 0 ? (
+                        <div className="max-h-[350px] overflow-y-auto">
+                          <div 
+                            className="flex items-center gap-2 p-3 border-b border-page-border hover:bg-page-bg text-primary font-medium cursor-pointer transition-colors"
+                            onClick={handleDetectLocation}
+                          >
+                            <Navigation className={`w-4 h-4 ${isDetectingLocation ? 'animate-pulse' : ''}`} />
+                            <div className="flex flex-col items-start">
+                              <span className="text-[13px]">{isDetectingLocation ? 'Detecting...' : 'Detect My Location'}</span>
+                              {detectedLocationData && (
+                                <span className="text-[10px] text-text-muted">Current: {detectedLocationData.suburb || detectedLocationData.city}</span>
+                              )}
+                            </div>
+                          </div>
+
+                          {/* Suggested Localities according to location */}
+                          {nearbySuggestions.length > 0 && selectedCity === (detectedLocationData?.city || 'Bangalore') && (
+                            <div className="bg-page-bg/30 pb-2">
+                              <div className="px-3 py-2 text-[11px] font-bold text-text-muted uppercase flex items-center gap-1">
+                                <Sparkles className="w-3 h-3 text-secondary" />
+                                Suggested Localities Near You
+                              </div>
+                              <div className="flex flex-wrap gap-2 px-3">
+                                {nearbySuggestions.map((suggestion) => (
+                                  <div
+                                    key={suggestion}
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      addLocation(suggestion);
+                                      setIsCityDropdownOpen(false);
+                                    }}
+                                    className="px-3 py-1 bg-white border border-page-border rounded-full text-[12px] text-text-main hover:border-secondary hover:text-secondary cursor-pointer transition-all shadow-sm"
+                                  >
+                                    {suggestion}
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
+                          )}
+
+                          <div className="px-3 py-2 text-[11px] font-bold text-text-muted uppercase border-t border-page-bg mt-1">
+                            Popular Cities
+                          </div>
+                          {filteredCities.length > 0 ? (
+
                           filteredCities.map((city) => (
                             <div
                               key={city}
