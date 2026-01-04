@@ -17,31 +17,54 @@ const Home = () => {
       {/* Featured Properties Section */}
       <section className="py-12 bg-white">
         <div className="container mx-auto max-w-[1200px] px-4">
-          <div className="flex justify-between items-center mb-8">
-            <h2 className="text-[20px] font-medium text-text-main uppercase tracking-tight">
-              Featured Properties
-            </h2>
-            <button className="text-secondary font-medium hover:underline text-sm">
-              View All Properties
-            </button>
-          </div>
-          
           <div className="flex flex-col gap-6 items-center">
             <PropertyListingCard 
               title="Modern 3 BHK Flat in Prime Location"
+              location="Gachibowli, Hyderabad, 500032"
               price="₹ 85,000 / month"
               area="1,850 sqft"
               direction="West"
               ownerName="Rajesh Kumar"
+              imageUrl="https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
             />
             <PropertyListingCard 
               title="Spacious 2 BHK Apartment near IT Park"
+              location="Whitefield, Bangalore, 560066"
               price="₹ 45,000 / month"
               area="1,200 sqft"
               direction="North"
               ownerName="Sneha Patil"
               isVerified={true}
               imageUrl="https://images.unsplash.com/photo-1502672260266-1c1ef2d9568e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+            />
+            <PropertyListingCard 
+              title="Luxury 4 BHK Villa with Private Garden"
+              location="Jubilee Hills, Hyderabad, 500033"
+              price="₹ 2.5 Lakh / month"
+              area="4,500 sqft"
+              direction="East"
+              ownerName="Vikram Reddy"
+              isVerified={true}
+              imageUrl="https://images.unsplash.com/photo-1613490493576-7fde63acd811?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+            />
+            <PropertyListingCard 
+              title="Cozy 1 BHK Studio for Professionals"
+              location="Koramangala, Bangalore, 560034"
+              price="₹ 25,000 / month"
+              area="650 sqft"
+              direction="South"
+              ownerName="Amit Shah"
+              imageUrl="https://images.unsplash.com/photo-1536376074432-bf121770b440?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
+            />
+            <PropertyListingCard 
+              title="Penthouse with City View & Terrace"
+              location="Bandra West, Mumbai, 400050"
+              price="₹ 3.2 Lakh / month"
+              area="3,000 sqft"
+              direction="North-East"
+              ownerName="Priya Sharma"
+              isVerified={true}
+              imageUrl="https://images.unsplash.com/photo-1512917774080-9991f1c4c750?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
             />
           </div>
         </div>
