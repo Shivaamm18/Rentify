@@ -24,22 +24,6 @@ const Home = () => {
               <div className="w-[60px] h-[3px] bg-[#FD3752] mx-auto"></div>
             </div>
             <div className="flex flex-col gap-6 items-center">
-            {/* User Requested Property at the Top */}
-            <PropertyListingCard 
-              title="Spacious 2 BHK Apartment near IT Park"
-              location="Whitefield, Bangalore, 560066"
-              price="₹ 45,000 / month"
-              area="1,200 sqft"
-              direction="North"
-              type="2 BHK"
-              bathrooms="2"
-              parking="Car"
-              description="A perfect home for small families or working professionals. This 2 BHK apartment offers 24/7 security, power backup, and is within walking distance to IT parks and shopping centers."
-              ownerName="Sneha Patil"
-              ownerImageUrl="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80"
-              isVerified={true}
-              imageUrl="https://images.unsplash.com/photo-1502672260266-1c1ef2d9568e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-            />
             
             <PropertyListingCard 
               title="Modern 3 BHK Flat in Prime Location"
