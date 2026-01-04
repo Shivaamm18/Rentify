@@ -20,12 +20,13 @@ export default function HeroSearch() {
       {/* Background Image Container */}
       <div className="absolute inset-0 z-0 overflow-hidden">
         <Image
-          src="https://static.nobroker.in/static/img/home-banner/home-banner-desktop.png"
+          src="https://images.unsplash.com/photo-1564013799919-ab600027ffc6?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80"
           alt="Home Banner"
           fill
           priority
-          className="object-cover object-bottom opacity-20 pointer-events-none"
+          className="object-cover object-center opacity-100 pointer-events-none"
         />
+        <div className="absolute inset-0 bg-black/20"></div>
       </div>
 
       <div className="container relative z-10 flex flex-col items-center text-center px-4 max-w-[1200px]">

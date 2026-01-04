@@ -25,15 +25,15 @@ const HeroSearch = () => {
   return (
     <section className="relative w-full min-h-[480px] bg-white flex flex-col items-center justify-start pt-12">
       {/* Background Image Container */}
-      <div className="absolute inset-0 z-0 overflow-hidden">
-        <img
-          src="https://static.nobroker.in/static/img/home-banner/home-banner-desktop.png"
-          alt="Home Banner"
-          className="w-full h-full object-cover object-bottom opacity-100 pointer-events-none"
-        />
-        {/* Subtle Overlay to ensure text readability */}
-        <div className="absolute inset-0 bg-white/40"></div>
-      </div>
+        <div className="absolute inset-0 z-0 overflow-hidden">
+          <img
+            src="https://images.unsplash.com/photo-1564013799919-ab600027ffc6?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80"
+            alt="Home Banner"
+            className="w-full h-full object-cover object-center opacity-100 pointer-events-none"
+          />
+          {/* Subtle Overlay to ensure text readability */}
+          <div className="absolute inset-0 bg-black/20"></div>
+        </div>
 
       <div className="container relative z-10 flex flex-col items-center text-center px-4 max-w-[1200px]">
         {/* Headline */}
