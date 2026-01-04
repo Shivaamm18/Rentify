@@ -14,10 +14,16 @@ const Home = () => {
       {/* Service Categories Section */}
       <ServiceCategories />
 
-      {/* Featured Properties Section */}
-      <section className="py-12 bg-white">
-        <div className="container mx-auto max-w-[1200px] px-4">
-          <div className="flex flex-col gap-6 items-center">
+        {/* Featured Properties Section */}
+        <section className="py-12 bg-white">
+          <div className="container mx-auto max-w-[1200px] px-4">
+            <div className="text-center mb-10">
+              <h2 className="text-[20px] md:text-[24px] font-medium text-[#464646] mb-2 uppercase tracking-tight">
+                demos how we display your properties to the customer
+              </h2>
+              <div className="w-[60px] h-[3px] bg-[#FD3752] mx-auto"></div>
+            </div>
+            <div className="flex flex-col gap-6 items-center">
             <PropertyListingCard 
               title="Modern 3 BHK Flat in Prime Location"
               location="Gachibowli, Hyderabad, 500032"
