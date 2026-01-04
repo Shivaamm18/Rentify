@@ -1,22 +1,23 @@
 import React from 'react';
+import { Handshake, PlusCircle, Search } from 'lucide-react';
 
 const WhyRentify = () => {
   const benefits = [
     {
       id: 1,
-      image: "https://static.nobroker.in/static/img/home/why-nb-1.png",
+      icon: <Handshake className="w-16 h-16 text-[#FD3752]" />,
       title: "Avoid Brokerage",
       description: "We connect you directly with real owners to save on brokerage. No middleman, no extra commissions."
     },
     {
       id: 2,
-      image: "https://static.nobroker.in/static/img/home/why-nb-2.png",
+      icon: <PlusCircle className="w-16 h-16 text-[#FD3752]" />,
       title: "Free Listing",
       description: "List your property for free and get genuine leads. We help you find the right tenants or buyers effortlessly."
     },
     {
       id: 3,
-      image: "https://static.nobroker.in/static/img/home/why-nb-3.png",
+      icon: <Search className="w-16 h-16 text-[#FD3752]" />,
       title: "Shortlist Without Visit",
       description: "Get photos and detailed information about properties to help you shortlist without even stepping out."
     }
@@ -40,13 +41,9 @@ const WhyRentify = () => {
               key={benefit.id} 
               className="flex flex-col items-center text-center group"
             >
-              {/* Illustration Container */}
-              <div className="relative w-[180px] h-[140px] mb-6 flex items-center justify-center transition-transform duration-300 group-hover:scale-105">
-                <img
-                  src={benefit.image}
-                  alt={benefit.title}
-                  className="w-full h-full object-contain"
-                />
+              {/* Icon Container */}
+              <div className="relative w-[180px] h-[140px] mb-6 flex items-center justify-center transition-transform duration-300 group-hover:scale-105 bg-gray-50 rounded-lg">
+                {benefit.icon}
               </div>
 
               {/* Text Content */}
