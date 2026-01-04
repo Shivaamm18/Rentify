@@ -2,6 +2,7 @@ const Property = require('../models/Property');
 const User = require('../models/User');
 const Subscription = require('../models/Subscription');
 const { isValidPincode } = require('../utils/validators');
+const cloudinary = require('cloudinary').v2;
 
 // @desc    Create new property
 // @route   POST /api/properties
@@ -21,13 +22,31 @@ const createProperty = async (req, res) => {
       area,
       floor,
       totalFloors,
-      images,
       availabilityDate,
       contactInfo
     } = req.body;
 
+    // Handle uploaded images from Cloudinary
+    const images = [];
+    if (req.files && req.files.length > 0) {
+      req.files.forEach((file, index) => {
+        images.push({
+          url: file.path, // Cloudinary URL
+          publicId: file.filename, // Cloudinary public ID
+          isPrimary: index === 0
+        });
+      });
+    }
+
+    // Parse nested objects if they are sent as strings (common with multipart/form-data)
+    const parsedRent = typeof rent === 'string' ? JSON.parse(rent) : rent;
+    const parsedAddress = typeof address === 'string' ? JSON.parse(address) : address;
+    const parsedArea = typeof area === 'string' ? JSON.parse(area) : area;
+    const parsedAmenities = typeof amenities === 'string' ? JSON.parse(amenities) : amenities;
+    const parsedContactInfo = typeof contactInfo === 'string' ? JSON.parse(contactInfo) : contactInfo;
+
     // Validate required fields
-    if (!title || !description || !rent || !address || !address.city || !address.state || !address.pincode) {
+    if (!title || !description || !parsedRent || !parsedAddress || !parsedAddress.city || !parsedAddress.state || !parsedAddress.pincode) {
       return res.status(400).json({
         success: false,
         message: 'Please provide all required fields: title, description, rent, and address'
@@ -35,7 +54,7 @@ const createProperty = async (req, res) => {
     }
 
     // Validate pincode
-    if (!isValidPincode(address.pincode)) {
+    if (!isValidPincode(parsedAddress.pincode)) {
       return res.status(400).json({
         success: false,
         message: 'Please provide a valid Indian pincode'
@@ -43,7 +62,7 @@ const createProperty = async (req, res) => {
     }
 
     // Validate rent amount
-    if (rent.amount <= 0) {
+    if (parsedRent.amount <= 0) {
       return res.status(400).json({
         success: false,
         message: 'Rent amount must be greater than 0'
@@ -65,23 +84,23 @@ const createProperty = async (req, res) => {
       description,
       ownerId: req.user.id,
       rent: {
-        amount: rent.amount,
-        currency: rent.currency || 'INR'
+        amount: parsedRent.amount,
+        currency: parsedRent.currency || 'INR'
       },
       deposit: deposit || 0,
       propertyType,
       bhk: bhk || 0,
       furnished: furnished || 'unfurnished',
-      amenities: amenities || [],
-      address,
-      area: area || {},
+      amenities: parsedAmenities || [],
+      address: parsedAddress,
+      area: parsedArea || {},
       floor: floor || null,
       totalFloors: totalFloors || null,
-      images: images || [],
+      images,
       availabilityDate: availabilityDate || Date.now(),
       contactInfo: {
-        phone: contactInfo?.phone || req.user.phone,
-        email: contactInfo?.email || req.user.email
+        phone: parsedContactInfo?.phone || req.user.phone,
+        email: parsedContactInfo?.email || req.user.email
       }
     });
 
@@ -336,6 +355,15 @@ const deleteProperty = async (req, res) => {
         success: false,
         message: 'Not authorized to delete this property'
       });
+    }
+
+    // Delete images from Cloudinary
+    if (property.images && property.images.length > 0) {
+      for (const image of property.images) {
+        if (image.publicId) {
+          await cloudinary.uploader.destroy(image.publicId);
+        }
+      }
     }
 
     await Property.findByIdAndDelete(req.params.id);

@@ -4,9 +4,9 @@ import { propertyAPI } from '../services/api';
 import { useAuth } from '../contexts/AuthContext';
 import { motion } from 'framer-motion';
 import { 
-  HiHome, HiCurrencyRupee, HiLocationMarker, HiCheckCircle, 
-  HiChevronLeft, HiPlus, HiTag, HiInformationCircle 
-} from 'react-icons/hi';
+    HiHome, HiCurrencyRupee, HiLocationMarker, HiCheckCircle, 
+    HiChevronLeft, HiPlus, HiTag, HiInformationCircle, HiCamera, HiTrash
+  } from 'react-icons/hi';
 
 const AddProperty = () => {
   const [formData, setFormData] = useState({
@@ -32,6 +32,8 @@ const AddProperty = () => {
     availabilityDate: '',
     contactInfo: { phone: '', email: '' }
   });
+  const [selectedFiles, setSelectedFiles] = useState([]);
+  const [previews, setPreviews] = useState([]);
   const [loading, setLoading] = useState(false);
   const { user } = useAuth();
   const navigate = useNavigate();
@@ -101,28 +103,66 @@ const AddProperty = () => {
     }
   };
 
+  const handleFileChange = (e) => {
+    const files = Array.from(e.target.files);
+    
+    // Add to selected files
+    setSelectedFiles(prev => [...prev, ...files]);
+
+    // Create previews
+    const newPreviews = files.map(file => URL.createObjectURL(file));
+    setPreviews(prev => [...prev, ...newPreviews]);
+  };
+
+  const removeFile = (index) => {
+    setSelectedFiles(prev => prev.filter((_, i) => i !== index));
+    setPreviews(prev => {
+      // Revoke the URL to avoid memory leaks
+      URL.revokeObjectURL(prev[index]);
+      return prev.filter((_, i) => i !== index);
+    });
+  };
+
   const onSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
 
     try {
-      const propertyData = {
-        ...formData,
-        rent: {
-          amount: parseFloat(rent.amount),
-          currency: rent.currency
-        },
-        deposit: parseFloat(deposit) || 0,
-        bhk: parseInt(bhk) || 0,
-        area: {
-          size: parseFloat(area.size) || 0,
-          unit: area.unit
-        },
-        floor: parseInt(floor) || null,
-        totalFloors: parseInt(totalFloors) || null
-      };
+      const form = new FormData();
+      
+      // Append non-nested fields
+      form.append('title', formData.title);
+      form.append('description', formData.description);
+      form.append('propertyType', formData.propertyType);
+      form.append('furnished', formData.furnished);
+      form.append('bhk', formData.bhk || 0);
+      form.append('deposit', formData.deposit || 0);
+      form.append('floor', formData.floor || '');
+      form.append('totalFloors', formData.totalFloors || '');
+      form.append('availabilityDate', formData.availabilityDate);
 
-      const response = await propertyAPI.createProperty(propertyData);
+      // Append nested fields as JSON strings
+      form.append('rent', JSON.stringify({
+        amount: parseFloat(formData.rent.amount),
+        currency: formData.rent.currency
+      }));
+      form.append('address', JSON.stringify(formData.address));
+      form.append('area', JSON.stringify({
+        size: parseFloat(formData.area.size) || 0,
+        unit: formData.area.unit
+      }));
+      form.append('amenities', JSON.stringify(formData.amenities));
+      form.append('contactInfo', JSON.stringify({
+        phone: formData.contactInfo.phone || user.phone,
+        email: formData.contactInfo.email || user.email
+      }));
+
+      // Append files
+      selectedFiles.forEach(file => {
+        form.append('images', file);
+      });
+
+      const response = await propertyAPI.createProperty(form);
       if (response.data.success) {
         navigate('/my-properties');
       }
@@ -430,10 +470,60 @@ const AddProperty = () => {
                     />
                   </div>
                 </div>
-              </div>
-            </section>
+                </div>
+              </section>
+              
+              {/* Image Upload */}
+              <section>
+                <div className="flex items-center space-x-3 mb-6">
+                  <div className="bg-primary-50 p-2 rounded-lg text-primary-600">
+                    <HiCamera className="w-6 h-6" />
+                  </div>
+                  <h3 className="text-xl font-bold text-slate-900">Property Images</h3>
+                </div>
 
-            {/* Amenities */}
+                <div className="space-y-4">
+                  <div className="flex items-center justify-center w-full">
+                    <label className="flex flex-col items-center justify-center w-full h-48 border-2 border-dashed border-slate-300 rounded-2xl cursor-pointer bg-slate-50 hover:bg-slate-100 transition-all">
+                      <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                        <HiCamera className="w-12 h-12 text-slate-400 mb-3" />
+                        <p className="mb-2 text-sm text-slate-500 font-semibold">Click to upload images</p>
+                        <p className="text-xs text-slate-400">PNG, JPG or WebP (Max 5MB each)</p>
+                      </div>
+                      <input 
+                        type="file" 
+                        className="hidden" 
+                        multiple 
+                        accept="image/*"
+                        onChange={handleFileChange}
+                      />
+                    </label>
+                  </div>
+
+                  {previews.length > 0 && (
+                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 mt-6">
+                      {previews.map((preview, index) => (
+                        <div key={index} className="relative group aspect-square rounded-xl overflow-hidden border border-slate-100 shadow-sm">
+                          <img 
+                            src={preview} 
+                            alt={`Preview ${index}`} 
+                            className="w-full h-full object-cover"
+                          />
+                          <button
+                            type="button"
+                            onClick={() => removeFile(index)}
+                            className="absolute top-2 right-2 p-1.5 bg-red-500 text-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity shadow-lg"
+                          >
+                            <HiTrash className="w-4 h-4" />
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </section>
+
+              {/* Amenities */}
             <section>
               <div className="flex items-center space-x-3 mb-6">
                 <div className="bg-primary-50 p-2 rounded-lg text-primary-600">
