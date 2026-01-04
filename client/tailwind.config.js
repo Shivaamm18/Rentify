@@ -5,11 +5,11 @@ module.exports = {
   ],
   theme: {
     extend: {
-      colors: {
-        primary: {
-          DEFAULT: '#FD3752',
-          hover: '#E62E46',
-        },
+        colors: {
+          primary: {
+            DEFAULT: '#2563EB',
+            hover: '#1D4ED8',
+          },
         secondary: {
           DEFAULT: '#009587',
           hover: '#00796b',

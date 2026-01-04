@@ -32,7 +32,7 @@ export default function HeroSearch() {
       <div className="container relative z-10 flex flex-col items-center text-center px-4 max-w-[1200px]">
         {/* Headline */}
         <h1 className="text-[24px] md:text-[32px] font-medium text-[#464646] mb-8 leading-tight">
-          World&apos;s Largest Selection of <span className="text-[#FD3752]">Zero Brokerage</span> Properties
+          World&apos;s Largest Selection of <span className="text-[#2563EB]">Zero Brokerage</span> Properties
         </h1>
 
         {/* Search Tab Interface */}
@@ -45,7 +45,7 @@ export default function HeroSearch() {
                 onClick={() => setActiveTab(tab)}
                 className={`px-8 py-3 text-[16px] font-medium transition-all duration-200 border-b-2 outline-none ${
                   activeTab === tab
-                    ? 'text-[#FD3752] border-[#FD3752] bg-white'
+                    ? 'text-[#2563EB] border-[#2563EB] bg-white'
                     : 'text-[#666666] border-transparent hover:text-[#464646]'
                 }`}
               >
@@ -86,7 +86,7 @@ export default function HeroSearch() {
               </div>
 
               {/* Search Button */}
-              <button className="bg-[#FD3752] hover:bg-[#E62E46] text-white px-8 h-[54px] md:h-auto flex items-center justify-center gap-2 font-semibold text-[16px] transition-colors duration-200 whitespace-nowrap min-w-[140px]">
+              <button className="bg-[#2563EB] hover:bg-[#1D4ED8] text-white px-8 h-[54px] md:h-auto flex items-center justify-center gap-2 font-semibold text-[16px] transition-colors duration-200 whitespace-nowrap min-w-[140px]">
                 <Search className="w-5 h-5" />
                 Search
               </button>
@@ -95,11 +95,11 @@ export default function HeroSearch() {
             {/* Filter Pills / Quick Settings */}
             <div className="flex flex-wrap items-center justify-center gap-6 mt-4">
                <label className="flex items-center gap-2 cursor-pointer group">
-                  <input type="radio" name="property_type" defaultChecked className="accent-[#FD3752] w-4 h-4" />
+                  <input type="radio" name="property_type" defaultChecked className="accent-[#2563EB] w-4 h-4" />
                   <span className="text-[13px] text-[#666666] group-hover:text-[#464646]">Full House</span>
                </label>
                <label className="flex items-center gap-2 cursor-pointer group">
-                  <input type="radio" name="property_type" className="accent-[#FD3752] w-4 h-4" />
+                  <input type="radio" name="property_type" className="accent-[#2563EB] w-4 h-4" />
                   <span className="text-[13px] text-[#666666] group-hover:text-[#464646]">PG/Hostel</span>
                </label>
                <label className="flex items-center gap-2 cursor-pointer group border-l pl-6 border-[#D4D4D4]">
@@ -123,7 +123,7 @@ export default function HeroSearch() {
           </div>
           <div className="flex flex-col items-center gap-1 group">
              <div className="bg-white p-2 rounded-lg shadow-sm group-hover:shadow-md transition-shadow">
-               <MapPin className="text-[#FD3752] w-6 h-6" />
+               <MapPin className="text-[#2563EB] w-6 h-6" />
              </div>
              <p className="text-[14px] font-medium text-[#464646]">Free Listing</p>
              <p className="text-[11px] text-[#666666]">Post property in minutes</p>
